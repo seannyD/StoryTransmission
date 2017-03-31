@@ -1,0 +1,41 @@
+<html>
+<head>
+  <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+  <meta content="utf-8" http-equiv="encoding">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+<script src="../js/utils.js"></script>
+<script src="../js/stages.js"></script>
+<script src="../js/playStories.js"></script>
+<script src="../js/distraction.js"></script>
+<script src="../js/instructions.js"></script>
+
+<script src="../survey/surveyjs/survey.jquery.js"></script>
+<script src="../survey/introAndLocalisation.js"></script>
+<script src="../survey/loadSurvey.js"></script>
+
+<script src="../Recordmp3js-master/recordmp3.js"></script>
+<script src="../Recordmp3js-master/controlRecordings.js"></script>
+
+ <div id="instructions"></div>
+ <div class="loader" id="loader"></div>
+
+ <div id="surveyContainer"></div>
+
+ <div id="playStoryContainer">
+     <audio id="playStoryPlayer" onended="playStoryPlayerEnded()">
+        <source id="playStorySource" src="" type="audio/mpeg">
+     </audio> 
+     <button type="button" id="playStoryButton" onclick="playStoryButtonPress()">Listen</button>
+ </div>
+
+ <div id="recorderContainer">
+   <button id="startRecordingButton" onclick="startRecording(this);">Start Recording</button>
+   <button id="stopRecordingButton" onclick="stopRecording(this);" disabled>Stop Recording</button>
+</div>
+
+ <div id="distractionTaskContainer"></div>
+
+</html>
+

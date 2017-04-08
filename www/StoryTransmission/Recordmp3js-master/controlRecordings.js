@@ -8,6 +8,15 @@ function __log(e, data) {
   var recorder;
   var currentStorySample = "";
 
+  var numberOfSuccessfulUploads = 0;
+
+// Asynchronous uploading is not yet tested.
+  var asynchronousUploading = true;
+  var waitingForUploadIntervalId;
+  var waitingForUploadIntervalTime = 1000;
+  var waitingForUploadTimeWaiting = 0;
+  var waitingForUploadTimeout = 120000;
+
   function showRecordingControls(storySample){
     currentStorySample = storySample;
     document.getElementById("startRecordingButton").disabled=false;
@@ -30,6 +39,7 @@ function __log(e, data) {
                   'data-format': 'wav'
                 });
     __log('Recorder initialised.');
+    setTimeout("recorderInitialised(true);",200);
   }
 
   function startRecording(button) {
@@ -57,10 +67,18 @@ function __log(e, data) {
     showMe("loader");
     recorder && recorder.exportWAV(function(blob) {
       // Maybe this should actually be called form the AJAX 'done' statement?
-      controlRecorderFinishedUploading();
+      // - no, here is fine.
+      numberOfSuccessfulUploads += 1;
+      if(!asynchronousUploading){
+        controlRecorderFinishedUploading();
+      }
     });
 
     recorder.clear();
+
+    if(asynchronousUploading){
+      controlRecorderFinishedUploading();
+    }
   }
 
   function createDownloadLink() {
@@ -87,7 +105,8 @@ function __log(e, data) {
     setTimeout("nextStage();",100);
   }
 
-  window.onload = function init() {
+  //window.onload = function init() {
+  function initRecorder() {
     try {
       // webkit shim
       window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -108,3 +127,37 @@ function __log(e, data) {
       __log('No live audio input: ' + e);
     });
   };
+
+
+  function checkRecordingsHaveUploaded(){
+    if(asynchronousUploading){
+      
+      if(numberOfSuccessfulUploads >= numberOfRecordedSamples){
+        setTimeout("nextStage()",200);
+      } else{
+        waitForUploads();
+      }
+
+    } else{
+      // no need to check, just move on
+      setTimeout("nextStage()",200);
+    }
+  }
+
+  function waitForUploads(){
+    showMe("loader");
+    setInstruction("Uploading data, please wait ...");
+  waitingForUploadIntervalId = setInterval();
+  }
+
+  function checkUploaded(){
+    if(numberOfSuccessfulUploads >= numberOfRecordedSamples){
+      clearInterval(waitingForUploadIntervalId);
+      setTimeout("nextStage()",200);
+    } else{
+      waitingForUploadTimeWaiting += waitingForUploadIntervalTime;
+      if(waitingForUploadTimeWaiting>=waitingForUploadTimeout){
+        setTimeout("nextStage()",200);
+      }
+    }
+  }

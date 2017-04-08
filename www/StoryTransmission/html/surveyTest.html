@@ -5,15 +5,18 @@
   <link rel="stylesheet" href="../css/style.css">
 </head>
 <script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+
+<script src="../survey/surveyjs/survey.jquery.js"></script>
+<script src="../survey/loadSurvey.js"></script>
+
 <script src="../js/utils.js"></script>
 <script src="../js/stages.js"></script>
 <script src="../js/playStories.js"></script>
 <script src="../js/distraction.js"></script>
 <script src="../js/instructions.js"></script>
+<script src="../js/techTest.js"></script>
 
-<script src="../survey/surveyjs/survey.jquery.js"></script>
-<script src="../survey/introAndLocalisation.js"></script>
-<script src="../survey/loadSurvey.js"></script>
+
 
 <script src="../Recordmp3js-master/recordmp3.js"></script>
 <script src="../Recordmp3js-master/controlRecordings.js"></script>
@@ -36,6 +39,11 @@
 </div>
 
  <div id="distractionTaskContainer"></div>
+
+ <div id="techTest">
+ 	<div id="techTestInstructions"></div>
+ 	<button id="shareMediaButton" onclick="userAgreedToShareMicrophone()">Yes, share my microphone</button>
+ </div>
 
 </html>
 

@@ -3,6 +3,7 @@
 var experimentLocation = "USA";  // changed by localisation survey
 var sample1 = "";
 var sample2 = "";
+var numberOfRecordedSamples = 2;
 
 var startTime = getCurrentTime();
 
@@ -11,10 +12,14 @@ var participantID = "";
 var workerCode = "TRANSMISSION" + new Date().getTime();
 
 
-var stages = ["localisation",  // tech test???
+
+var stages = [
+      "consent",
+      "techTest",
+      "localisation",  
 			'story1','distraction1','recording1',
 			'story2','distraction2','recording2',
-			'demographySurvey','workerCode'];
+			'demographySurvey','checkUploaded','workerCode'];
 
 //stages = ["localisation", 'demographySurvey','workerCode'];
 
@@ -35,6 +40,12 @@ function nextStage(){
 
 	stageCounter += 1;
 	switch (stages[stageCounter]) {
+                case "consent":
+                  launchSurvey(consentSurvey);
+                  break;
+                case "techTest":
+                  doTechTest();
+                  break;
                 case "localisation": 
                 	launchLocalisationSurvey();
                   break;
@@ -58,6 +69,9 @@ function nextStage(){
                   break;
                 case "demographySurvey":
                   launchDemographySurvey();
+                  break;
+                case "checkUploaded":
+                  checkRecordingsHaveUploaded();
                   break;
                 case "workerCode":
                   showWorkerCode();
@@ -101,10 +115,20 @@ function clearScreen(){
 	hideMe("recorderContainer");
   hideMe("distractionTaskContainer");
   hideMe("loader");
+  hideMe("techTest");
 
 }
 
 // START THE EXPERIMENT
 $( document ).ready(function() {
-  nextStage();
+  clearScreen();
+  $.getScript("../survey/SURVEY_consent.js");
+  $.getScript("../survey/SURVEY_localisation.js");
+  $.getScript("../survey/SURVEY_demography_USA.js");
+  // the last survey to be loaded should call surveysLoaded() to start the experiment
+  $.getScript("../survey/SURVEY_demography_UK.js",surveysLoaded());
 });
+
+function surveysLoaded(){
+  setTimeout("nextStage();",1000);
+}

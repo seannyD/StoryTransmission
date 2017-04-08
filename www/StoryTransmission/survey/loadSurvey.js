@@ -1,8 +1,6 @@
 Survey.Survey.cssType = "bootstrap";
 
-$.getScript("../survey/introAndLocalisation.js");
-$.getScript("../survey/demography_USA.js");
-$.getScript("../survey/demography_UK.js");
+// Survey Scripts loaded in stages.js
 
 var uploadSurveyPHPLocation = '../survey/uploadSurvey.php';
 
@@ -15,6 +13,11 @@ var mycustomSurveyStrings = {
 Survey.surveyLocalization.locales["my"] = mycustomSurveyStrings;
 
 function launchSurvey(surveyJSON, endFunction){
+	if(endFunction == null){
+
+		endFunction = function (){
+			setTimeout("nextStage()",200);}
+	}
 	var survey = new Survey.Model(surveyJSON);
 	$("#surveyContainer").Survey({
 	    model: survey,
@@ -26,7 +29,7 @@ function launchSurvey(surveyJSON, endFunction){
 }
 
 function launchLocalisationSurvey(){
-	var survey = new Survey.Model(introAndLocalisationSurvey);
+	var survey = new Survey.Model(localisationSurvey);
 	$("#surveyContainer").Survey({
 	    model: survey,
 	    onComplete: finishLocalisation
@@ -77,7 +80,7 @@ function finishDemographySurvey(survey){
 
 function uploadSurvey(surveyText){
 	var fd = new FormData();
-			var filename = participantID + "_" + currentStorySample + '.csv';
+			var filename = participantID  + '.csv';
 			
 			fd.append('fname', filename);
 			fd.append('data', surveyText);

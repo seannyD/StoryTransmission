@@ -1,5 +1,9 @@
 // Instructions
 
+var techWarning = "In this experiment, we need to record your voice.  <br /><br /> Please follow the instructions below to allow us to use your microphone.<br /><br />Recording will not begin immediately - you will be told when recording starts and stops.";
+
+var failTechTest = "Sorry, we could not access a microphone on your device.";
+
 var endSurveyText = "Thank you for completing the survey, follow the link below to get your worker code";
 var workerCodeText = "Please copy and paste this code into Mechanical Turk: <br /><br />";
 

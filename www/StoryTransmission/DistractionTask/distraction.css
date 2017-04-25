@@ -1,0 +1,36 @@
+#displayGrid {
+  display: grid;
+  grid-gap: 5px;
+  background-color: #fff;
+  color: #444;
+}
+
+#selectGrid {
+  display: grid;
+  grid-gap: 5px;
+  background-color: #fff;
+  color: #444;
+}
+
+#displayGrid{
+	position: absolute;
+	top: 20%;
+	left: 5%;
+	width: 45%;
+	height: 60%;
+}
+
+#selectGrid{
+	position: absolute;
+	top: 20%;
+	left: 50%;
+	width: 40%;
+	height: 60%;
+}
+
+.displayCell{
+	width: 80px;
+	height: 80px;
+	border-style:solid;
+	display:inline-block;
+}

@@ -1,3 +1,6 @@
+//TODO: record browser type, location of country
+
+
 // Define and keep track of order of stages
 
 var experimentLocation = "USA";  // changed by localisation survey
@@ -19,18 +22,14 @@ var stages = [
       "localisation",  
 			'story1','distraction1','recording1',
 			'story2','distraction2','recording2',
+      //TODO: "Speech Evaluation" attitude survey recordings (playback, then likert test)
 			'demographySurvey','checkUploaded','workerCode'];
+      // TODO: I give my consent to use this data ...
+      // TODO: check country ip address
 
 //stages = ["localisation", 'demographySurvey','workerCode'];
 
 var stageCounter = -1;
-
-function getCurrentTime(){
-  var today = new Date();
-  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  return(date+' '+time);
-}
 
 
 function nextStage(){

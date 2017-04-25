@@ -1,0 +1,74 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../DistractionTask/distraction.css">
+</head>
+<script src="../js/instructions.js"></script>
+<script src="../Recordmp3js-master/js/jquery-1.11.0.min.js"></script>
+<script src="../DistractionTask/distractionTask.js"></script>
+<script src="../js/utils.js"></script>
+
+<script>participantID="Test"; 
+
+function nextStage(){
+	alert("End of distraction test");
+	showMe("settings");
+	document.getElementById("output").innerHTML = tmpOutputText;
+	document.getElementById("displayGrid").style.display = 'none';
+	}
+
+function startTestDistractionTask(){
+	NumSymbolsObserved = parseInt(document.getElementById("NumSymbolsObserved").value);
+	NumberOfRounds = parseInt(document.getElementById("NumberOfRounds").value);
+	selectGridColumns = parseInt(document.getElementById("selectGridColumns").value);
+	displayGridColumns = parseInt(document.getElementById("displayGridColumns").value);
+	displayGridRows = parseInt(document.getElementById("displayGridRows").value);
+	distractionTaskInstructionTime = parseInt(document.getElementById("distractionTaskInstructionTime").value);
+	distractionTaskDisplayTime = parseInt(document.getElementById("distractionTaskDisplayTime").value);
+	distractionTaskSelectTime = parseInt(document.getElementById("distractionTaskSelectTime").value);
+	distractionTaskFeedbackTime= parseInt(document.getElementById("distractionTaskFeedbackTime").value);
+
+	hideMe("settings");
+	document.getElementById("displayGrid").style.display = 'grid'
+	startDistractionTask(0);
+
+}
+
+
+</script>
+
+<body onload ='hideMe("displayGrid")'>
+
+<div id="settings" style="z-index:2"> 
+
+	NumSymbolsObserved  = <input id="NumSymbolsObserved" value="7" /><br />
+	NumberOfRounds = <input id="NumberOfRounds" value="3" /><br />
+
+	selectGridColumns <input id="selectGridColumns" value="3" /><br />
+	displayGridColumns <input id="displayGridColumns" value="6" /><br />
+	displayGridRows <input id="displayGridRows" value="4" /><br />
+
+	distractionTaskInstructionTime <input id="distractionTaskInstructionTime" value="2000" /><br />
+	distractionTaskDisplayTime (ms) <input id="distractionTaskDisplayTime" value="10000" /><br />
+	distractionTaskSelectTime (ms) <input id="distractionTaskSelectTime" value="10000" /><br />
+	distractionTaskFeedbackTime (ms) <input id="distractionTaskFeedbackTime" value="2000" /><br />
+	<button onclick="startTestDistractionTask()">Start distraction task</button>
+	<br />
+	<div id="output"></div>
+</div>
+
+<div id="instructions"></div>
+<div id="timer">
+	<progress id="timerProgress" value="0" max="100"></progress>
+</div>
+
+<div id="points"></div>
+
+<div id="displayGrid"></div>
+<div id="selectGrid"></div>
+
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+
+</body>
+
+</html>

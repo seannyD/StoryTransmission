@@ -80,20 +80,20 @@ function finishDemographySurvey(survey){
 
 function uploadSurvey(surveyText){
 	var fd = new FormData();
-			var filename = participantID  + '.csv';
-			
-			fd.append('fname', filename);
-			fd.append('data', surveyText);
-			$.ajax({
-				type: 'POST',
-				url: uploadSurveyPHPLocation,
-				data: fd,
-				processData: false,
-				contentType: false
-			}).done(function(data) {
-				console.log(data);
-				setTimeout("nextStage()",500);
-			});
+	var filename = participantID  + '.csv';
+	
+	fd.append('fname', filename);
+	fd.append('data', surveyText);
+	$.ajax({
+		type: 'POST',
+		url: uploadSurveyPHPLocation,
+		data: fd,
+		processData: false,
+		contentType: false
+	}).done(function(data) {
+		console.log(data);
+		setTimeout("nextStage()",500);
+	});
 }
 
 function finishLocalisation(survey) {

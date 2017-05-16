@@ -13,6 +13,9 @@ var recordingInstructionText = "Press record and tell us your story!";
 
 var playStoryInstructionText = "Click the button below to listen to the story";
 
+var speechEvaluationInstructionText1 = "Listen to the speaker in the clip by pressing the 'Play' button, you will be asked questions about how they sound.";
+var speechEvaluationInstructionText2 = "Listen to this other speaker by pressing the 'Play' button, you will be asked questions about how they sound.";
+
 function setInstruction(t){
 	document.getElementById("instructions").innerHTML = t;
 }

@@ -14,7 +14,10 @@ var participantID = "";
 
 var workerCode = "TRANSMISSION" + new Date().getTime();
 
-
+// these are shuffled below
+var prestigeType = ["HighP","LowP"];
+var storyType    = ["Muki","Taka"];
+var speechEvaluationOrder = ["HighP","LowP"];
 
 var stages = [
       "consent",
@@ -22,7 +25,8 @@ var stages = [
       "localisation",  
 			'story1','distraction1','recording1',
 			'story2','distraction2','recording2',
-      //TODO: "Speech Evaluation" attitude survey recordings (playback, then likert test)
+      'speechEvaluation1.play','speechEvaluation1.eval',
+      'speechEvaluation2.play','speechEvaluation2.eval',
 			'demographySurvey','checkUploaded','workerCode'];
       // TODO: I give my consent to use this data ...
       // TODO: check country ip address
@@ -66,6 +70,18 @@ function nextStage(){
                 case "recording2":
                   showRecordingControls(sample2);
                   break;
+                case "speechEvaluation1.play":
+                  speechEvaluation(0);
+                  break;
+                case "speechEvaluation2.play":
+                  speechEvaluation(1);
+                  break;
+                case "speechEvaluation1.eval":
+                  launchSpeechEvaluationSurvey(0);
+                  break;
+                case "speechEvaluation2.eval":
+                  launchSpeechEvaluationSurvey(1);
+                  break;
                 case "demographySurvey":
                   launchDemographySurvey();
                   break;
@@ -95,16 +111,15 @@ function chooseStimuli(){
   //  3. LowP, Muki
   //  4. LowP, Taka & Toro
 
-  var prestigeType = ["HighP","LowP"];
-  var storyType    = ["Muki","Taka"];
-
   // for now: just choose randomly
+  // careful: presitgeType is used by other functions
   shuffle(prestigeType);
   shuffle(storyType);
   // e.g. USA_HighP_Muki
   sample1 = experimentLocation + "_" + prestigeType[0] + "_" + storyType[0];
   sample2 = experimentLocation + "_" + prestigeType[1] + "_" + storyType[1];
 
+  shuffle(speechEvaluationOrder);
 
 }
 
@@ -121,6 +136,7 @@ function clearScreen(){
 // START THE EXPERIMENT
 $( document ).ready(function() {
   clearScreen();
+  $.getScript("../survey/SURVEY_speechEvaluation.js");
   $.getScript("../survey/SURVEY_consent.js");
   $.getScript("../survey/SURVEY_localisation.js");
   $.getScript("../survey/SURVEY_demography_USA.js");

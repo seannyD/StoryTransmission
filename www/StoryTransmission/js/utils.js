@@ -1,3 +1,5 @@
+// Shuffle in place
+// TODO: check this is a good shuffler
 function shuffle(a) {
     var j, x, i;
     for (i = a.length; i; i--) {

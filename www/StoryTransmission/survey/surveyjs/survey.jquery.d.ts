@@ -1,6 +1,6 @@
-/*Type definitions for Survey JavaScript library v0.12.5
+/*Type definitions for Survey JavaScript library v0.12.14
 Project: http://surveyjs.org/
-Definitions by: Devsoft Baltic O� <https://github.com/surveyjs/>
+Definitions by: Devsoft Baltic OÜ <https://github.com/surveyjs/>
 */
 // Dependencies for this module:
 //   ../../../../react
@@ -10,6 +10,7 @@ import * as React from 'react';
 import './chunks/localization';
 
 import "../../main.scss";
+export let Version: string;
 
 export var __assign: any;
 export function __extends(thisClass: any, baseClass: any): void;
@@ -169,6 +170,86 @@ export declare var defaultBootstrapCss: {
     };
 };
 
+export declare var defaultBootstrapMaterialCss: {
+    root: string;
+    header: string;
+    body: string;
+    footer: string;
+    navigationButton: string;
+    navigation: {
+        complete: string;
+        prev: string;
+        next: string;
+    };
+    progress: string;
+    progressBar: string;
+    pageTitle: string;
+    row: string;
+    question: {
+        root: string;
+        title: string;
+        comment: string;
+        indent: number;
+    };
+    error: {
+        root: string;
+        icon: string;
+        item: string;
+    };
+    checkbox: {
+        root: string;
+        item: string;
+        other: string;
+    };
+    comment: string;
+    dropdown: {
+        root: string;
+        control: string;
+    };
+    matrix: {
+        root: string;
+        row: string;
+        label: string;
+        itemValue: string;
+    };
+    matrixdropdown: {
+        root: string;
+        itemValue: string;
+    };
+    matrixdynamic: {
+        root: string;
+        button: string;
+    };
+    multipletext: {
+        root: string;
+        itemTitle: string;
+        row: string;
+        itemValue: string;
+    };
+    radiogroup: {
+        root: string;
+        item: string;
+        label: string;
+        other: string;
+    };
+    rating: {
+        root: string;
+        item: string;
+    };
+    text: string;
+    window: {
+        root: string;
+        body: string;
+        header: {
+            root: string;
+            title: string;
+            button: string;
+            buttonExpanded: string;
+            buttonCollapsed: string;
+        };
+    };
+};
+
 export declare class Survey extends React.Component<any, any> implements ISurveyCreator {
     static cssType: string;
     protected survey: ReactSurveyModel;
@@ -230,6 +311,15 @@ export declare class SurveyPage extends React.Component<any, any> {
     protected createRow(row: QuestionRowModel, index: number): JSX.Element;
     protected renderTitle(): JSX.Element;
 }
+export declare class SurveyPanel extends React.Component<any, any> {
+    protected css: any;
+    constructor(props: any);
+    componentWillReceiveProps(nextProps: any): void;
+    componentDidMount(): void;
+    render(): JSX.Element;
+    protected createRow(row: QuestionRowModel, index: number): JSX.Element;
+    protected renderTitle(): JSX.Element;
+}
 export declare class SurveyRow extends React.Component<any, any> {
     protected css: any;
     constructor(props: any);
@@ -252,7 +342,6 @@ export declare class SurveyQuestion extends React.Component<any, any> {
     componentWillUnmount(): void;
     render(): JSX.Element;
     protected renderQuestion(): JSX.Element;
-    protected shouldComponentUpdate(): boolean;
     protected renderTitle(): JSX.Element;
     protected renderComment(): JSX.Element;
     protected renderErrors(): JSX.Element;
@@ -266,17 +355,20 @@ export declare class SurveyQuestionErrors extends React.Component<any, any> {
 }
 
 export declare class SurveyElementBase extends React.Component<any, any> {
+    static renderLocString(locStr: LocalizableString, style?: any): JSX.Element;
     protected css: any;
     protected rootCss: any;
     protected isDisplayMode: boolean;
     constructor(props: any);
     componentWillReceiveProps(nextProps: any): void;
+    protected renderLocString(locStr: LocalizableString, style?: any): JSX.Element;
 }
 export declare class SurveyQuestionElementBase extends SurveyElementBase {
     protected questionBase: QuestionBase;
     protected creator: ISurveyCreator;
     constructor(props: any);
     componentWillReceiveProps(nextProps: any): void;
+    protected shouldComponentUpdate(): boolean;
 }
 
 export declare class SurveyQuestionComment extends SurveyQuestionElementBase {
@@ -309,6 +401,7 @@ export declare class SurveyQuestionCheckboxItem extends SurveyElementBase {
     protected textStyle: any;
     protected isFirst: any;
     constructor(props: any);
+    protected shouldComponentUpdate(): boolean;
     componentWillReceiveProps(nextProps: any): void;
     handleOnChange(event: any): void;
     render(): JSX.Element;
@@ -378,6 +471,8 @@ export declare class SurveyQuestionMultipleTextItem extends SurveyElementBase {
     handleOnChange(event: any): void;
     handleOnBlur(event: any): void;
     componentWillReceiveProps(nextProps: any): void;
+    componentDidMount(): void;
+    componentWillUnmount(): void;
     render(): JSX.Element;
     protected readonly mainClassName: string;
 }
@@ -435,7 +530,7 @@ export declare class SurveyQuestionRating extends SurveyQuestionElementBase {
     protected readonly question: QuestionRatingModel;
     handleOnChange(event: any): void;
     render(): JSX.Element;
-    protected renderItem(key: string, item: ItemValue, minText: string, maxText: string): JSX.Element;
+    protected renderItem(key: string, item: ItemValue, minText: JSX.Element, maxText: JSX.Element): JSX.Element;
     protected renderOther(): JSX.Element;
 }
 
@@ -450,67 +545,81 @@ export declare class SurveyWindow extends Survey {
 
 export declare class ReactQuestionFactory {
     static Instance: ReactQuestionFactory;
-    static DefaultChoices: string[];
     registerQuestion(questionType: string, questionCreator: (name: string) => JSX.Element): void;
     getAllTypes(): Array<string>;
     createQuestion(questionType: string, params: any): JSX.Element;
 }
 
 export declare class ValidatorResult {
-    value: any;
-    error: SurveyError;
-    constructor(value: any, error?: SurveyError);
+        value: any;
+        error: SurveyError;
+        constructor(value: any, error?: SurveyError);
 }
+/**
+    * Base SurveyJS validator class.
+    */
 export declare class SurveyValidator extends Base {
-    text: string;
-    constructor();
-    protected getErrorText(name: string): string;
-    protected getDefaultErrorText(name: string): string;
-    validate(value: any, name?: string): ValidatorResult;
+        text: string;
+        constructor();
+        protected getErrorText(name: string): string;
+        protected getDefaultErrorText(name: string): string;
+        validate(value: any, name?: string): ValidatorResult;
 }
 export interface IValidatorOwner {
-    validators: Array<SurveyValidator>;
-    value: any;
-    getValidatorTitle(): string;
+        validators: Array<SurveyValidator>;
+        value: any;
+        getValidatorTitle(): string;
 }
 export declare class ValidatorRunner {
-    run(owner: IValidatorOwner): SurveyError;
+        run(owner: IValidatorOwner): SurveyError;
 }
+/**
+    * Validate numeric values.
+    */
 export declare class NumericValidator extends SurveyValidator {
-    minValue: number;
-    maxValue: number;
-    constructor(minValue?: number, maxValue?: number);
-    getType(): string;
-    validate(value: any, name?: string): ValidatorResult;
-    protected getDefaultErrorText(name: string): any;
+        minValue: number;
+        maxValue: number;
+        constructor(minValue?: number, maxValue?: number);
+        getType(): string;
+        validate(value: any, name?: string): ValidatorResult;
+        protected getDefaultErrorText(name: string): any;
 }
+/**
+    * Validate text values
+    */
 export declare class TextValidator extends SurveyValidator {
-    minLength: number;
-    maxLength: number;
-    constructor(minLength?: number, maxLength?: number);
-    getType(): string;
-    validate(value: any, name?: string): ValidatorResult;
-    protected getDefaultErrorText(name: string): any;
+        minLength: number;
+        maxLength: number;
+        constructor(minLength?: number, maxLength?: number);
+        getType(): string;
+        validate(value: any, name?: string): ValidatorResult;
+        protected getDefaultErrorText(name: string): any;
 }
 export declare class AnswerCountValidator extends SurveyValidator {
-    minCount: number;
-    maxCount: number;
-    constructor(minCount?: number, maxCount?: number);
-    getType(): string;
-    validate(value: any, name?: string): ValidatorResult;
-    protected getDefaultErrorText(name: string): string;
+        minCount: number;
+        maxCount: number;
+        constructor(minCount?: number, maxCount?: number);
+        getType(): string;
+        validate(value: any, name?: string): ValidatorResult;
+        protected getDefaultErrorText(name: string): string;
 }
+/**
+    * Use it to validate the text by regular expressions.
+    */
 export declare class RegexValidator extends SurveyValidator {
-    regex: string;
-    constructor(regex?: string);
-    getType(): string;
-    validate(value: any, name?: string): ValidatorResult;
+        regex: string;
+        constructor(regex?: string);
+        getType(): string;
+        validate(value: any, name?: string): ValidatorResult;
 }
+/**
+    * Validate e-mail address in the text input
+    */
 export declare class EmailValidator extends SurveyValidator {
-    constructor();
-    getType(): string;
-    validate(value: any, name?: string): ValidatorResult;
-    protected getDefaultErrorText(name: string): any;
+        constructor();
+        getType(): string;
+        validate(value: any, name?: string): ValidatorResult;
+        protected getDefaultErrorText(name: string): any;
 }
 
 export interface HashTable<T> {
@@ -526,46 +635,60 @@ export interface ISurvey extends ISurveyData {
     currentPage: IPage;
     pageVisibilityChanged(page: IPage, newValue: boolean): any;
     questionVisibilityChanged(question: IQuestion, newValue: boolean): any;
-    questionAdded(question: IQuestion, index: number): any;
+    questionAdded(question: IQuestion, index: number, parentPanel: any, rootPanel: any): any;
+    panelAdded(panel: IElement, index: number, parentPanel: any, rootPanel: any): any;
     questionRemoved(question: IQuestion): any;
+    panelRemoved(panel: IElement): any;
     validateQuestion(name: string): SurveyError;
     processHtml(html: string): string;
     processText(text: string): string;
+    isDisplayMode: boolean;
     isDesignMode: boolean;
+    isLoadingFromJson: boolean;
     requiredText: string;
     questionStartIndex: string;
-    questionTitleTemplate: string;
+    getQuestionTitleTemplate(): string;
     storeOthersAsComment: boolean;
     uploadFile(name: string, file: File, storeDataAsText: boolean, uploadingCallback: (status: string) => any): boolean;
     afterRenderQuestion(question: IQuestion, htmlElement: any): any;
+    afterRenderPanel(panel: IElement, htmlElement: any): any;
 }
 export interface IConditionRunner {
     runCondition(values: HashTable<any>): any;
 }
-export interface IQuestion extends IConditionRunner {
+export interface IElement extends IConditionRunner {
     name: string;
     visible: boolean;
+    isVisible: boolean;
+    setData(newValue: ISurveyData): any;
+    rowVisibilityChangedCallback: () => void;
+    startWithNewLineChangedCallback: () => void;
+    renderWidth: string;
+    width: string;
+    rightIndent: number;
+    startWithNewLine: boolean;
+    isPanel: boolean;
+    onSurveyLoad(): any;
+    onLocaleChanged(): any;
+}
+export interface IQuestion extends IElement {
     hasTitle: boolean;
     setVisibleIndex(value: number): any;
     onSurveyValueChanged(newValue: any): any;
-    onSurveyLoad(): any;
     supportGoNextPageAutomatic(): boolean;
+    clearUnusedValues(): any;
+}
+export interface IPanel extends IElement {
 }
 export interface IPage extends IConditionRunner {
     visible: boolean;
+    onSurveyLoad(): any;
 }
-export declare class ItemValue {
-    static Separator: string;
-    static setData(items: Array<ItemValue>, values: Array<any>): void;
-    static getData(items: Array<ItemValue>): any;
-    static getItemByValue(items: Array<ItemValue>, val: any): ItemValue;
-    constructor(value: any, text?: string);
-    getType(): string;
-    value: any;
-    readonly hasText: boolean;
-    text: string;
-}
+/**
+  * The base class for SurveyJS objects.
+  */
 export declare class Base {
+    static isValueEmpty(value: any): boolean;
     getType(): string;
     protected isTwoValueEquals(x: any, y: any): boolean;
 }
@@ -585,6 +708,63 @@ export declare class Event<T extends Function, Options> {
     remove(func: T): void;
 }
 
+/**
+  * Array of ItemValue is used in checkox, dropdown and radiogroup choices, matrix columns and rows.
+  * It has two main properties: value and text. If text is empty, value is used for displaying.
+  * The text property is localizable and support markdown.
+  */
+export declare class ItemValue {
+    static Separator: string;
+    static createArray(locOwner: ILocalizableOwner): Array<ItemValue>;
+    static setupArray(items: Array<ItemValue>, locOwner: ILocalizableOwner): void;
+    static setData(items: Array<ItemValue>, values: Array<any>): void;
+    static getData(items: Array<ItemValue>): any;
+    static getItemByValue(items: Array<ItemValue>, val: any): ItemValue;
+    static NotifyArrayOnLocaleChanged(items: Array<ItemValue>): void;
+    constructor(value: any, text?: string);
+    getType(): string;
+    readonly locText: LocalizableString;
+    locOwner: ILocalizableOwner;
+    value: any;
+    readonly hasText: boolean;
+    text: string;
+    setData(value: any): void;
+}
+
+export interface ILocalizableOwner {
+    getLocale(): string;
+    getMarkdownHtml(text: string): string;
+}
+/**
+  * The class represents the string that supports multi-languages and markdown.
+  * It uses in all objects where support for multi-languages and markdown is required.
+  */
+export declare class LocalizableString {
+    owner: ILocalizableOwner;
+    useMarkdown: boolean;
+    static defaultLocale: string;
+    onRenderedHtmlCallback: (html: string) => string;
+    onGetTextCallback: (str: string) => string;
+    constructor(owner: ILocalizableOwner, useMarkdown?: boolean);
+    readonly locale: string;
+    text: string;
+    readonly pureText: any;
+    readonly hasHtml: boolean;
+    readonly html: string;
+    readonly textOrHtml: string;
+    readonly renderedHtml: string;
+    getLocaleText(loc: string): string;
+    setLocaleText(loc: string, value: string): void;
+    getJson(): any;
+    setJson(value: any): void;
+    onChanged(): void;
+    protected onCreating(): void;
+}
+
+/**
+  * A definition for filling choices for checkbox, dropdown and radiogroup questions from resfull services.
+  * The run method call a restfull service and results can be get on getREsultCallback.
+  */
 export declare class ChoicesRestfull extends Base {
     url: string;
     path: string;
@@ -608,6 +788,7 @@ export declare class Condition {
     right: any;
     operator: string;
     perform(left?: any, right?: any): boolean;
+    performExplicit(left: any, right: any): boolean;
 }
 export declare class ConditionNode {
     children: Array<any>;
@@ -659,14 +840,18 @@ export declare class JsonObjectProperty {
     baseClassName: string;
     defaultValue: any;
     readOnly: boolean;
+    visible: boolean;
+    isLocalizable: boolean;
+    serializationProperty: string;
     onGetValue: (obj: any) => any;
     onSetValue: (obj: any, value: any, jsonConv: JsonObject) => any;
     constructor(name: string);
     type: string;
-    readonly hasToUseGetValue: (obj: any) => any;
+    readonly hasToUseGetValue: string | ((obj: any) => any);
     isDefaultValue(value: any): boolean;
     getValue(obj: any): any;
-    readonly hasToUseSetValue: (obj: any, value: any, jsonConv: JsonObject) => any;
+    getPropertyValue(obj: any): any;
+    readonly hasToUseSetValue: string | ((obj: any, value: any, jsonConv: JsonObject) => any);
     setValue(obj: any, value: any, jsonConv: JsonObject): void;
     getObjType(objType: string): string;
     getClassName(className: string): string;
@@ -745,23 +930,38 @@ export interface IMatrixDropdownData {
     onRowChanged(cell: MatrixDropdownRowModelBase, newRowValue: any): any;
     columns: Array<MatrixDropdownColumn>;
     createQuestion(row: MatrixDropdownRowModelBase, column: MatrixDropdownColumn): Question;
+    getLocale(): string;
+    getMarkdownHtml(text: string): string;
 }
-export declare class MatrixDropdownColumn extends Base {
+export interface IMatrixColumnOwner extends ILocalizableOwner {
+    getRequiredText(): string;
+}
+export declare class MatrixDropdownColumn extends Base implements ILocalizableOwner {
     name: string;
-    optionsCaption: string;
     isRequired: boolean;
     hasOther: boolean;
     minWidth: string;
-    cellType: string;
-    inputType: string;
-    placeHolder: string;
-    choicesOrder: string;
     choicesByUrl: ChoicesRestfull;
+    colOwner: IMatrixColumnOwner;
+    validators: Array<SurveyValidator>;
     constructor(name: string, title?: string);
     getType(): string;
+    choicesOrder: string;
+    inputType: string;
+    cellType: string;
     title: string;
+    readonly fullTitle: string;
+    getFullTitle(str: string): string;
+    readonly locTitle: LocalizableString;
+    optionsCaption: string;
+    readonly locOptionsCaption: LocalizableString;
+    placeHolder: string;
+    readonly locPlaceHolder: LocalizableString;
     choices: Array<any>;
     colCount: number;
+    getLocale(): string;
+    getMarkdownHtml(text: string): string;
+    onLocaleChanged(): void;
 }
 export declare class MatrixDropdownCell {
     column: MatrixDropdownColumn;
@@ -770,7 +970,7 @@ export declare class MatrixDropdownCell {
     readonly question: Question;
     value: any;
 }
-export declare class MatrixDropdownRowModelBase implements ISurveyData {
+export declare class MatrixDropdownRowModelBase implements ISurveyData, ILocalizableOwner {
     protected data: IMatrixDropdownData;
     cells: Array<MatrixDropdownCell>;
     constructor(data: IMatrixDropdownData, value: any);
@@ -782,28 +982,36 @@ export declare class MatrixDropdownRowModelBase implements ISurveyData {
     getComment(name: string): string;
     setComment(name: string, newValue: string): void;
     readonly isEmpty: boolean;
+    getLocale(): string;
+    getMarkdownHtml(text: string): string;
+    onLocaleChanged(): void;
     protected createCell(column: MatrixDropdownColumn): MatrixDropdownCell;
 }
+/**
+  * A base class for matrix dropdown and matrix dynamic questions.
+  */
 export declare class QuestionMatrixDropdownModelBase extends Question implements IMatrixDropdownData {
     name: string;
+    static addDefaultColumns(matrix: QuestionMatrixDropdownModelBase): void;
     protected generatedVisibleRows: Array<MatrixDropdownRowModelBase>;
     columnMinWidth: string;
     horizontalScroll: boolean;
     columnsChangedCallback: () => void;
-    updateCellsCallbak: () => void;
+    updateCellsCallback: () => void;
     constructor(name: string);
     getType(): string;
     columns: Array<MatrixDropdownColumn>;
     cellType: string;
     columnColCount: number;
-    getColumnTitle(column: MatrixDropdownColumn): string;
+    getRequiredText(): string;
+    onLocaleChanged(): void;
     getColumnWidth(column: MatrixDropdownColumn): string;
     choices: Array<any>;
     optionsCaption: string;
+    readonly locOptionsCaption: LocalizableString;
     addColumn(name: string, title?: string): MatrixDropdownColumn;
     readonly visibleRows: Array<MatrixDropdownRowModelBase>;
     protected generateRows(): Array<MatrixDropdownRowModelBase>;
-    protected createMatrixRow(name: any, text: string, value: any): MatrixDropdownRowModelBase;
     protected createNewValue(curValue: any): any;
     protected getRowValue(row: MatrixDropdownRowModelBase, questionValue: any, create?: boolean): any;
     protected onBeforeValueChanged(val: any): void;
@@ -830,18 +1038,23 @@ export declare class QuestionMatrixDropdownModelBase extends Question implements
 }
 
 export declare class MatrixDropdownRowModel extends MatrixDropdownRowModelBase {
-    name: any;
-    text: string;
-    constructor(name: any, text: string, data: IMatrixDropdownData, value: any);
-    readonly rowName: any;
+    name: string;
+    constructor(name: string, item: ItemValue, data: IMatrixDropdownData, value: any);
+    readonly rowName: string;
+    readonly text: string;
+    readonly locText: LocalizableString;
 }
+/**
+  * A Model for a matrix dropdown question. You may use a dropdown, checkbox, radiogroup, text and comment questions as a cell editors.
+  */
 export declare class QuestionMatrixDropdownModel extends QuestionMatrixDropdownModelBase implements IMatrixDropdownData {
     name: string;
     constructor(name: string);
     getType(): string;
     rows: Array<any>;
+    onLocaleChanged(): void;
     protected generateRows(): Array<MatrixDropdownRowModel>;
-    protected createMatrixRow(name: any, text: string, value: any): MatrixDropdownRowModel;
+    protected createMatrixRow(item: ItemValue, value: any): MatrixDropdownRowModel;
 }
 
 export declare class MatrixDynamicRowModel extends MatrixDropdownRowModelBase {
@@ -849,18 +1062,27 @@ export declare class MatrixDynamicRowModel extends MatrixDropdownRowModelBase {
     constructor(index: number, data: IMatrixDropdownData, value: any);
     readonly rowName: string;
 }
+/**
+  * A Model for a matrix dymanic question. You may use a dropdown, checkbox, radiogroup, text and comment questions as a cell editors.
+  * An end-user may dynamically add/remove rows, unlike in matrix dropdown question.
+  */
 export declare class QuestionMatrixDynamicModel extends QuestionMatrixDropdownModelBase implements IMatrixDropdownData {
     name: string;
     static MaxRowCount: number;
-    minRowCount: number;
     rowCountChangedCallback: () => void;
     constructor(name: string);
     getType(): string;
     rowCount: number;
+    minRowCount: number;
+    maxRowCount: number;
+    readonly canAddRow: boolean;
+    readonly canRemoveRow: boolean;
     addRow(): void;
     removeRow(index: number): void;
     addRowText: string;
+    readonly locAddRowText: LocalizableString;
     removeRowText: string;
+    readonly locRemoveRowText: LocalizableString;
     supportGoNextPageAutomatic(): boolean;
     readonly cachedVisibleRows: Array<MatrixDropdownRowModelBase>;
     protected onCheckForErrors(errors: Array<SurveyError>): void;
@@ -875,12 +1097,16 @@ export declare class QuestionMatrixDynamicModel extends QuestionMatrixDropdownMo
 export interface IMatrixData {
     onMatrixRowChanged(row: MatrixRowModel): any;
 }
+/**
+  * A Model for a simple matrix question.
+  */
 export declare class MatrixRowModel extends Base {
-    name: any;
-    text: string;
     fullName: string;
     protected rowValue: any;
-    constructor(name: any, text: string, fullName: string, data: IMatrixData, value: any);
+    constructor(item: ItemValue, fullName: string, data: IMatrixData, value: any);
+    readonly name: string;
+    readonly text: string;
+    readonly locText: LocalizableString;
     value: any;
     protected onValueChanged(): void;
 }
@@ -893,9 +1119,10 @@ export declare class QuestionMatrixModel extends Question implements IMatrixData
     columns: Array<any>;
     rows: Array<any>;
     readonly visibleRows: Array<MatrixRowModel>;
+    onLocaleChanged(): void;
     supportGoNextPageAutomatic(): boolean;
     protected onCheckForErrors(errors: Array<SurveyError>): void;
-    protected createMatrixRow(name: any, text: string, fullName: string, value: any): MatrixRowModel;
+    protected createMatrixRow(item: ItemValue, fullName: string, value: any): MatrixRowModel;
     protected onValueChanged(): void;
     onMatrixRowChanged(row: MatrixRowModel): void;
 }
@@ -903,19 +1130,35 @@ export declare class QuestionMatrixModel extends Question implements IMatrixData
 export interface IMultipleTextData {
     getMultipleTextValue(name: string): any;
     setMultipleTextValue(name: string, value: any): any;
+    getIsRequiredText(): string;
+    getLocale(): string;
+    getMarkdownHtml(text: string): string;
 }
-export declare class MultipleTextItemModel extends Base implements IValidatorOwner {
+export declare class MultipleTextItemModel extends Base implements IValidatorOwner, ILocalizableOwner {
     name: any;
-    placeHolder: string;
+    isRequired: boolean;
+    onValueChangedCallback: (newValue: any) => void;
     validators: Array<SurveyValidator>;
     constructor(name?: any, title?: string);
     getType(): string;
     setData(data: IMultipleTextData): void;
+    inputType: string;
     title: string;
+    readonly locTitle: LocalizableString;
+    readonly fullTitle: string;
+    protected getFullTitle(str: string): string;
+    placeHolder: string;
+    readonly locPlaceHolder: LocalizableString;
+    onLocaleChanged(): void;
     value: any;
     onValueChanged(newValue: any): void;
     getValidatorTitle(): string;
+    getLocale(): string;
+    getMarkdownHtml(text: string): string;
 }
+/**
+  * A Model for a multiple text question.
+  */
 export declare class QuestionMultipleTextModel extends Question implements IMultipleTextData {
     name: string;
     colCountChangedCallback: () => void;
@@ -924,6 +1167,7 @@ export declare class QuestionMultipleTextModel extends Question implements IMult
     getType(): string;
     items: Array<MultipleTextItemModel>;
     addItem(name: string, title?: string): MultipleTextItemModel;
+    onLocaleChanged(): void;
     supportGoNextPageAutomatic(): boolean;
     colCount: number;
     getRows(): Array<any>;
@@ -931,55 +1175,111 @@ export declare class QuestionMultipleTextModel extends Question implements IMult
     protected createTextItem(name: string, title: string): MultipleTextItemModel;
     protected onItemValueChanged(): void;
     protected runValidators(): SurveyError;
+    hasErrors(fireCallback?: boolean): boolean;
+    protected hasErrorInItems(fireCallback: boolean): boolean;
     getMultipleTextValue(name: string): any;
     setMultipleTextValue(name: string, value: any): void;
+    getIsRequiredText(): string;
 }
 
 export declare class QuestionRowModel {
-    page: PageModel;
-    question: QuestionBase;
-    visibilityChangedCallback: () => void;
-    constructor(page: PageModel, question: QuestionBase);
-    questions: Array<QuestionBase>;
-    visible: boolean;
-    updateVisible(): void;
-    addQuestion(q: QuestionBase): void;
-    protected onVisibleChanged(): void;
-    setWidth(): void;
+        panel: PanelModelBase;
+        visibilityChangedCallback: () => void;
+        constructor(panel: PanelModelBase);
+        elements: Array<IElement>;
+        readonly questions: Array<IElement>;
+        visible: boolean;
+        updateVisible(): void;
+        addElement(q: IElement): void;
+        protected onVisibleChanged(): void;
 }
-export declare class PageModel extends Base implements IPage, IConditionRunner {
+/**
+    * A base class for a Panel and Page objects.
+    */
+export declare class PanelModelBase extends Base implements IConditionRunner, ILocalizableOwner {
+        name: string;
+        parent: PanelModelBase;
+        visibleIf: string;
+        rowsChangedCallback: () => void;
+        visibleIndex: number;
+        constructor(name?: string);
+        data: ISurvey;
+        title: string;
+        readonly locTitle: LocalizableString;
+        getLocale(): string;
+        getMarkdownHtml(text: string): string;
+        readonly id: string;
+        readonly isPanel: boolean;
+        readonly questions: Array<QuestionBase>;
+        readonly elements: Array<IElement>;
+        containsElement(element: IElement): boolean;
+        hasErrors(fireCallback?: boolean, focuseOnFirstError?: boolean): boolean;
+        addQuestionsToList(list: Array<IQuestion>, visibleOnly?: boolean): void;
+        readonly rows: Array<QuestionRowModel>;
+        readonly isActive: boolean;
+        protected readonly root: PanelModelBase;
+        protected createRow(): QuestionRowModel;
+        onSurveyLoad(): void;
+        protected readonly isLoadingFromJson: boolean;
+        protected onRowsChanged(): void;
+        readonly processedTitle: string;
+        protected getRendredTitle(str: string): string;
+        visible: boolean;
+        protected onVisibleChanged(): void;
+        readonly isVisible: boolean;
+        getIsPageVisible(exceptionQuestion: IQuestion): boolean;
+        addElement(element: IElement, index?: number): void;
+        addQuestion(question: QuestionBase, index?: number): void;
+        addPanel(panel: PanelModel, index?: number): void;
+        addNewQuestion(questionType: string, name: string): QuestionBase;
+        addNewPanel(name: string): PanelModel;
+        protected createNewPanel(name: string): PanelModel;
+        removeElement(element: IElement): boolean;
+        removeQuestion(question: QuestionBase): void;
+        runCondition(values: HashTable<any>): void;
+        onLocaleChanged(): void;
+}
+/**
+    * A container element, similar to the Page objects. However, unlike the Page, Panel can't be a root.
+    * It may contain questions and other panels.
+    */
+export declare class PanelModel extends PanelModelBase implements IElement {
+        name: string;
+        width: string;
+        renderWidthChangedCallback: () => void;
+        rowVisibilityChangedCallback: () => void;
+        startWithNewLineChangedCallback: () => void;
+        constructor(name?: string);
+        getType(): string;
+        setData(newValue: ISurveyData): void;
+        readonly isPanel: boolean;
+        innerIndent: number;
+        renderWidth: string;
+        startWithNewLine: boolean;
+        rightIndent: number;
+        protected onVisibleChanged(): void;
+}
+
+/**
+  * The page object. It has elements collection, that contains questions and panels.
+  */
+export declare class PageModel extends PanelModelBase implements IPage {
     name: string;
-    questions: Array<QuestionBase>;
-    data: ISurvey;
-    visibleIf: string;
-    navigationButtonsVisibility: string;
-    title: string;
-    visibleIndex: number;
     constructor(name?: string);
-    readonly id: string;
-    readonly rows: Array<QuestionRowModel>;
-    readonly isActive: boolean;
-    isQuestionVisible(question: QuestionBase): boolean;
-    protected createRow(question: QuestionBase): QuestionRowModel;
-    onRowVisibilityChanged(row: QuestionRowModel): void;
-    readonly processedTitle: string;
-    num: number;
-    visible: boolean;
     getType(): string;
-    readonly isVisible: boolean;
-    getIsPageVisible(exceptionQuestion: IQuestion): boolean;
-    addQuestion(question: QuestionBase, index?: number): void;
-    addNewQuestion(questionType: string, name: string): QuestionBase;
-    removeQuestion(question: QuestionBase): void;
+    num: number;
+    navigationButtonsVisibility: string;
+    protected getRendredTitle(str: string): string;
     focusFirstQuestion(): void;
     focusFirstErrorQuestion(): void;
     scrollToTop(): void;
-    hasErrors(fireCallback?: boolean, focuseOnFirstError?: boolean): boolean;
-    addQuestionsToList(list: Array<IQuestion>, visibleOnly?: boolean): void;
-    runCondition(values: HashTable<any>): void;
     protected onNumChanged(value: number): void;
+    protected onVisibleChanged(): void;
 }
 
+/**
+  * Extends question base class with title, value, errors and other functionality
+  */
 export declare class Question extends QuestionBase implements IValidatorOwner {
     name: string;
     errors: Array<SurveyError>;
@@ -993,6 +1293,9 @@ export declare class Question extends QuestionBase implements IValidatorOwner {
     readonly hasInput: boolean;
     readonly inputId: string;
     title: string;
+    readonly locTitle: LocalizableString;
+    readonly locCommentText: LocalizableString;
+    onLocaleChanged(): void;
     readonly processedTitle: string;
     readonly fullTitle: string;
     focus(onError?: boolean): void;
@@ -1007,6 +1310,9 @@ export declare class Question extends QuestionBase implements IValidatorOwner {
     commentText: string;
     hasOther: boolean;
     protected hasOtherChanged(): void;
+    readonly isReadOnly: boolean;
+    readOnly: boolean;
+    protected readOnlyChanged(): void;
     protected readonly no: string;
     protected onSetData(): void;
     value: any;
@@ -1031,21 +1337,33 @@ export declare class Question extends QuestionBase implements IValidatorOwner {
     getValidatorTitle(): string;
 }
 
-export declare class QuestionBase extends Base implements IQuestion, IConditionRunner {
+/**
+  * A base class for all questions. QuestionBase doesn't have information about title, values, errors and so on.
+  * Those properties are defined in the Question class.
+  */
+export declare class QuestionBase extends Base implements IQuestion, IConditionRunner, ILocalizableOwner {
     name: string;
     protected data: ISurveyData;
     customWidget: QuestionCustomWidget;
+    customWidgetData: {
+        isNeedRender: boolean;
+    };
     visibleIf: string;
-    startWithNewLine: boolean;
     width: string;
     indent: number;
+    localeChanged: Event<(sender: QuestionBase) => any, any>;
     focusCallback: () => void;
     renderWidthChangedCallback: () => void;
     rowVisibilityChangedCallback: () => void;
+    startWithNewLineChangedCallback: () => void;
     visibilityChangedCallback: () => void;
     visibleIndexChangedCallback: () => void;
+    readOnlyChangedCallback: () => void;
     constructor(name: string);
+    readonly isPanel: boolean;
     visible: boolean;
+    readonly isVisible: boolean;
+    readonly isReadOnly: boolean;
     readonly visibleIndex: number;
     hasErrors(fireCallback?: boolean): boolean;
     readonly currentErrorCount: number;
@@ -1053,6 +1371,7 @@ export declare class QuestionBase extends Base implements IQuestion, IConditionR
     readonly hasInput: boolean;
     readonly hasComment: boolean;
     readonly id: string;
+    startWithNewLine: boolean;
     renderWidth: string;
     rightIndent: number;
     focus(onError?: boolean): void;
@@ -1066,80 +1385,120 @@ export declare class QuestionBase extends Base implements IQuestion, IConditionR
     onSurveyLoad(): void;
     setVisibleIndex(value: number): void;
     supportGoNextPageAutomatic(): boolean;
+    clearUnusedValues(): void;
+    onLocaleChanged(): void;
+    getLocale(): string;
+    getMarkdownHtml(text: string): string;
 }
 
+/**
+    * It is a base class for checkbox, dropdown and radiogroup questions.
+    */
 export declare class QuestionSelectBase extends Question {
-    protected cachedValue: any;
-    otherItem: ItemValue;
-    choicesByUrl: ChoicesRestfull;
-    otherErrorText: string;
-    storeOthersAsComment: boolean;
-    choicesChangedCallback: () => void;
-    constructor(name: string);
-    readonly isOtherSelected: boolean;
-    protected getHasOther(val: any): boolean;
-    protected createRestfull(): ChoicesRestfull;
-    protected getComment(): string;
-    protected setComment(newValue: string): void;
-    protected setNewValue(newValue: any): void;
-    protected valueFromData(val: any): any;
-    protected valueToData(val: any): any;
-    protected valueFromDataCore(val: any): any;
-    protected valueToDataCore(val: any): any;
-    protected hasUnknownValue(val: any): boolean;
-    choices: Array<any>;
-    protected hasOtherChanged(): void;
-    choicesOrder: string;
-    otherText: string;
-    readonly visibleChoices: Array<ItemValue>;
-    supportComment(): boolean;
-    supportOther(): boolean;
-    protected onCheckForErrors(errors: Array<SurveyError>): void;
-    protected getStoreOthersAsComment(): boolean;
-    onSurveyLoad(): void;
+        protected cachedValue: any;
+        choicesByUrl: ChoicesRestfull;
+        storeOthersAsComment: boolean;
+        choicesChangedCallback: () => void;
+        constructor(name: string);
+        readonly otherItem: ItemValue;
+        readonly isOtherSelected: boolean;
+        protected getHasOther(val: any): boolean;
+        protected createRestfull(): ChoicesRestfull;
+        protected getComment(): string;
+        protected setComment(newValue: string): void;
+        protected setNewValue(newValue: any): void;
+        protected valueFromData(val: any): any;
+        protected valueToData(val: any): any;
+        protected valueFromDataCore(val: any): any;
+        protected valueToDataCore(val: any): any;
+        protected hasUnknownValue(val: any): boolean;
+        choices: Array<any>;
+        protected hasOtherChanged(): void;
+        choicesOrder: string;
+        otherText: string;
+        otherErrorText: string;
+        readonly locOtherText: LocalizableString;
+        readonly locOtherErrorText: LocalizableString;
+        readonly visibleChoices: Array<ItemValue>;
+        supportComment(): boolean;
+        supportOther(): boolean;
+        protected onCheckForErrors(errors: Array<SurveyError>): void;
+        onLocaleChanged(): void;
+        protected getStoreOthersAsComment(): boolean;
+        onSurveyLoad(): void;
+        clearUnusedValues(): void;
 }
+/**
+    * A base class for checkbox and radiogroup questions. It introduced a colCount property.
+    */
 export declare class QuestionCheckboxBase extends QuestionSelectBase {
-    name: string;
-    colCountChangedCallback: () => void;
-    constructor(name: string);
-    colCount: number;
+        name: string;
+        colCountChangedCallback: () => void;
+        constructor(name: string);
+        colCount: number;
 }
 
+/**
+  * A Model for a checkbox question
+  */
 export declare class QuestionCheckboxModel extends QuestionCheckboxBase {
     name: string;
     constructor(name: string);
     protected getHasOther(val: any): boolean;
+    protected valueFromData(val: any): any;
     protected valueFromDataCore(val: any): any;
     protected valueToDataCore(val: any): any;
     getType(): string;
 }
 
+/**
+  * A Model for a comment question
+  */
 export declare class QuestionCommentModel extends Question {
     name: string;
     rows: number;
     cols: number;
-    placeHolder: string;
     constructor(name: string);
+    placeHolder: string;
+    readonly locPlaceHolder: LocalizableString;
     getType(): string;
     isEmpty(): boolean;
 }
 
+/**
+  * A Model for a dropdown question
+  */
 export declare class QuestionDropdownModel extends QuestionSelectBase {
     name: string;
     constructor(name: string);
     optionsCaption: string;
+    readonly locOptionsCaption: LocalizableString;
     getType(): string;
+    onLocaleChanged(): void;
     supportGoNextPageAutomatic(): boolean;
 }
 
 export declare class QuestionFactory {
     static Instance: QuestionFactory;
-    static DefaultChoices: string[];
+    static readonly DefaultChoices: string[];
+    static readonly DefaultColums: string[];
+    static readonly DefaultRows: string[];
     registerQuestion(questionType: string, questionCreator: (name: string) => QuestionBase): void;
+    clear(): void;
     getAllTypes(): Array<string>;
     createQuestion(questionType: string, name: string): QuestionBase;
 }
+export declare class ElementFactory {
+    static Instance: ElementFactory;
+    registerElement(elementType: string, elementCreator: (name: string) => IElement): void;
+    clear(): void;
+    getAllTypes(): Array<string>;
+    createElement(elementType: string, name: string): IElement;
+}
 
+/**
+  * A Model for a file question
+  */
 export declare class QuestionFileModel extends Question {
     name: string;
     previewValueLoadedCallback: () => void;
@@ -1156,14 +1515,21 @@ export declare class QuestionFileModel extends Question {
     protected onCheckForErrors(errors: Array<SurveyError>): void;
 }
 
+/**
+  * A Model for html question. Unlike other questions it doesn't have value and title.
+  */
 export declare class QuestionHtmlModel extends QuestionBase {
     name: string;
     constructor(name: string);
     getType(): string;
     html: string;
+    readonly locHtml: LocalizableString;
     readonly processedHtml: string;
 }
 
+/**
+  * A Model for a radiogroup question.
+  */
 export declare class QuestionRadiogroupModel extends QuestionCheckboxBase {
     name: string;
     constructor(name: string);
@@ -1171,218 +1537,274 @@ export declare class QuestionRadiogroupModel extends QuestionCheckboxBase {
     supportGoNextPageAutomatic(): boolean;
 }
 
+/**
+  * A Model for a rating question.
+  */
 export declare class QuestionRatingModel extends Question {
     name: string;
     static defaultRateValues: ItemValue[];
-    minRateDescription: string;
-    maxRateDescription: string;
     rateValuesChangedCallback: () => void;
     constructor(name: string);
     rateValues: Array<any>;
     readonly visibleRateValues: ItemValue[];
     getType(): string;
+    supportGoNextPageAutomatic(): boolean;
     supportComment(): boolean;
     supportOther(): boolean;
-    supportGoNextPageAutomatic(): boolean;
+    minRateDescription: string;
+    readonly locMinRateDescription: LocalizableString;
+    maxRateDescription: string;
+    readonly locMaxRateDescription: LocalizableString;
 }
 
+/**
+  * A Model for an input text question.
+  */
 export declare class QuestionTextModel extends Question {
     name: string;
     size: number;
-    inputType: string;
-    placeHolder: string;
     constructor(name: string);
     getType(): string;
+    inputType: string;
     isEmpty(): boolean;
     supportGoNextPageAutomatic(): boolean;
+    placeHolder: string;
+    readonly locPlaceHolder: LocalizableString;
     protected setNewValue(newValue: any): void;
     protected correctValueType(newValue: any): any;
 }
 
-export declare class SurveyModel extends Base implements ISurvey, ISurveyTriggerOwner {
-    surveyId: string;
-    surveyPostId: string;
-    clientId: string;
-    cookieName: string;
-    sendResultOnPageNext: boolean;
-    commentPrefix: string;
-    title: string;
-    focusFirstQuestionAutomatic: boolean;
-    showNavigationButtons: boolean;
-    showTitle: boolean;
-    showPageTitles: boolean;
-    showCompletedPage: boolean;
-    completedHtml: string;
-    requiredText: string;
-    questionStartIndex: string;
-    questionTitleTemplate: string;
-    showProgressBar: string;
-    storeOthersAsComment: boolean;
-    goNextPageAutomatic: boolean;
-    pages: Array<PageModel>;
-    triggers: Array<SurveyTrigger>;
-    clearInvisibleValues: boolean;
-    onComplete: Event<(sender: SurveyModel) => any, any>;
-    onPartialSend: Event<(sender: SurveyModel) => any, any>;
-    onCurrentPageChanged: Event<(sender: SurveyModel, options: any) => any, any>;
-    onValueChanged: Event<(sender: SurveyModel, options: any) => any, any>;
-    onVisibleChanged: Event<(sender: SurveyModel, options: any) => any, any>;
-    onPageVisibleChanged: Event<(sender: SurveyModel, options: any) => any, any>;
-    onQuestionAdded: Event<(sender: SurveyModel, options: any) => any, any>;
-    onQuestionRemoved: Event<(sender: SurveyModel, options: any) => any, any>;
-    onValidateQuestion: Event<(sender: SurveyModel, options: any) => any, any>;
-    onServerValidateQuestions: (sender: SurveyModel, options: any) => any;
-    onProcessHtml: Event<(sender: SurveyModel, options: any) => any, any>;
-    onSendResult: Event<(sender: SurveyModel, options: any) => any, any>;
-    onGetResult: Event<(sender: SurveyModel, options: any) => any, any>;
-    onUploadFile: Event<(sender: SurveyModel, options: any) => any, any>;
-    onAfterRenderSurvey: Event<(sender: SurveyModel, options: any) => any, any>;
-    onAfterRenderPage: Event<(sender: SurveyModel, options: any) => any, any>;
-    onAfterRenderQuestion: Event<(sender: SurveyModel, options: any) => any, any>;
-    jsonErrors: Array<JsonError>;
-    constructor(jsonObj?: any);
-    getType(): string;
-    locale: string;
-    getLocString(str: string): any;
-    readonly emptySurveyText: string;
-    pagePrevText: string;
-    pageNextText: string;
-    completeText: string;
-    showPageNumbers: boolean;
-    showQuestionNumbers: string;
-    readonly processedTitle: string;
-    questionTitleLocation: string;
-    mode: string;
-    data: any;
-    protected _setDataValue(data: any, key: string): void;
-    readonly comments: any;
-    readonly visiblePages: Array<PageModel>;
-    readonly isEmpty: boolean;
-    readonly PageCount: number;
-    readonly visiblePageCount: number;
-    currentPage: PageModel;
-    currentPageNo: number;
-    focusFirstQuestion(): void;
-    readonly state: string;
-    clear(clearData?: boolean, gotoFirstPage?: boolean): void;
-    protected mergeValues(src: any, dest: any): void;
-    protected updateCustomWidgets(page: PageModel): void;
-    protected currentPageChanged(newValue: PageModel, oldValue: PageModel): void;
-    getProgress(): number;
-    readonly isNavigationButtonsShowing: boolean;
-    readonly isEditMode: boolean;
-    readonly isDisplayMode: boolean;
-    readonly isDesignMode: boolean;
-    setDesignMode(value: boolean): void;
-    readonly hasCookie: boolean;
-    setCookie(): void;
-    deleteCookie(): void;
-    nextPage(): boolean;
-    readonly isCurrentPageHasErrors: boolean;
-    prevPage(): boolean;
-    completeLastPage(): boolean;
-    readonly isFirstPage: boolean;
-    readonly isLastPage: boolean;
-    doComplete(): void;
-    readonly isValidatingOnServer: boolean;
-    protected onIsValidatingOnServerChanged(): void;
-    protected doServerValidation(): boolean;
-    protected doNextPage(): void;
-    protected setCompleted(): void;
-    readonly processedCompletedHtml: string;
-    readonly processedLoadingHtml: string;
-    readonly progressText: string;
-    protected afterRenderSurvey(htmlElement: any): void;
-    afterRenderPage(htmlElement: any): void;
-    afterRenderQuestion(question: IQuestion, htmlElement: any): void;
-    uploadFile(name: string, file: File, storeDataAsText: boolean, uploadingCallback: (status: string) => any): boolean;
-    protected uploadFileCore(name: string, file: File, uploadingCallback: (status: string) => any): void;
-    getPage(index: number): PageModel;
-    addPage(page: PageModel): void;
-    addNewPage(name: string): PageModel;
-    removePage(page: PageModel): void;
-    getQuestionByName(name: string, caseInsensitive?: boolean): IQuestion;
-    getQuestionsByNames(names: string[], caseInsensitive?: boolean): IQuestion[];
-    getPageByQuestion(question: IQuestion): PageModel;
-    getPageByName(name: string): PageModel;
-    getPagesByNames(names: string[]): PageModel[];
-    getAllQuestions(visibleOnly?: boolean): Array<IQuestion>;
-    protected createNewPage(name: string): PageModel;
-    protected doSurveyValueChanged(question: IQuestion, newValue: any): void;
-    sendResult(postId?: string, clientId?: string, isPartialCompleted?: boolean): void;
-    getResult(resultId: string, name: string): void;
-    loadSurveyFromService(surveyId?: string): void;
-    protected onLoadingSurveyFromService(): void;
-    protected onLoadSurveyFromService(): void;
-    protected onBeforeCreating(): void;
-    protected onCreating(): void;
-    getVariable(name: string): any;
-    setVariable(name: string, newValue: any): void;
-    protected getUnbindValue(value: any): any;
-    getValue(name: string): any;
-    setValue(name: string, newValue: any): void;
-    protected tryGoNextPageAutomatic(name: string): void;
-    getComment(name: string): string;
-    setComment(name: string, newValue: string): void;
-    clearValue(name: string): void;
-    questionVisibilityChanged(question: IQuestion, newValue: boolean): void;
-    pageVisibilityChanged(page: IPage, newValue: boolean): void;
-    questionAdded(question: IQuestion, index: number): void;
-    questionRemoved(question: IQuestion): void;
-    validateQuestion(name: string): SurveyError;
-    processHtml(html: string): string;
-    processText(text: string): string;
-    getObjects(pages: string[], questions: string[]): any[];
-    setTriggerValue(name: string, value: any, isVariable: boolean): void;
+/**
+    * Survey object contains information about the survey. Pages, Questions, flow logic and etc.
+    */
+export declare class SurveyModel extends Base implements ISurvey, ISurveyTriggerOwner, ILocalizableOwner {
+        surveyId: string;
+        surveyPostId: string;
+        clientId: string;
+        cookieName: string;
+        sendResultOnPageNext: boolean;
+        commentPrefix: string;
+        focusFirstQuestionAutomatic: boolean;
+        showNavigationButtons: boolean;
+        showTitle: boolean;
+        showPageTitles: boolean;
+        showCompletedPage: boolean;
+        requiredText: string;
+        questionStartIndex: string;
+        storeOthersAsComment: boolean;
+        goNextPageAutomatic: boolean;
+        pages: Array<PageModel>;
+        triggers: Array<SurveyTrigger>;
+        clearInvisibleValues: boolean;
+        onComplete: Event<(sender: SurveyModel) => any, any>;
+        onPartialSend: Event<(sender: SurveyModel) => any, any>;
+        onCurrentPageChanged: Event<(sender: SurveyModel, options: any) => any, any>;
+        onValueChanged: Event<(sender: SurveyModel, options: any) => any, any>;
+        onVisibleChanged: Event<(sender: SurveyModel, options: any) => any, any>;
+        onPageVisibleChanged: Event<(sender: SurveyModel, options: any) => any, any>;
+        onQuestionAdded: Event<(sender: SurveyModel, options: any) => any, any>;
+        onQuestionRemoved: Event<(sender: SurveyModel, options: any) => any, any>;
+        onPanelAdded: Event<(sender: SurveyModel, options: any) => any, any>;
+        onPanelRemoved: Event<(sender: SurveyModel, options: any) => any, any>;
+        onValidateQuestion: Event<(sender: SurveyModel, options: any) => any, any>;
+        onServerValidateQuestions: (sender: SurveyModel, options: any) => any;
+        onProcessHtml: Event<(sender: SurveyModel, options: any) => any, any>;
+        onTextMarkdown: Event<(sender: SurveyModel, options: any) => any, any>;
+        onSendResult: Event<(sender: SurveyModel, options: any) => any, any>;
+        onGetResult: Event<(sender: SurveyModel, options: any) => any, any>;
+        onUploadFile: Event<(sender: SurveyModel, options: any) => any, any>;
+        onAfterRenderSurvey: Event<(sender: SurveyModel, options: any) => any, any>;
+        onAfterRenderPage: Event<(sender: SurveyModel, options: any) => any, any>;
+        onAfterRenderQuestion: Event<(sender: SurveyModel, options: any) => any, any>;
+        onAfterRenderPanel: Event<(sender: SurveyModel, options: any) => any, any>;
+        jsonErrors: Array<JsonError>;
+        constructor(jsonObj?: any);
+        getType(): string;
+        locale: string;
+        getLocale(): string;
+        getMarkdownHtml(text: string): any;
+        getLocString(str: string): any;
+        readonly emptySurveyText: string;
+        title: string;
+        readonly locTitle: LocalizableString;
+        completedHtml: string;
+        readonly locCompletedHtml: LocalizableString;
+        pagePrevText: string;
+        readonly locPagePrevText: LocalizableString;
+        pageNextText: string;
+        readonly locPageNextText: LocalizableString;
+        completeText: string;
+        readonly locCompleteText: LocalizableString;
+        questionTitleTemplate: string;
+        getQuestionTitleTemplate(): string;
+        readonly locQuestionTitleTemplate: LocalizableString;
+        showPageNumbers: boolean;
+        showQuestionNumbers: string;
+        showProgressBar: string;
+        readonly processedTitle: string;
+        questionTitleLocation: string;
+        mode: string;
+        data: any;
+        protected _setDataValue(data: any, key: string): void;
+        readonly comments: any;
+        readonly visiblePages: Array<PageModel>;
+        readonly isEmpty: boolean;
+        /**
+            * depricated, misspelling, use pageCount property
+            */
+        readonly PageCount: number;
+        readonly pageCount: number;
+        readonly visiblePageCount: number;
+        currentPage: PageModel;
+        currentPageNo: number;
+        focusFirstQuestion(): void;
+        readonly state: string;
+        clear(clearData?: boolean, gotoFirstPage?: boolean): void;
+        protected mergeValues(src: any, dest: any): void;
+        protected updateCustomWidgets(page: PageModel): void;
+        protected currentPageChanged(newValue: PageModel, oldValue: PageModel): void;
+        getProgress(): number;
+        readonly isNavigationButtonsShowing: boolean;
+        readonly isEditMode: boolean;
+        readonly isDisplayMode: boolean;
+        readonly isDesignMode: boolean;
+        setDesignMode(value: boolean): void;
+        readonly hasCookie: boolean;
+        setCookie(): void;
+        deleteCookie(): void;
+        nextPage(): boolean;
+        readonly isCurrentPageHasErrors: boolean;
+        prevPage(): boolean;
+        completeLastPage(): boolean;
+        readonly isFirstPage: boolean;
+        readonly isLastPage: boolean;
+        doComplete(): void;
+        readonly isValidatingOnServer: boolean;
+        protected onIsValidatingOnServerChanged(): void;
+        protected doServerValidation(): boolean;
+        protected doNextPage(): void;
+        protected setCompleted(): void;
+        readonly processedCompletedHtml: string;
+        readonly processedLoadingHtml: string;
+        readonly progressText: string;
+        protected afterRenderSurvey(htmlElement: any): void;
+        afterRenderPage(htmlElement: any): void;
+        afterRenderQuestion(question: IQuestion, htmlElement: any): void;
+        afterRenderPanel(panel: IElement, htmlElement: any): void;
+        uploadFile(name: string, file: File, storeDataAsText: boolean, uploadingCallback: (status: string) => any): boolean;
+        protected uploadFileCore(name: string, file: File, uploadingCallback: (status: string) => any): void;
+        getPage(index: number): PageModel;
+        addPage(page: PageModel): void;
+        addNewPage(name: string): PageModel;
+        removePage(page: PageModel): void;
+        getQuestionByName(name: string, caseInsensitive?: boolean): IQuestion;
+        getQuestionsByNames(names: string[], caseInsensitive?: boolean): IQuestion[];
+        getPageByElement(element: IElement): PageModel;
+        getPageByQuestion(question: IQuestion): PageModel;
+        getPageByName(name: string): PageModel;
+        getPagesByNames(names: string[]): PageModel[];
+        getAllQuestions(visibleOnly?: boolean): Array<IQuestion>;
+        protected createNewPage(name: string): PageModel;
+        protected doSurveyValueChanged(question: IQuestion, newValue: any): void;
+        sendResult(postId?: string, clientId?: string, isPartialCompleted?: boolean): void;
+        getResult(resultId: string, name: string): void;
+        loadSurveyFromService(surveyId?: string): void;
+        protected onLoadingSurveyFromService(): void;
+        protected onLoadSurveyFromService(): void;
+        readonly isLoadingFromJson: boolean;
+        protected onBeforeCreating(): void;
+        protected onCreating(): void;
+        getVariable(name: string): any;
+        setVariable(name: string, newValue: any): void;
+        protected getUnbindValue(value: any): any;
+        getValue(name: string): any;
+        setValue(name: string, newValue: any): void;
+        protected tryGoNextPageAutomatic(name: string): void;
+        getComment(name: string): string;
+        setComment(name: string, newValue: string): void;
+        /**
+            * Remove the value from the survey result.
+            * @param {string} name The name of the value. Typically it is a question name
+            */
+        clearValue(name: string): void;
+        questionVisibilityChanged(question: IQuestion, newValue: boolean): void;
+        pageVisibilityChanged(page: IPage, newValue: boolean): void;
+        questionAdded(question: IQuestion, index: number, parentPanel: any, rootPanel: any): void;
+        questionRemoved(question: IQuestion): void;
+        panelAdded(panel: IElement, index: number, parentPanel: any, rootPanel: any): void;
+        panelRemoved(panel: IElement): void;
+        validateQuestion(name: string): SurveyError;
+        processHtml(html: string): string;
+        processText(text: string): string;
+        getObjects(pages: string[], questions: string[]): any[];
+        setTriggerValue(name: string, value: any, isVariable: boolean): void;
 }
 
+/**
+    * A base class for all triggers.
+    * A trigger calls a method when the expression change the result: from false to true or from true to false.
+    * Please note, it runs only one changing the expression result.
+    */
 export declare class Trigger extends Base {
-    static operatorsValue: HashTable<Function>;
-    static readonly operators: HashTable<Function>;
-    value: any;
-    constructor();
-    operator: string;
-    check(value: any): void;
-    protected onSuccess(): void;
-    protected onFailure(): void;
+        static operatorsValue: HashTable<Function>;
+        static readonly operators: HashTable<Function>;
+        value: any;
+        constructor();
+        operator: string;
+        check(value: any): void;
+        protected onSuccess(): void;
+        protected onFailure(): void;
 }
 export interface ISurveyTriggerOwner {
-    getObjects(pages: string[], questions: string[]): any[];
-    doComplete(): any;
-    setTriggerValue(name: string, value: any, isVariable: boolean): any;
+        getObjects(pages: string[], questions: string[]): any[];
+        doComplete(): any;
+        setTriggerValue(name: string, value: any, isVariable: boolean): any;
 }
+/**
+    * It extends the Trigger base class and add properties required for SurveyJS classes.
+    */
 export declare class SurveyTrigger extends Trigger {
-    name: string;
-    protected owner: ISurveyTriggerOwner;
-    constructor();
-    setOwner(owner: ISurveyTriggerOwner): void;
-    readonly isOnNextPage: boolean;
+        name: string;
+        protected owner: ISurveyTriggerOwner;
+        constructor();
+        setOwner(owner: ISurveyTriggerOwner): void;
+        readonly isOnNextPage: boolean;
 }
+/**
+    * If expression returns true, it makes questions/pages visible.
+    * Ohterwise it makes them invisible.
+    */
 export declare class SurveyTriggerVisible extends SurveyTrigger {
-    pages: string[];
-    questions: string[];
-    constructor();
-    getType(): string;
-    protected onSuccess(): void;
-    protected onFailure(): void;
-    protected onItemSuccess(item: any): void;
-    protected onItemFailure(item: any): void;
+        pages: string[];
+        questions: string[];
+        constructor();
+        getType(): string;
+        protected onSuccess(): void;
+        protected onFailure(): void;
+        protected onItemSuccess(item: any): void;
+        protected onItemFailure(item: any): void;
 }
+/**
+    * If expression returns true, it completes the survey.
+    */
 export declare class SurveyTriggerComplete extends SurveyTrigger {
-    constructor();
-    getType(): string;
-    readonly isOnNextPage: boolean;
-    protected onSuccess(): void;
+        constructor();
+        getType(): string;
+        readonly isOnNextPage: boolean;
+        protected onSuccess(): void;
 }
 export declare class SurveyTriggerSetValue extends SurveyTrigger {
-    setToName: string;
-    setValue: any;
-    isVariable: boolean;
-    constructor();
-    getType(): string;
-    protected onSuccess(): void;
+        setToName: string;
+        setValue: any;
+        isVariable: boolean;
+        constructor();
+        getType(): string;
+        protected onSuccess(): void;
 }
 
+/**
+  * A Model for a survey running in the Window.
+  */
 export declare class SurveyWindowModel extends Base {
     static surveyElementName: string;
     surveyValue: SurveyModel;
@@ -1414,6 +1836,9 @@ export declare class TextPreProcessor {
     process(text: string): string;
 }
 
+/**
+  * The class contains methods to work with www.dxsurvey.com service.
+  */
 export declare class dxSurveyService {
     static serviceUrl: string;
     constructor();
@@ -1460,6 +1885,11 @@ export declare var surveyStrings: {
     uploadingFile: string;
     addRow: string;
     removeRow: string;
+    choices_firstItem: string;
+    choices_secondItem: string;
+    choices_thirdItem: string;
+    matrix_column: string;
+    matrix_row: string;
 };
 
 export declare class QuestionCustomWidget {
@@ -1468,6 +1898,7 @@ export declare class QuestionCustomWidget {
     htmlTemplate: string;
     constructor(name: string, widgetJson: any);
     afterRender(question: IQuestion, el: any): void;
+    willUnmount(question: IQuestion, el: any): void;
     isFit(question: IQuestion): boolean;
 }
 export declare class CustomWidgetCollection {

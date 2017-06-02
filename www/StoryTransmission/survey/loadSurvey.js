@@ -57,6 +57,7 @@ function finishDemographySurvey(survey){
 	var sd = survey.data;
 
 	sd['ParticipantId'] = participantID;
+	sd['workerCode'] = workerCode;
 	sd['Location'] = experimentLocation;
 	sd['Story1'] = sample1;
 	sd['Recording1File'] = participantID + "_" + sample1;

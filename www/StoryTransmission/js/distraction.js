@@ -1,6 +1,6 @@
 // Code for distraction task
 
-function startDistractionTask(version){
+function startDummyDistractionTask(version){
 	showMe("distractionTaskContainer");
 	dummyDistractionTask();
 }

@@ -10,6 +10,8 @@ var evaluationPrestigeType="";
 var speechEvaluationStartTime = "";
 var currentEvaluationNumber = 0;
 
+var originalSpeechEvaluationQuestionOrder = [];
+
 function speechEvaluation(sampleNum){
 
 	// TODO: randomise order that samples are played
@@ -35,14 +37,63 @@ function speechEvaluation(sampleNum){
 function launchSpeechEvaluationSurvey(sampleNum){
 	// shuffle question order
 	// TODO: make sure that all questions are on the same page, otherwise, shuffle pages
-	shuffle(speechEvaluationSurvey['pages'][0]['questions']);
+	//shuffle(speechEvaluationSurvey['pages'][0]['questions']);
+
+	// shuffle the order of questions
+	originalSpeechEvaluationQuestionOrder = [];
+	for(var i=0; i < speechEvaluationSurvey['pages'][0]['elements'].length; ++i){
+		originalSpeechEvaluationQuestionOrder.push([]);
+		for(var j=0; j <speechEvaluationSurvey['pages'][0]['elements'][i]['rows'].length; ++j){
+			originalSpeechEvaluationQuestionOrder[i].push(speechEvaluationSurvey['pages'][0]['elements'][i]['rows'][j]);
+		}
+		shuffle(speechEvaluationSurvey['pages'][0]['elements'][i]['rows']);
+	}
+	console.log(originalSpeechEvaluationQuestionOrder);
+
 	launchSurvey(speechEvaluationSurvey, finishSpeechEvaluationSurvey);
+
 }
 
 function finishSpeechEvaluationSurvey(survey){
 	console.log(JSON.stringify(survey.data));
 	console.log(survey.data);
-	var sd = survey.data;
+	var sdx= survey.data;
+	
+
+	var qorder = "";
+	for(var i=0;i< Object.keys(sdx).length;++i){
+		var key = Object.keys(sdx)[i];
+		console.log(key);
+		console.log(Object.keys(sdx[key]));
+		qorder += Object.keys(sdx[key]).join("_");
+		qorder += "#";
+	}
+
+	// The speech evalutation questions have been randomly mixed up, so we need to re-order them:
+	var sd = {};
+	// // add all non-survey data bits
+	// for(var i=0; i < sdx.length;++i){
+	// 	//sd.push({});
+	// 	for(var key in sdx[i]){
+	// 		if(!key in originalSpeechEvaluationQuestionOrder[i]){
+	// 			sd[key] = sdx[Object.keys(sdx)[i]][key];
+	// 		} 
+	// 	}
+	// }
+
+	console.log(Object.keys(sdx));
+	console.log(originalSpeechEvaluationQuestionOrder);
+
+	// add survey questions in original order
+	for(var i=0; i<originalSpeechEvaluationQuestionOrder.length;++i){
+		for(var j=0; j<originalSpeechEvaluationQuestionOrder[i].length;++j){
+			var key = originalSpeechEvaluationQuestionOrder[i][j];
+			console.log(key);
+			sd[Object.keys(sdx)[i] + "_" + key] = sdx[Object.keys(sdx)[i]][key];
+		}
+	}
+
+	sd["QuestionOrder"] = qorder;
 
 	sd['ParticipantId'] = participantID;
 	sd['Location'] = experimentLocation;

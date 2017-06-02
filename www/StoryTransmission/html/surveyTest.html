@@ -16,6 +16,7 @@
 <script src="../js/instructions.js"></script>
 <script src="../js/techTest.js"></script>
 <script src="../js/speechEvaluation.js"></script>
+<script src="../DistractionTask/distractionTask2.js"></script>
 
 
 
@@ -39,12 +40,54 @@
    <button id="stopRecordingButton" onclick="stopRecording(this);" disabled>Stop Recording</button>
 </div>
 
- <div id="distractionTaskContainer"></div>
+ 
 
  <div id="techTest">
  	<div id="techTestInstructions"></div>
  	<button id="shareMediaButton" onclick="userAgreedToShareMicrophone()">Yes, share my microphone</button>
  </div>
+
+
+<div id="distractionTaskContainer">
+  <div id="points"></div>
+  <div id="displayGrid"></div>
+  <div id="selectGrid"></div>
+  <div id="trash" ondrop="drop(event)" ondragover="preventDefault(event)">
+    <image id="trashimg" ondrop="drop(event)" ondragover="preventDefault(event)" src="../DistractionTask/images/bin.png" style="width:100%">
+  </div>
+  <div id="timer">
+    <progress id="timerProgress" value="0" max="100"></progress>
+  </div>
+</div>
+
+
+
+
+<div id="testDiv" style="display:none">
+  TEST SETTINGS
+  <br />
+Stages:<br />
+<textarea id="stagesText" cols="200" rows="3"></textarea>
+<br />
+Asynchronous Audio Conversion/Uploading? <input type="checkbox" id="asynchronousCheck" checked><br />
+mp3 format? (vs wav) <input type="checkbox" id="mp3Check" checked><br />
+<br /><br />
+DISTRACTION TASK
+<br />
+NumSymbolsObserved  = <input id="NumSymbolsObserved" value="7" /><br />
+  NumberOfRounds = <input id="NumberOfRounds" value="3" /><br />
+
+  selectGridColumns <input id="selectGridColumns" value="3" /><br />
+  displayGridColumns <input id="displayGridColumns" value="6" /><br />
+  displayGridRows <input id="displayGridRows" value="4" /><br />
+
+  distractionTaskInstructionTime <input id="distractionTaskInstructionTime" value="5000" /><br />
+  distractionTaskDisplayTime (ms) <input id="distractionTaskDisplayTime" value="30000" /><br />
+  distractionTaskSelectTime (ms) <input id="distractionTaskSelectTime" value="30000" /><br />
+  distractionTaskFeedbackTime (ms) <input id="distractionTaskFeedbackTime" value="2000" /><br />
+<br /><br />
+<button onclick="startTestRun()">START</button><br />
+</div>
 
 </html>
 

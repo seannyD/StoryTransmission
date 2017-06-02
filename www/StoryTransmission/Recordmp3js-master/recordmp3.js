@@ -1,16 +1,15 @@
-(function(window){
-
-  var uploadPHPLocation = '../Recordmp3js-master/upload.php';
+var uploadPHPLocation = '../Recordmp3js-master/upload.php';
   //var WORKER_PATH = 'js/recorderWorker.js';
-  var WORKER_PATH = '../Recordmp3js-master/js/recorderWorker.js';
+var WORKER_PATH = '../Recordmp3js-master/js/recorderWorker.js';
   //var encoderWorker = new Worker('js/mp3Worker.js');
-  var encoderWorker = new Worker('../Recordmp3js-master/js/mp3Worker.js');
+var encoderWorker = new Worker('../Recordmp3js-master/js/mp3Worker.js');
 
-  var saveType = 'wav';
+var audioSaveType = 'mp3';
   
-
+(function(window){
   var Recorder = function(source, cfg){
     var config = cfg || {};
+    config['asynchronousUploading']= config['asynchronousUploading'] || false;
     var bufferLen = config.bufferLen || 4096;
     var numChannels = config.numChannels || 2;
     var fileNamePrefix = "audio_sample";
@@ -68,7 +67,7 @@
 
     this.exportWAV = function(cb, type){
       currCallback = cb || config.callback;
-      type = type || config.type || 'audio/wav';
+      type = type || config.type || 'audio/wav'; // if type is not declared, inherits from config or defaults to wav
       if (!currCallback) throw new Error('Callback not set');
       worker.postMessage({
         command: 'exportWAV',
@@ -92,7 +91,7 @@
 		arrayBuffer = this.result;
 		var buffer = new Uint8Array(arrayBuffer),
         data = parseWav(buffer);
-        if(saveType=='wav'){
+        if(audioSaveType=='wav'){
 			var wavBlob = new Blob([buffer], {type: 'audio/wav'});
 			uploadAudio(wavBlob,'wav');
 		} else{
@@ -114,7 +113,7 @@
 	            if (e.data.cmd == 'data') {
 
 					console.log("Done converting to Mp3");
-					log.innerHTML += "\n" + "Done converting to Mp3";
+					
 
 					/*var audio = new Audio();
 					audio.src = 'data:audio/mp3;base64,'+encode64(e.data.buf);
@@ -125,19 +124,19 @@
 					var mp3Blob = new Blob([new Uint8Array(e.data.buf)], {type: 'audio/mp3'});
 					uploadAudio(mp3Blob,'mp3');
 
-					var url = 'data:audio/mp3;base64,'+encode64(e.data.buf);
-					var li = document.createElement('li');
-					var au = document.createElement('audio');
-					var hf = document.createElement('a');
+					// var url = 'data:audio/mp3;base64,'+encode64(e.data.buf);
+					// var li = document.createElement('li');
+					// var au = document.createElement('audio');
+					// var hf = document.createElement('a');
 
-					au.controls = true;
-					au.src = url;
-					hf.href = url;
-					hf.download = fileNamePrefix+ '.mp3';
-					hf.innerHTML = hf.download;
-					li.appendChild(au);
-					li.appendChild(hf);
-					recordingslist.appendChild(li);
+					// au.controls = true;
+					// au.src = url;
+					// hf.href = url;
+					// hf.download = fileNamePrefix+ '.mp3';
+					// hf.innerHTML = hf.download;
+					// li.appendChild(au);
+					// li.appendChild(hf);
+					// recordingslist.appendChild(li);
 
 	            }
 	        }
@@ -211,6 +210,7 @@
 				contentType: false
 			}).done(function(data) {
 				console.log(data);
+				controlRecorderFinishedUploading();
 				//setTimeout("controlRecorderFinishedUploading()",500);
 				//log.innerHTML += "\n" + data;
 			});

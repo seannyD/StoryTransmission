@@ -6,13 +6,13 @@
 var experimentLocation = "USA";  // changed by localisation survey
 var sample1 = "";
 var sample2 = "";
-var numberOfRecordedSamples = 2;
+var numberOfRecordedSamples = 0; // increased every time a recording is called
 
 var startTime = getCurrentTime();
 
 var participantID = "";
 
-var workerCode = "TRANSMISSION" + new Date().getTime();
+var workerCode = "";
 
 // these are shuffled below
 var prestigeType = ["HighP","LowP"];
@@ -42,11 +42,17 @@ function nextStage(){
   setInstruction("");
 
 	stageCounter += 1;
+
+  if(stageCounter >= stages.length){
+    showWorkerCode(); // by default, end the experiment nicely!
+  } else{
+
 	switch (stages[stageCounter]) {
                 case "consent":
                   launchSurvey(consentSurvey);
                   break;
                 case "techTest":
+                  hideMe("testDiv");
                   doTechTest();
                   break;
                 case "localisation": 
@@ -65,9 +71,11 @@ function nextStage(){
                   startDistractionTask(1);
                   break;
                 case "recording1":
+                  numberOfRecordedSamples += 1;
                   showRecordingControls(sample1);
                   break;
                 case "recording2":
+                  numberOfRecordedSamples += 1;
                   showRecordingControls(sample2);
                   break;
                 case "speechEvaluation1.play":
@@ -91,8 +99,11 @@ function nextStage(){
                 case "workerCode":
                   showWorkerCode();
                   break;
-                default:break;
+                default:
+                  showWorkerCode(); // by default, end the experiment nicely!
+                  break;
                 }
+  }
 }
 
 
@@ -101,7 +112,7 @@ function setExperimentParameters(loc){
 	chooseStimuli();
 
   participantID = loc+"_"+new Date().getTime();
-
+  workerCode = "TRANSMISSION_" + Math.round(Math.random()*1000000);
 }
 
 function chooseStimuli(){
@@ -146,4 +157,56 @@ $( document ).ready(function() {
 
 function surveysLoaded(){
   setTimeout("nextStage();",1000);
+  var urlvars = getUrlVars();
+  if(urlvars["test"]){
+    showMe("testDiv");
+    document.getElementById("stagesText").value = stages;
+  }
+}
+
+
+// -------------------
+//   For testing
+
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
+
+function startTestRun(){
+    console.log("Test run");
+    stageCounter = -1;
+    var tx = document.getElementById("stagesText").value;
+    stages = tx.split(",");
+    asynchronousUploading = document.getElementById("asynchronousCheck").checked;
+    if(document.getElementById("mp3Check").checked){
+      audioSaveType = "mp3";
+    } else{
+      audioSaveType = "wav";
+    }
+
+  NumSymbolsObserved = parseInt(document.getElementById("NumSymbolsObserved").value);
+  NumberOfRounds = parseInt(document.getElementById("NumberOfRounds").value);
+  selectGridColumns = parseInt(document.getElementById("selectGridColumns").value);
+  displayGridColumns = parseInt(document.getElementById("displayGridColumns").value);
+  displayGridRows = parseInt(document.getElementById("displayGridRows").value);
+  distractionTaskInstructionTime = parseInt(document.getElementById("distractionTaskInstructionTime").value);
+  distractionTaskDisplayTime = parseInt(document.getElementById("distractionTaskDisplayTime").value);
+  distractionTaskSelectTime = parseInt(document.getElementById("distractionTaskSelectTime").value);
+  distractionTaskFeedbackTime= parseInt(document.getElementById("distractionTaskFeedbackTime").value);
+
+
+
+    hideMe("testDiv");
+    setTimeout("nextStage();",1000);
+
 }

@@ -1,0 +1,4 @@
+participantID,playerDisplayLocations,playerDisplaySymbols,playerDisplayCorrect,playerTechnicalPoints,currentDisplaySymbols,currentDisplayLocations,time
+USA_1496421470610,0-4_1-5_,3_6,false_false,3,4_6_0_3_5_2_1,2-2_0-2_3-1_3-3_1-1_0-4_3-5_,2017-6-2 17:38:8
+USA_1496421470610,1-5_,6,false,2,1_2_4_3_0_5_6,2-1_0-1_2-2_0-2_1-5_2-5_2-4_,2017-6-2 17:38:16
+USA_1496421470610,1-4_,6,false,1,4_5_3_6_1_2_0,3-4_2-1_0-4_2-3_3-0_3-2_0-1_,2017-6-2 17:38:24

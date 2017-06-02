@@ -12,10 +12,13 @@ function __log(e, data) {
 
 // Asynchronous uploading is not yet tested.
   var asynchronousUploading = true;
+  // assuming only one test of uploading at the end.
   var waitingForUploadIntervalId;
   var waitingForUploadIntervalTime = 1000;
   var waitingForUploadTimeWaiting = 0;
   var waitingForUploadTimeout = 120000;
+
+  // audioSaveType = 'wav' or 'mp3' is set in recordmp3.js
 
   function showRecordingControls(storySample){
     currentStorySample = storySample;
@@ -36,7 +39,10 @@ function __log(e, data) {
 
     recorder = new Recorder(input, {
                   numChannels: 1,
-                  'data-format': 'wav'
+                  'data-format': 'wav',
+                  'asynchronousUploading': asynchronousUploading//,
+                  //sampleRate: 4410,
+                  //bitsPerSample: 32
                 });
     __log('Recorder initialised.');
     setTimeout("recorderInitialised(true);",200);
@@ -59,25 +65,28 @@ function __log(e, data) {
     document.getElementById("startRecordingButton").disabled=true;
     document.getElementById("stopRecordingButton").disabled=true;
     __log('Stopped recording.');
+    hideMe("recorderContainer");
 
     // create WAV download link using audio data blob
     //createDownloadLink();
 
     setInstruction(uploadingText);
-    showMe("loader");
+    document.getElementById("loader").style.display = 'block';
+
+    // The function called here executes after sending the export
+    // commands to the recorder worker (before upload succeeds and, if mp3, before encoding).  
+    // The callback from the upload is handled 
+    // by the AJAX 'done' statement in recordmp3.js
     recorder && recorder.exportWAV(function(blob) {
-      // Maybe this should actually be called form the AJAX 'done' statement?
-      // - no, here is fine.
-      numberOfSuccessfulUploads += 1;
-      if(!asynchronousUploading){
-        controlRecorderFinishedUploading();
-      }
+      //if(asynchronousUploading){
+      //  setTimeout("nextStage();",100); 
+      //}
     });
 
     recorder.clear();
 
     if(asynchronousUploading){
-      controlRecorderFinishedUploading();
+      setTimeout("nextStage();",100);
     }
   }
 
@@ -100,9 +109,14 @@ function __log(e, data) {
   }
 
   function controlRecorderFinishedUploading(){
+    // asychronous uploading behaviour is already done by this point.
     console.log("CR Finished");
-    hideMe("loader");
-    setTimeout("nextStage();",100);
+    numberOfSuccessfulUploads += 1;
+    // If we've been waiting for the upload to finish, move on to the next stage
+    if(!asynchronousUploading){
+      hideMe("loader");
+      setTimeout("nextStage();",100);
+    }
   }
 
   //window.onload = function init() {
@@ -145,12 +159,14 @@ function __log(e, data) {
   }
 
   function waitForUploads(){
-    showMe("loader");
+    document.getElementById("loader").style.display = 'block';
     setInstruction("Uploading data, please wait ...");
-  waitingForUploadIntervalId = setInterval();
+    waitingForUploadTimeWaiting = 0;
+    waitingForUploadIntervalId = setInterval("checkUploaded()",1000);
   }
 
   function checkUploaded(){
+    console.log("cheking uploads: Uploaded " + numberOfSuccessfulUploads + "out of " +numberOfRecordedSamples);
     if(numberOfSuccessfulUploads >= numberOfRecordedSamples){
       clearInterval(waitingForUploadIntervalId);
       setTimeout("nextStage()",200);

@@ -1,0 +1,36 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../DistractionTask/distraction.css">
+</head>
+<script src="../js/instructions.js"></script>
+<script src="../Recordmp3js-master/js/jquery-1.11.0.min.js"></script>
+<script src="../DistractionTask/distractionTask2.js"></script>
+<script src="../js/utils.js"></script>
+
+<script>participantID="Test"; 
+
+
+
+
+</script>
+
+<body onload ='makeDisplayGrid();makeDraggableImages()'>
+
+
+
+<div id="instructions"></div>
+<div id="timer">
+	<progress id="timerProgress" value="0" max="100"></progress>
+</div>
+
+<div id="points"></div>
+
+<div id="displayGrid"></div>
+<div id="selectGrid"></div>
+
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+
+</body>
+
+</html>

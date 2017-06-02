@@ -1,36 +1,50 @@
-#displayGrid {
-  display: grid;
-  grid-gap: 5px;
-  background-color: #fff;
-  color: #444;
-}
-
 #selectGrid {
-  display: grid;
-  grid-gap: 5px;
-  background-color: #fff;
-  color: #444;
+  	background-color: #fff;
+  	color: #444;
+  	position: absolute;
+	top: 12%;
+	left: 55%;
+	width: 25%;
+	height: 60%;
 }
 
 #displayGrid{
 	position: absolute;
 	top: 20%;
-	left: 5%;
-	width: 45%;
-	height: 60%;
+	left: 2%;
+	width: 47%;
+	height: 80%;
+	display: inline;
+  	background-color: #fff;
+  	color: #444;
 }
 
-#selectGrid{
-	position: absolute;
-	top: 20%;
-	left: 50%;
-	width: 40%;
-	height: 60%;
-}
+
 
 .displayCell{
-	width: 80px;
-	height: 80px;
+	width: 7vw;
+	height: 7vw;
 	border-style:solid;
 	display:inline-block;
+	float: left;
+}
+
+.selectCell{
+	width: 7vw;
+	height: 7vw;
+	border-style:solid;
+	display:inline-block;
+}
+
+.card{
+	width: 6.5vw;
+	height: 6.5vw;
+}
+
+
+#trash{
+	position: absolute;
+	top: 60%;
+	left: 50%;
+	width: 5%;
 }

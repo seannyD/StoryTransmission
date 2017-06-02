@@ -22,3 +22,5 @@ It does not include:
 If you add a url variable "test=T" to the url, then you get some configuration options (Some of this works, other bits I haven't tested):
 
 http://correlation-machine.com/StoryTransmission/html/surveyTest.html?test=T
+
+The first text box in the test section lists the stages that will happen (comma delimted, no spaces or quotes).  This can be handy for testing particular stages, but you'll probably always need "consent,techTest,localisation" for the later stages to work

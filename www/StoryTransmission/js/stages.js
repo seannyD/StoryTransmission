@@ -139,6 +139,7 @@ function clearScreen(){
 	hideMe("playStoryContainer");
 	hideMe("recorderContainer");
   hideMe("distractionTaskContainer");
+  hideMe("trash");
   hideMe("loader");
   hideMe("techTest");
 

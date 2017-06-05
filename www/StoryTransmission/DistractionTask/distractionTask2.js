@@ -50,8 +50,10 @@ var timerCountTime = 200;
 var timerIntervalId = 0;
 
 
-var distractionTaskSaveFields = ['participantID','playerDisplayLocations','playerDisplaySymbols',
-				'playerDisplayCorrect', 'playerTechnicalPoints','currentDisplaySymbols','currentDisplayLocations', "time"];
+var distractionTaskSaveFields = ['participantID','playerDisplayLocations','playerDisplaySymbols','playerDisplaySymbols.alpha',
+				'playerDisplayCorrect', 'playerTechnicalPoints','currentDisplaySymbols','currentDisplaySymbols.alpha',
+				,'currentDisplayLocations', "time"];
+
 
 var distractionStages;
 var distractionStageCounter;
@@ -369,21 +371,42 @@ function recordResponses(){
 	for(var i=0; i<playerDisplaySymbols.length; ++i){
 		playerSymbolNumbers.push(playerDisplaySymbols[i].split("_")[1]);
 	}
+
+	// symbols in letter format
+	var playerSymbolLetters = numbersToLetters(playerSymbolNumbers);
+
 	var playerSymbolsText = playerSymbolNumbers.join("_");
+	var playerSymbolsLettersText = playerSymbolLetters.join("_");
+
 	var displaySymbolsText = currentDisplaySymbols.join("_");
+	var displaySymbolsLettersText = numbersToLetters(currentDisplaySymbols).join("_");
+	
 	var playerDisplayCorrectText = playerDisplayCorrect.join("_");
+	
 
 	//var res= [];
 	roundResponses["participantID"].push(participantID);
 	roundResponses["currentDisplayLocations"].push(displayLocationsText);
 	roundResponses["currentDisplaySymbols"].push(displaySymbolsText);
+	roundResponses["currentDisplaySymbols.alpha"].push(displaySymbolsLettersText);
 	roundResponses["playerDisplaySymbols"].push(playerSymbolsText);
+	roundResponses["playerDisplaySymbols.alpha"].push(playerSymbolsLettersText)
 	roundResponses["playerDisplayLocations"].push(playerLocationsText);
 	roundResponses["playerDisplayCorrect"].push(playerDisplayCorrectText);
 	roundResponses["playerTechnicalPoints"].push(playerTechnicalPoints); // defined  in doFeedback()
 	roundResponses["time"].push(getCurrentTime());
 
 
+
+}
+
+function numbersToLetters(nums){
+	var chosenLetters = ["A", "B", "C", "D", "E", "I", "J", "K", "L", "M" ,"O" ,"T" ,"U" ,"V" ,"Y"];
+	var out = [];
+	for(var i=0;i<nums.length; ++i){
+		out.push(chosenLetters[nums[i]]);
+	}
+	return(out);
 }
 
 function uploadDistractionTaskData(){

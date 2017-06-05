@@ -57,15 +57,18 @@ function startTestDistractionTask(){
 </div>
 
 <div id="instructions"></div>
-<div id="timer">
-	<progress id="timerProgress" value="0" max="100"></progress>
+
+<div id="distractionTaskContainer">
+  <div id="points"></div>
+  <div id="displayGrid"></div>
+  <div id="selectGrid"></div>
+  <div id="trash" ondrop="drop(event)" ondragover="preventDefault(event)">
+    <image id="trashimg" ondrop="drop(event)" ondragover="preventDefault(event)" src="../DistractionTask/images/bin.png" style="width:100%">
+  </div>
+  <div id="timer">
+    <progress id="timerProgress" value="0" max="100"></progress>
+  </div>
 </div>
-
-<div id="points"></div>
-
-<div id="displayGrid"></div>
-<div id="selectGrid"></div>
-<div id="trash" ondrop="drop(event)" ondragover="preventDefault(event)"><image id="trashimg" ondrop="drop(event)" ondragover="preventDefault(event)" src="../DistractionTask/images/bin.png" style="width:100%"></div>
 
 
 </body>

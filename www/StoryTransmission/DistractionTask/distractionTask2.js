@@ -173,9 +173,10 @@ function displayImages(){
 	shuffle(candidateLocations);
 	var chosenLocations = candidateLocations.slice(0,NumSymbolsObserved);
 	console.log(chosenLocations);
+	
 	// choose random symbols
 	var candidateSymbols = [];
-	for(var i=0; i < NumSymbolsObserved;++i){
+	for(var i=0; i < numStimuli;++i){
 		candidateSymbols.push(i);
 	}
 	shuffle(candidateSymbols);

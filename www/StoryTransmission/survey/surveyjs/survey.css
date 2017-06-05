@@ -87,12 +87,14 @@ sv_body {
 
 .sv_q_matrix {
   width: 100%;
-  max-width: 100%; }
+  max-width: 100%; 
+  }
   .sv_q_matrix th, .sv_q_matrix td {
     text-align: center;
     vertical-align: central; }
   .sv_q_matrix td:first-child {
-    text-align: left; }
+    text-align: left; 
+    }
 
 .sv_q_checkbox {
   display: inline-block; }
@@ -143,3 +145,8 @@ sv_body {
   position: absolute;
   clip: rect(0px, 0px, 0px, 0px);
   pointer-events: none; }
+
+
+.table-striped{
+  table-layout: fixed;
+}

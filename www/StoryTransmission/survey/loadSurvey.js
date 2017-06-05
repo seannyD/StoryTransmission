@@ -18,10 +18,18 @@ function launchSurvey(surveyJSON, endFunction){
 		endFunction = function (){
 			setTimeout("nextStage()",200);}
 	}
+
+	var myCss = {
+        matrix: {root: "table table-striped"}  
+   	};
+
+
 	var survey = new Survey.Model(surveyJSON);
 	$("#surveyContainer").Survey({
 	    model: survey,
-	    onComplete: endFunction
+	    onComplete: endFunction,
+	    css: myCss
+
 	});
 	survey.locale = "my";
 
@@ -29,10 +37,16 @@ function launchSurvey(surveyJSON, endFunction){
 }
 
 function launchLocalisationSurvey(){
+
+	var myCss = {
+        matrix: {root: "table table-striped"}  
+   	};
+
 	var survey = new Survey.Model(localisationSurvey);
 	$("#surveyContainer").Survey({
 	    model: survey,
-	    onComplete: finishLocalisation
+	    onComplete: finishLocalisation,
+	    css: myCss
 	});
 	survey.locale = "my";
 	showMe("surveyContainer");

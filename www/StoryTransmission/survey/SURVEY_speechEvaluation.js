@@ -11,7 +11,7 @@ var speechEvaluationSurvey ={
       },
       {
        value: "2",
-       text: "Disagree"
+       text: "Disagree         "
       },
       {
        value: "3",
@@ -19,15 +19,15 @@ var speechEvaluationSurvey ={
       },
       {
        value: "4",
-       text: "Somewhat Agree"
+       text: "Somewhat Agree   "
       },
       {
        value: "5",
-       text: "Agree"
+       text: "Agree            "
       },
       {
        value: "6",
-       text: "Strongly Agree"
+       text: "Strongly Agree   "
       }
      ],
      isAllRowRequired: true,
@@ -59,11 +59,11 @@ var speechEvaluationSurvey ={
      columns: [
       {
        value: "1",
-       text: "Not At All"
+       text: "Not At All  "
       },
       {
        value: "2",
-       text: "Not Much"
+       text: "Not Much    "
       },
       {
        value: "3",
@@ -71,15 +71,15 @@ var speechEvaluationSurvey ={
       },
       {
        value: "4",
-       text: "Somewhat So"
+       text: "Somewhat So "
       },
       {
        value: "5",
-       text: "Very Much"
+       text: "Very Much   "
       },
       {
        value: "6",
-       text: "Absolutely"
+       text: "Absolutely  "
       }
      ],
      isAllRowRequired: true,

@@ -10,13 +10,14 @@ var numStimuli = 15;
 var NumSymbolsObserved = 7;
 var NumberOfRounds = 3;
 
+var gridImages = [];
+
 var selectGridColumns = 3;
 var displayGridColumns = 6;
 var displayGridRows = 4;
 
 var cellSize = "60px";
 var cellSize2 = "80px";
-
 
 var distractionTaskInstructionTime = 5 * 1000;
 var distractionTaskDisplayTime = 30 * 1000;
@@ -62,6 +63,8 @@ var distractionTaskNumber = 0;
 // TODO: grid collapses if remove all of row ???
 
 function startDistractionTask(taskNumber){
+
+	preloadGridImages();
 
 	distractionTaskNumber = taskNumber;
 	
@@ -173,7 +176,7 @@ function displayImages(){
 	shuffle(candidateLocations);
 	var chosenLocations = candidateLocations.slice(0,NumSymbolsObserved);
 	console.log(chosenLocations);
-	
+
 	// choose random symbols
 	var candidateSymbols = [];
 	for(var i=0; i < numStimuli;++i){
@@ -316,6 +319,22 @@ function doFeedback(){
 	// move on to next stage
 	setTimeout("nextDistractionStage()",distractionTaskFeedbackTime);
 }
+
+
+function preloadGridImages(){
+	if(gridImages.length==0){
+		for(var i=0; i < numStimuli; ++i){
+			var symbolName = '../DistractionTask/images/stim-'+ i;
+			gridImages[i] = new Image();
+			gridImages[i].src = symbolName;
+		}
+		var tickImage = new Image();
+		var crossImage = new Image();
+		tickImage.src = "../DistractionTask/utilImages/tick.png";
+		crossImage.src = "../DistractionTask/utilImages/cross.png";
+	}	
+}
+
 
 // --------
 

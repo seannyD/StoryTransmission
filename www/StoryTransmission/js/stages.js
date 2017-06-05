@@ -153,6 +153,9 @@ $( document ).ready(function() {
   $.getScript("../survey/SURVEY_demography_USA.js");
   // the last survey to be loaded should call surveysLoaded() to start the experiment
   $.getScript("../survey/SURVEY_demography_UK.js",surveysLoaded());
+
+  preloadGridImages();
+
 });
 
 function surveysLoaded(){

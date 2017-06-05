@@ -90,15 +90,6 @@ var demographyUSA = {
      title: "Where did you spend the majority of your childhood (0-12 years)? (Please provide Town/City, State/Province, Country.)"
     },
     {
-     type: "text",
-     isRequired: true,
-     name: "ukTownChildhood",
-     placeHolder: "Town/City, County/State/Province, Country",
-     title: "Where did you spend the majority of your childhood (0-12 years)? (Please provide Town/City, County/State/Province, Country.)",
-     visible: false,
-     visibleIf: "{country} = 'uk' or ({country} = 'other' and {countryOther} = 'uk')"
-    },
-    {
      type: "radiogroup",
      choices: [
       {
@@ -200,7 +191,7 @@ var demographyUSA = {
      placeHolder: "Town/City, State",
      title: "Where else have you lived in the US for more than 3 continuous months? (List all that apply. Please provide Town/City, State.)",
      visible: false,
-     visibleIf: "({country} = 'us' or ({country} = 'other' and {countryOther} = 'us')) and {usTownOther} = '1'"
+     visibleIf: "{usTownOther} = '1'"
     },
     {
      type: "radiogroup",
@@ -225,7 +216,7 @@ var demographyUSA = {
      placeHolder: "Town/City, State/Province, Country",
      title: "Where have you lived or traveled outside of the US for more than 3 continuous months? (List all that apply. Please provide Town/City, State/Province, Country.)",
      visible: false,
-     visibleIf: "({country} = 'us' or ({country} = 'other' and {countryOther} = 'us')) and {usTownOutside} = '1'"
+     visibleIf: "{usTownOutside} = '1'"
     }
    ],
    name: "demo2",
@@ -434,7 +425,7 @@ var demographyUSA = {
      name: "usEducationSpouse",
      title: "What is your spouse's highest level of education?",
      visible: false,
-     visibleIf: "({country} = 'us' or ({country} = 'other' and {countryOther} = 'us')) and {marriage} = 'married'"
+     visibleIf: "{marriage} = 'married'"
     },
     {
      type: "radiogroup",

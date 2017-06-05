@@ -179,7 +179,7 @@ var demographyUK = {
      placeHolder: "Town/City, County",
      title: "Where else have you lived in the UK for more than 3 continuous months? (List all that apply. Please provide Town/City, County.)",
      visible: false,
-     visibleIf: "({country} = 'uk' or ({country} = 'other' and {countryOther} = 'uk')) and {ukTownOther} = '1'"
+     visibleIf: "{ukTownOther} = '1'"
     },
     {
      type: "radiogroup",
@@ -204,7 +204,7 @@ var demographyUK = {
      placeHolder: "Town/City, County/State/Province, Country",
      title: "Where have you lived or traveled outside of the UK for more than 3 continuous months? (List all that apply. Please provide Town/City, County/State/Province, Country.)",
      visible: false,
-     visibleIf: "({country} = 'us' or ({country} = 'other' and {countryOther} = 'us')) and {ukTownOutside} = '1'"
+     visibleIf: "{ukTownOutside} = '1'"
     }
    ],
    name: "demo2",
@@ -425,7 +425,7 @@ var demographyUK = {
      name: "ukEducationSpouse",
      title: "What is your spouse's highest level of education?",
      visible: false,
-     visibleIf: "({country} = 'uk' or ({country} = 'other' and {countryOther} = 'uk')) and {marriage} = 'married'"
+     visibleIf: "{marriage} = 'married'"
     },
     {
      type: "radiogroup",

@@ -10,7 +10,7 @@ function __log(e, data) {
 
   var numberOfSuccessfulUploads = 0;
 
-// Asynchronous uploading is not yet tested.
+
   var asynchronousUploading = true;
   // assuming only one test of uploading at the end.
   var waitingForUploadIntervalId;
@@ -29,6 +29,7 @@ function __log(e, data) {
   }
 
   function startUserMedia(stream) {
+
     var input = audio_context.createMediaStreamSource(stream);
     __log('Media stream created.' );
 	__log("input sample rate " +input.context.sampleRate);
@@ -40,9 +41,9 @@ function __log(e, data) {
     recorder = new Recorder(input, {
                   numChannels: 1,
                   'data-format': 'wav',
-                  'asynchronousUploading': asynchronousUploading//,
-                  //sampleRate: 4410,
-                  //bitsPerSample: 32
+                  //bufferLen: 16384,
+                  //outputSampleRate: 16000,
+                  'asynchronousUploading': asynchronousUploading
                 });
     __log('Recorder initialised.');
     setTimeout("recorderInitialised(true);",200);

@@ -1,7 +1,8 @@
-var recLength = 0,
-  recBuffers = [],
-  sampleRate,
-  numChannels;
+var recLength = 0;
+var recBuffers = [];
+var sampleRate;
+var outputSampleRate;
+var numChannels;
 
 this.onmessage = function(e){
   switch(e.data.command){
@@ -25,8 +26,10 @@ this.onmessage = function(e){
 
 function init(config){
   sampleRate = config.sampleRate;
+  outputSampleRate = config.outputSampleRate || sampleRate;
   numChannels = config.numChannels;
   initBuffers();
+  //importScripts('../resampler.js');
 }
 
 function record(inputBuffer){
@@ -46,6 +49,14 @@ function exportWAV(type){
   } else {
       var interleaved = buffers[0];
   }
+
+  if(outputSampleRate < sampleRate){
+    console.log("Resampling to "+outputSampleRate+"Hz");
+    var resampler = new Resampler(sampleRate, outputSampleRate, numChannels, interleaved);
+    resampler.resampler();
+    interleaved = resampler.outputBuffer;
+  }
+
   var dataview = encodeWAV(interleaved);
   var audioBlob = new Blob([dataview], { type: type });
 

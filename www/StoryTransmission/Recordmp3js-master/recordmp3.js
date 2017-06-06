@@ -5,6 +5,8 @@ var WORKER_PATH = '../Recordmp3js-master/js/recorderWorker.js';
 var encoderWorker = new Worker('../Recordmp3js-master/js/mp3Worker.js');
 
 var audioSaveType = 'mp3';
+
+
   
 (function(window){
   var Recorder = function(source, cfg){
@@ -13,27 +15,38 @@ var audioSaveType = 'mp3';
     var bufferLen = config.bufferLen || 4096;
     var numChannels = config.numChannels || 2;
     var fileNamePrefix = "audio_sample";
+
     this.context = source.context;
     this.node = (this.context.createScriptProcessor ||
                  this.context.createJavaScriptNode).call(this.context,
                  bufferLen, numChannels, numChannels);
+
+    var currSampleRate = this.context.sampleRate;
+    var currOutputSampleRate =  config.outputSampleRate || currSampleRate;
+    console.log("Initialising sample rate "+ currSampleRate + ">"+currOutputSampleRate);
     var worker = new Worker(config.workerPath || WORKER_PATH);
     worker.postMessage({
       command: 'init',
       config: {
-        sampleRate: this.context.sampleRate,
+        sampleRate: currSampleRate,
+        outputSampleRate: currOutputSampleRate,
         numChannels: numChannels
       }
     });
     var recording = false,
       currCallback;
 
+
+
     this.node.onaudioprocess = function(e){
+
       if (!recording) return;
       var buffer = [];
       for (var channel = 0; channel < numChannels; channel++){
           buffer.push(e.inputBuffer.getChannelData(channel));
       }
+
+    
       worker.postMessage({
         command: 'record',
         buffer: buffer

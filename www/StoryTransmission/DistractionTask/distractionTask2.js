@@ -24,7 +24,7 @@ var distractionTaskDisplayTime = 30 * 1000;
 var distractionTaskSelectTime = 30 * 1000;
 var distractionTaskFeedbackTime = 2 * 1000;
 
-var distractionTaskInstructions = "Instructions for the task";
+//var distractionTaskInstructions = "Instructions for the task";  // set in instructions.js
 
 //-----
 

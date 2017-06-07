@@ -1,5 +1,13 @@
 // Functions to do the recordings
 
+// initRecorder() : Grab the user's mic
+// startRecording() : set the recorder going
+// stopRecording() : Calls the exportWav() function from *recordmp3.js*
+//   recordmp3::exportWav() sends a message to the recorderWorker, calling recorderWorker::exportWAV
+//   recorderWorker::exportWAV : converts the sample rates, encodes to PCM, 
+//       Then it posts the data back, triggering recordmp3::worker.onmessage, 
+//   recordmp3::worker.onmessage : optinally converts to mp3 then calls recordmp3::uploadAudio()
+
 function __log(e, data) {
     console.log(e + " " + (data || ''));
   }
@@ -42,7 +50,7 @@ function __log(e, data) {
                   numChannels: 1,
                   'data-format': 'wav',
                   //bufferLen: 16384,
-                  //outputSampleRate: 16000,
+                  outputSampleRate: 16000,
                   'asynchronousUploading': asynchronousUploading
                 });
     __log('Recorder initialised.');

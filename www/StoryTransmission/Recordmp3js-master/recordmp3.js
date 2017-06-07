@@ -1,3 +1,4 @@
+
 var uploadPHPLocation = '../Recordmp3js-master/upload.php';
   //var WORKER_PATH = 'js/recorderWorker.js';
 var WORKER_PATH = '../Recordmp3js-master/js/recorderWorker.js';
@@ -6,7 +7,7 @@ var encoderWorker = new Worker('../Recordmp3js-master/js/mp3Worker.js');
 
 var audioSaveType = 'mp3';
 
-
+var currOutputSampleRate;
   
 (function(window){
   var Recorder = function(source, cfg){
@@ -22,8 +23,9 @@ var audioSaveType = 'mp3';
                  bufferLen, numChannels, numChannels);
 
     var currSampleRate = this.context.sampleRate;
-    var currOutputSampleRate =  config.outputSampleRate || currSampleRate;
+    currOutputSampleRate =  config.outputSampleRate || currSampleRate;
     console.log("Initialising sample rate "+ currSampleRate + ">"+currOutputSampleRate);
+
     var worker = new Worker(config.workerPath || WORKER_PATH);
     worker.postMessage({
       command: 'init',
@@ -109,10 +111,11 @@ var audioSaveType = 'mp3';
 			uploadAudio(wavBlob,'wav');
 		} else{
 
-	        console.log(data);
+	        //console.log(data);
 			console.log("Converting to Mp3");
 			//log.innerHTML += "\n" + "Converting to Mp3";
 
+			// TODO: alter sample rate to output sample rate if appropriate
 	        encoderWorker.postMessage({ cmd: 'init', config:{
 	            mode : 3,
 				channels:1,

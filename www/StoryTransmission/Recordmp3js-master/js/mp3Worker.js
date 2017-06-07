@@ -1,6 +1,8 @@
 importScripts('libmp3lame.min.js');
+//importScripts('../resampler.js');
 
 var mp3codec;
+var outputSampleRate;
 
 self.onmessage = function(e) {
 	switch (e.data.cmd) {
@@ -14,7 +16,14 @@ self.onmessage = function(e) {
 		Lame.set_num_channels(mp3codec, e.data.config.channels || 2);
 		Lame.set_num_samples(mp3codec, e.data.config.samples || -1);
 		Lame.set_in_samplerate(mp3codec, e.data.config.samplerate || 44100);
-		Lame.set_out_samplerate(mp3codec, e.data.config.samplerate || 44100);
+
+		if(e.data.config.ouputSampleRate===undefined){
+			outputSampleRate  =  e.data.config.samplerate || 44100;
+		} else{
+			outputSampleRate = e.data.config.outputSampleRate;
+		}
+
+		Lame.set_out_samplerate(mp3codec, outputSampleRate);
 		Lame.set_bitrate(mp3codec, e.data.config.bitrate || 128);
 
 		Lame.init_params(mp3codec);
@@ -23,7 +32,7 @@ self.onmessage = function(e) {
 			'Samples: '+Lame.get_num_samples(mp3codec) + ' / ',
 			'Channels: '+Lame.get_num_channels(mp3codec) + ' / ',
 			'Input Samplate: '+ Lame.get_in_samplerate(mp3codec) + ' / ',
-			'Output Samplate: '+ Lame.get_in_samplerate(mp3codec) + ' / ',
+			'Output Samplate: '+ Lame.get_out_samplerate(mp3codec) + ' / ',
 			'Bitlate :' +Lame.get_bitrate(mp3codec) + ' / ',
 			'VBR :' + Lame.get_VBR(mp3codec));
 		break;

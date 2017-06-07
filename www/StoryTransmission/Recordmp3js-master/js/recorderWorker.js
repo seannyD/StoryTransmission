@@ -29,7 +29,7 @@ function init(config){
   outputSampleRate = config.outputSampleRate || sampleRate;
   numChannels = config.numChannels;
   initBuffers();
-  //importScripts('../resampler.js');
+  importScripts('../resampler.js');
 }
 
 function record(inputBuffer){
@@ -51,16 +51,24 @@ function exportWAV(type){
   }
 
   if(outputSampleRate < sampleRate){
+    // Resample at a lower rate
     console.log("Resampling to "+outputSampleRate+"Hz");
+    // set up a resampler
     var resampler = new Resampler(sampleRate, outputSampleRate, numChannels, interleaved);
-    resampler.resampler();
-    interleaved = resampler.outputBuffer;
+    // do the resampling (output stored in resampler.outputBuffer)
+    resampler.resampler(interleaved.length);
+
+    console.log("Resampled from "+ interleaved.length + "samples to "+ resampler.outputBuffer.length+ "samples");
+    var dataview = encodeWAV(resampler.outputBuffer);
+    var audioBlob = new Blob([dataview], { type: type });
+    this.postMessage(audioBlob);
+  } else{
+    // no resampling
+      var dataview = encodeWAV(interleaved);
+      var audioBlob = new Blob([dataview], { type: type });
+      this.postMessage(audioBlob);
   }
 
-  var dataview = encodeWAV(interleaved);
-  var audioBlob = new Blob([dataview], { type: type });
-
-  this.postMessage(audioBlob);
 }
 
 function getBuffer(){
@@ -139,10 +147,12 @@ function encodeWAV(samples){
   view.setUint16(20, 1, true);
   /* channel count */
   view.setUint16(22, numChannels, true);
+
   /* sample rate */
-  view.setUint32(24, sampleRate, true);
+  view.setUint32(24, outputSampleRate, true);
   /* byte rate (sample rate * block align) */
-  view.setUint32(28, sampleRate * 4, true);
+  view.setUint32(28, outputSampleRate * 4, true);
+
   /* block align (channel count * bytes per sample) */
   view.setUint16(32, numChannels * 2, true);
   /* bits per sample */

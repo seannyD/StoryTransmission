@@ -6,7 +6,7 @@ This version includes:
 -  Demographic survey
 -  Playing story audio (just my voice for testing)
 -  Distraction task
--  Recording audio (please don't record anything longer than a few seconds for now!)
+-  Recording audio 
 -  Resampling to lower sample rates
 -  Converting and saving audio to mp3 (this happens asynchronously, so you may be asked to wait at the end of the experiment)
 -  Playing evaluation story

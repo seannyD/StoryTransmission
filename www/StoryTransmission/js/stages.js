@@ -13,6 +13,7 @@ var startTime = getCurrentTime();
 var participantID = "";
 
 var workerCode = "";
+var progressBar = true;
 
 // these are shuffled below
 var prestigeType = ["HighP","LowP"];
@@ -31,6 +32,24 @@ var stages = [
       // TODO: I give my consent to use this data ...
       // TODO: check country ip address
 
+var stagesLabels = {"consent":"Consent",
+                    "techTest": "Mic setup",
+                    "localisation": "Localisation",
+                    'story1': "Story 1",
+                    'distraction1': "Memory test",
+                    'recording1': "Recording 1",
+                    'story2':"Story 2",
+                    'distraction2':"Memory test",
+                    'recording2': "Recording 2",
+                    'speechEvaluation1.play':"Evaluation 1",
+                    'speechEvaluation1.eval':"Evaluation 1",
+                    'speechEvaluation2.play':"Evaluation 2",
+                    'speechEvaluation2.eval':"Evaluation 2",
+                    'demographySurvey':"Survey",
+                    'checkUploaded':"Upload results",
+                    'workerCode':"Worker Code"
+                    }
+
 //stages = ["localisation", 'demographySurvey','workerCode'];
 
 var stageCounter = -1;
@@ -46,6 +65,11 @@ function nextStage(){
   if(stageCounter >= stages.length){
     showWorkerCode(); // by default, end the experiment nicely!
   } else{
+
+  if(progressBar){
+    document.getElementById(stages[stageCounter]+"_Progress").style.background="#5cb85c";
+    document.getElementById(stages[stageCounter]+"_Progress").style.color="#FFFFFF";
+  }
 
 	switch (stages[stageCounter]) {
                 case "consent":
@@ -156,6 +180,7 @@ $( document ).ready(function() {
   $.getScript("../survey/SURVEY_demography_UK.js",surveysLoaded());
 
   preloadGridImages();
+  makeProgressBar();
 
 });
 
@@ -165,6 +190,18 @@ function surveysLoaded(){
   if(urlvars["test"]){
     showMe("testDiv");
     document.getElementById("stagesText").value = stages;
+  }
+}
+
+
+function makeProgressBar(){
+  if(progressBar){
+    var divPer = 100/stages.length;
+    var out = "";
+    for(var i=0; i< stages.length; ++i){
+      out += '<div id="' + stages[i] +'_Progress" class="progressBar" style="float:left;width:' + divPer+'%">' + stagesLabels[stages[i]] + '</div>';
+    }
+    document.getElementById("progressBarContainer").innerHTML = out;
   }
 }
 
@@ -191,6 +228,9 @@ function startTestRun(){
     stageCounter = -1;
     var tx = document.getElementById("stagesText").value;
     stages = tx.split(",");
+
+    makeProgressBar();
+
     asynchronousUploading = document.getElementById("asynchronousCheck").checked;
     if(document.getElementById("mp3Check").checked){
       audioSaveType = "mp3";

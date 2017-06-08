@@ -26,6 +26,9 @@
 <script src="../Recordmp3js-master/controlRecordings.js"></script>
 <script src="../Recordmp3js-master/resampler.js"></script>
 
+<div id="progressBarContainer">
+</div>
+
 <div class="container">
    <div id="instructions"></div>
    <div class="loader" id="loader"></div>
@@ -66,6 +69,8 @@
 
 </div>
 
+
+
 <div class="container">
   <div id="testDiv" style="display:none">
     TEST SETTINGS
@@ -75,7 +80,7 @@
   <br />
   Asynchronous Audio Conversion/Uploading? <input type="checkbox" id="asynchronousCheck" checked><br />
   mp3 format? (vs wav) <input type="checkbox" id="mp3Check" checked><br />
-  Sample rate (-1 for no resampling) <input type="text" id="sampleRate" value="16000"><br />
+  Sample rate (-1 for no resampling) <input type="text" id="sampleRate" value="32000"><br />
   <br /><br />
   DISTRACTION TASK
   <br />

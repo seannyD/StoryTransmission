@@ -15,7 +15,7 @@ function __log(e, data) {
   var audio_context;
   var recorder;
   var currentStorySample = "";
-  var recordingOutputSampleRate = 16000;
+  var recordingOutputSampleRate = 32000;
 
   var numberOfSuccessfulUploads = 0;
 

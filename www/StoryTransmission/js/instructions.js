@@ -32,7 +32,7 @@ var endSurveyText_MechanicalTurk =
 
 //var endSurveyText.Prolific = "Please follow the link below to complete the survey on Prolific Academic. <br /><br />";
 
-var uploadingText = "Uploading your story ...";
+var uploadingText = "<h1>Uploading</h1><p>Uploading your story, please wait ...";
 
 var recordingInstructionText = 
 "<h1>Tell us a story!</h1>\

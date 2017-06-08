@@ -10,6 +10,7 @@ function doTechTest(){
 }
 
 function userAgreedToShareMicrophone(){
+	hideMe("techTest");
 	initRecorder();
 }
 

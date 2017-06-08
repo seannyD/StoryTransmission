@@ -15,6 +15,7 @@ function __log(e, data) {
   var audio_context;
   var recorder;
   var currentStorySample = "";
+  var recordingOutputSampleRate = 16000;
 
   var numberOfSuccessfulUploads = 0;
 
@@ -50,7 +51,7 @@ function __log(e, data) {
                   numChannels: 1,
                   'data-format': 'wav',
                   //bufferLen: 16384,
-                  outputSampleRate: 16000,
+                  outputSampleRate: recordingOutputSampleRate,
                   'asynchronousUploading': asynchronousUploading
                 });
     __log('Recorder initialised.');
@@ -169,7 +170,7 @@ function __log(e, data) {
 
   function waitForUploads(){
     document.getElementById("loader").style.display = 'block';
-    setInstruction("Uploading data, please wait ...");
+    setInstruction(uploadingText);
     waitingForUploadTimeWaiting = 0;
     waitingForUploadIntervalId = setInterval("checkUploaded()",1000);
   }

@@ -23,7 +23,12 @@ var currOutputSampleRate;
                  bufferLen, numChannels, numChannels);
 
     var currSampleRate = this.context.sampleRate;
-    currOutputSampleRate =  config.outputSampleRate || currSampleRate;
+    currOutputSampleRate = currSampleRate;
+    if(config.outputSampleRate){
+    	if(config.outputSampleRate >0){
+    		currOutputSampleRate =  config.outputSampleRate;
+    	}
+    }
     console.log("Initialising sample rate "+ currSampleRate + ">"+currOutputSampleRate);
 
     var worker = new Worker(config.workerPath || WORKER_PATH);

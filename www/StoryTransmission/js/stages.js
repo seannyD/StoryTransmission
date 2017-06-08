@@ -198,6 +198,9 @@ function startTestRun(){
       audioSaveType = "wav";
     }
 
+  recordingOutputSampleRate = parseInt(document.getElementById("sampleRate").value);
+
+
   NumSymbolsObserved = parseInt(document.getElementById("NumSymbolsObserved").value);
   NumberOfRounds = parseInt(document.getElementById("NumberOfRounds").value);
   selectGridColumns = parseInt(document.getElementById("selectGridColumns").value);

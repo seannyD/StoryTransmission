@@ -12,9 +12,11 @@ function showPlayStory(storyNumber){
 	music.addEventListener("timeupdate", timeUpdate, false);
 	// Gets audio file duration
 	music.addEventListener("canplaythrough", function () {
-		duration = music.duration;
+		storyDuration = music.duration;
 	}, false);
 
+	var playhead = document.getElementById('playhead');
+	playhead.style.marginLeft = "0%";
 
 	showMe("playStoryContainer");
 	showMe("playStoryButton");
@@ -36,7 +38,7 @@ playAudio = function(file){
 	audio.pause();
 	source.src = file;
 	audio.load();
-	audio.play();
+	audio.oncanplaythrough = audio.play();
 }
 
 
@@ -59,7 +61,7 @@ function playStoryPlayerEnded(){
 function timeUpdate() {
 	var playhead = document.getElementById('playhead');
 	var music = document.getElementById('playStoryPlayer'); 
-	var playPercent = 100 * (music.currentTime / duration);
+	var playPercent = 100 * (music.currentTime / storyDuration);
 	playhead.style.marginLeft = playPercent + "%";
 }
 

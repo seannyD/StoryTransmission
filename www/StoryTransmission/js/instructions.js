@@ -66,10 +66,8 @@ var endSurveyText_MechanicalTurk =
 <p>Richard E.W. Berl, Department of Human Dimensions of Natural Resources Colorado State University, rewberl@colostate.edu\
 <p>Alarna Samarasinghe, Department of Archaeology and Anthropology University of Bristol, as15936@bristol.ac.uk\
 <p>If you have questions about your rights as a volunteer in this research, you may contact:\
-<p>Colorado State University Institutional Review Board RICRO_IRB@mail.colostate.edu\
-<p>970-491-1553\
-<p>University of Bristol Faculty of Arts Human Research Ethics Committee Liam McKervey, Research Ethics Co-ordinator Liam.McKervey@bristol.ac.uk\
-<p>0117 331 7472\
+<p>Colorado State University Institutional Review Board RICRO_IRB@mail.colostate.edu, 970-491-1553\
+<p>University of Bristol Faculty of Arts Human Research Ethics Committee Liam McKervey, Research Ethics Co-ordinator Liam.McKervey@bristol.ac.uk, 0117 331 7472\
 <h1>Worker completion code</h1>\
 <p>Below you will find your worker code.  Save your code in a secure location for entry on Mechanical Turk. Your Completion Code must match the one entered here in order to receive compensation for your participation. <p> <h1>COMPLETION CODE:</h1> ";
 
@@ -116,6 +114,7 @@ var distractionTaskInstructions =
 <p>Press the button below when you are ready.";
 
 function setInstruction(t){
+	showMe("instructions");
 	document.getElementById("instructions").innerHTML = t;
 }
 

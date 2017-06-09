@@ -2,6 +2,8 @@
 
 This version includes:
 
+-  Instructions for sharing microphone (and instructions if access is refused)
+-  Tests that audio playback and recording is working 
 -  Localisation
 -  Demographic survey
 -  Playing story audio (just my voice for testing)
@@ -12,12 +14,13 @@ This version includes:
 -  Playing evaluation story
 -  Voice evaluation survey
 -  Returning worker code
+-  Started using Bootstrap styling
+-  General instructions
 
 It does not include:
 
--  Nice styling
 -  Instructions for the distraction task
--  Instructions in general
+-  Ability to make multiple recordings per story
 
 If you add a url variable "test=T" to the url, then you get some configuration options (Some of this works, other bits I haven't tested):
 

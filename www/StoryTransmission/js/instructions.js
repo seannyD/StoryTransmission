@@ -12,10 +12,35 @@ var speakerTestText =
 <p>Then press <strong>"Yes, my audio is working"</strong>.';
 
 var techWarning = 
-"<h1>Permission to record your voice</h1>\
+'<h1>Permission to record your voice</h1>\
 <p>In this experiment, we need to record your voice.  Recording will not begin immediately - you will be told when recording starts and stops.\
-<p>Please follow the instructions below to allow us to use your microphone.\
-<p> INSTRUCTIONS TO DO";
+<p>Please follow the instructions below to allow us to use your microphone:\
+<ul>\
+<li>Click the <span class="bg-success">"Yes, share my microphone"</span> button below.\
+<li>A pop-up will appear asking if you want to allow this web page to access your microphone.\
+<li>Select "Allow".\
+</ul>\
+<p> <img src="../resources/images/ShareMicInstructions.png">';
+
+var participantDeclinedToShareMicrophoneText =
+'<h1>Permission to record your voice</h1>\
+<p><span class="text-warning"><strong>You declined to share your microphone.</strong></span>  This experiment involves recording your voice, so we need to access the microphone.\
+<p>If you would like to continue with the experiment, you can still do so by <strong>Removing the temporary block</strong>:\
+<ul>\
+<li> Click on the <img src="../resources/images/i_icon.png" style="height: 1em"> icon to the left of the address bar in your browser.\
+<li> A pop-up will appear.\
+<li> Under <strong>Permissions</strong>, and <strong>Use the microphone</strong>, click the X to remove the temporary block (see the image below).\
+</ul>\
+<p> <img src="../resources/images/ShareMicInstructions_Fail.png">\
+<ul>\
+<li> Close the pop-up window.\
+<li> Click the <span class="bg-success">"Yes, share my microphone"</span> button below.\
+<li>A pop-up will appear asking if you want to allow this web page to access your microphone.\
+<li>Select "Allow".\
+</ul>\
+<p> <img src="../resources/images/ShareMicInstructions.png">\
+<br /><br />\
+<p>If you do not wish to continue the experiment, please close the window.<br />';
 
 var micTestText = 
 "<h1>Test your microphone</h1>\

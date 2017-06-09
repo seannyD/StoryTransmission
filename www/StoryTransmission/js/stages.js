@@ -77,6 +77,7 @@ function nextStage(){
 
 	switch (stages[stageCounter]) {
                 case "consent":
+                  setInstruction("<h1>The effects of social transmission biases on human cultural evolution</h1>");
                   launchSurvey(consentSurvey);
                   break;
                 case "speakerTest":

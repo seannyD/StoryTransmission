@@ -16,6 +16,11 @@ function userAgreedToShareMicrophone(){
 	initRecorder();
 }
 
+function userDeclinedToShareMicrophone(){
+	setInstruction(participantDeclinedToShareMicrophoneText);
+	showMe("techTest");
+}
+
 function recorderInitialised(success){
 	if(success){
 		setTimeout("nextStage();",200);

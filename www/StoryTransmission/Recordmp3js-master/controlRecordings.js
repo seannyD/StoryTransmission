@@ -19,6 +19,7 @@ function __log(e, data) {
 
   var numberOfSuccessfulUploads = 0;
 
+  var testRecording = false;
 
   var asynchronousUploading = true;
   // assuming only one test of uploading at the end.
@@ -33,6 +34,8 @@ function __log(e, data) {
     currentStorySample = storySample;
     document.getElementById("startRecordingButton").disabled=false;
     document.getElementById("stopRecordingButton").disabled=true;
+    document.getElementById("startRecordingButton").className="btn btn-success";
+    document.getElementById("stopRecordingButton").className="btn btn-danger disabled";
     setInstruction(recordingInstructionText);
     showMe("recorderContainer");
   }
@@ -61,7 +64,9 @@ function __log(e, data) {
   function startRecording(button) {
     document.getElementById("startRecordingButton").disabled=true;
     document.getElementById("stopRecordingButton").disabled=false;
-
+    document.getElementById("startRecordingButton").className="btn btn-success disabled";
+    document.getElementById("stopRecordingButton").className="btn btn-danger";
+    
     recorder.setFilenamePrefix(participantID + "_" + currentStorySample);
 
     recorder && recorder.record();
@@ -74,48 +79,61 @@ function __log(e, data) {
     recorder && recorder.stop();
     document.getElementById("startRecordingButton").disabled=true;
     document.getElementById("stopRecordingButton").disabled=true;
-    __log('Stopped recording.');
+    document.getElementById("startRecordingButton").className="btn btn-success disabled";
+    document.getElementById("stopRecordingButton").className="btn btn-danger disabled";
+
     hideMe("recorderContainer");
 
     // create WAV download link using audio data blob
     //createDownloadLink();
 
-    setInstruction(uploadingText);
-    document.getElementById("loader").style.display = 'block';
+    if(testRecording){
+      testRecording = false;
+      console.log("starting test recording");
+      createDownloadLink();
+      setInstruction(micTestText2);
+      showMe('testRecorder');
+      hideMe('micWorkedButton'); // shown when playing starts
 
-    // The function called here executes after sending the export
-    // commands to the recorder worker (before upload succeeds and, if mp3, before encoding).  
-    // The callback from the upload is handled 
-    // by the AJAX 'done' statement in recordmp3.js
-    recorder && recorder.exportWAV(function(blob) {
-      //if(asynchronousUploading){
-      //  setTimeout("nextStage();",100); 
-      //}
-    });
+    } else{
 
-    recorder.clear();
+      setInstruction(uploadingText);
+      document.getElementById("loader").style.display = 'block';
 
-    if(asynchronousUploading){
-      setTimeout("nextStage();",100);
+      // The function called here executes after sending the export
+      // commands to the recorder worker (before upload succeeds and, if mp3, before encoding).  
+      // The callback from the upload is handled 
+      // by the AJAX 'done' statement in recordmp3.js
+      recorder && recorder.exportWAV(function(blob) {
+        //if(asynchronousUploading){
+        //  setTimeout("nextStage();",100); 
+        //}
+      });
+
+      recorder.clear();
+
+      if(asynchronousUploading){
+        setTimeout("nextStage();",100);
+      }
     }
   }
 
   function createDownloadLink() {
     recorder && recorder.exportWAV(function(blob) {
-      /*var url = URL.createObjectURL(blob);
-      var li = document.createElement('li');
-      var au = document.createElement('audio');
-      var hf = document.createElement('a');
+      console.log("Test callback");
+      var url = URL.createObjectURL(blob);
+      var au = document.getElementById('testRecorderAudio');
+      //var hf = document.createElement('a');
 
       au.controls = true;
       au.src = url;
-      hf.href = url;
-      hf.download = new Date().toISOString() + '.wav';
-      hf.innerHTML = hf.download;
-      li.appendChild(au);
-      li.appendChild(hf);
-      recordingslist.appendChild(li);*/
-    });
+      //hf.href = url;
+      //hf.download = new Date().toISOString() + '.wav';
+      //hf.innerHTML = hf.download;
+      //li.appendChild(au);
+      //li.appendChild(hf);
+      showMe("testRecorder");
+    }, "wav");
   }
 
   function controlRecorderFinishedUploading(){

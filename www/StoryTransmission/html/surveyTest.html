@@ -5,7 +5,8 @@
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/bootstrap.css">
 </head>
-<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>
+<!--<script src="https://code.jquery.com/jquery-3.2.0.min.js"></script>-->
+<script src="../js/jquery.min.js"></script>
 
 <script src="../survey/surveyjs/survey.jquery.js"></script>
 <script src="../survey/loadSurvey.js"></script>
@@ -39,19 +40,34 @@
        <audio id="playStoryPlayer" onended="playStoryPlayerEnded()">
           <source id="playStorySource" src="" type="audio/mpeg">
        </audio> 
-       <button type="button" id="playStoryButton" onclick="playStoryButtonPress()">Listen</button>
+       <button type="button" id="playStoryButton" onclick="playStoryButtonPress()" class="btn btn-success">Listen</button>
+       <div id="storyProgress">
+          <div id="timeline">
+            <div id="playhead"></div>
+          </div>
+        </div>
    </div>
 
    <div id="recorderContainer">
-     <button id="startRecordingButton" onclick="startRecording(this);">Start Recording</button>
-     <button id="stopRecordingButton" onclick="stopRecording(this);" disabled>Stop Recording</button>
+     <button id="startRecordingButton" onclick="startRecording(this);" class="btn btn-success active">Start Recording</button>
+     <button id="stopRecordingButton" onclick="stopRecording(this);" class="btn btn-danger disabled" disabled>Stop Recording</button>
   </div>
+    <div id="testRecorder" style="display:none">
+        <audio id="testRecorderAudio" onplay="testRecorderAudioStarted()" controls></audio><br /><br />
+            <button id="micWorkedButton" onclick="nextStage()" class="btn btn-success">Yes, my microphone worked!</button><br /><br />
+            <button onclick="micTestFail()" class="btn btn-danger">No, there was a problem, let me try again</button>
+     </div>
 
-   
+   <div id="SpeakerTest">
+    <audio id="TestAudio" onplay="speakerTestStarted()" controls>
+      <source src="../resources/audio/SpeakerTestAudio.mp3" type="audio/mpeg">
+    </audio><br /><br />
+    <button id="finishedTestAudioButton" onclick="finishedTestAudio()" class="btn btn-success">Yes, my audio is working!</button><br />
+   </div>
 
    <div id="techTest">
    	<div id="techTestInstructions"></div>
-   	<button id="shareMediaButton" onclick="userAgreedToShareMicrophone()">Yes, share my microphone</button>
+   	<button id="shareMediaButton" onclick="userAgreedToShareMicrophone()" class='btn btn-success'>Yes, share my microphone</button>
    </div>
 
 
@@ -59,9 +75,9 @@
     <div id="points"></div>
     <div id="displayGrid"></div>
     <div id="selectGrid"></div>
-    <div id="trash" ondrop="drop(event)" ondragover="preventDefault(event)">
+<!--    <div id="trash" ondrop="drop(event)" ondragover="preventDefault(event)">
       <image id="trashimg" ondrop="drop(event)" ondragover="preventDefault(event)" src="../DistractionTask/images/bin.png" style="width:100%">
-    </div>
+    </div>  -->
     <div id="timer">
       <progress id="timerProgress" value="0" max="100"></progress>
     </div>

@@ -22,7 +22,9 @@ var speechEvaluationOrder = ["HighP","LowP"];
 
 var stages = [
       "consent",
+      "speakerTest",
       "techTest",
+      "micTest",
       "localisation",  
 			'story1','distraction1','recording1',
 			'story2','distraction2','recording2',
@@ -32,21 +34,23 @@ var stages = [
       // TODO: I give my consent to use this data ...
       // TODO: check country ip address
 
-var stagesLabels = {"consent":"Consent",
-                    "techTest": "Mic setup",
-                    "localisation": "Localisation",
-                    'story1': "Story 1",
-                    'distraction1': "Memory test",
-                    'recording1': "Recording 1",
-                    'story2':"Story 2",
-                    'distraction2':"Memory test",
-                    'recording2': "Recording 2",
-                    'speechEvaluation1.play':"Evaluation 1",
-                    'speechEvaluation1.eval':"Evaluation 1",
-                    'speechEvaluation2.play':"Evaluation 2",
-                    'speechEvaluation2.eval':"Evaluation 2",
-                    'demographySurvey':"Survey",
-                    'checkUploaded':"Upload results",
+var stagesLabels = {"consent":"Consent >",
+                    "speakerTest": "Sound setup >",
+                    "techTest": "Sound setup >",
+                    "micTest": "Sound setup >",
+                    "localisation": "Location >",
+                    'story1': "Story 1 >",
+                    'distraction1': "Memory test >",
+                    'recording1': "Recording 1 >",
+                    'story2':"Story 2 >",
+                    'distraction2':"Memory test >",
+                    'recording2': "Recording 2 >",
+                    'speechEvaluation1.play':"Survey 1 >",
+                    'speechEvaluation1.eval':"Survey 1 >",
+                    'speechEvaluation2.play':"Survey 2 >",
+                    'speechEvaluation2.eval':"Survey 2 >",
+                    'demographySurvey':"Survey 3 >",
+                    'checkUploaded':"Upload results >",
                     'workerCode':"Worker Code"
                     }
 
@@ -67,17 +71,23 @@ function nextStage(){
   } else{
 
   if(progressBar){
-    document.getElementById(stages[stageCounter]+"_Progress").style.background="#5cb85c";
-    document.getElementById(stages[stageCounter]+"_Progress").style.color="#FFFFFF";
+    document.getElementById(stagesLabels[stages[stageCounter]]+"_Progress").style.background="#5cb85c";
+    document.getElementById(stagesLabels[stages[stageCounter]]+"_Progress").style.color="#FFFFFF";
   }
 
 	switch (stages[stageCounter]) {
                 case "consent":
                   launchSurvey(consentSurvey);
                   break;
+                case "speakerTest":
+                  doSpeakerTest();
+                  break;
                 case "techTest":
                   hideMe("testDiv");
                   doTechTest();
+                  break;
+                case "micTest":
+                  doMicTest();
                   break;
                 case "localisation": 
                 	launchLocalisationSurvey();
@@ -95,10 +105,12 @@ function nextStage(){
                   startDistractionTask(1);
                   break;
                 case "recording1":
+                  testRecording = false;
                   numberOfRecordedSamples += 1;
                   showRecordingControls(sample1);
                   break;
                 case "recording2":
+                  testRecording = false;
                   numberOfRecordedSamples += 1;
                   showRecordingControls(sample2);
                   break;
@@ -163,9 +175,13 @@ function clearScreen(){
 	hideMe("playStoryContainer");
 	hideMe("recorderContainer");
   hideMe("distractionTaskContainer");
-  hideMe("trash");
+  if(useTrashcan){
+    hideMe("trash");
+  }
   hideMe("loader");
   hideMe("techTest");
+  hideMe("testRecorder");
+  hideMe("SpeakerTest");
 
 }
 
@@ -196,10 +212,18 @@ function surveysLoaded(){
 
 function makeProgressBar(){
   if(progressBar){
-    var divPer = 100/stages.length;
+    var numUniqueStagesLabels = 0;
+    for(var i=0; i< stages.length; ++i){
+      if(i==0 || stagesLabels[stages[i]] != stagesLabels[stages[i-1]]){
+        numUniqueStagesLabels += 1;
+      }
+    }
+    var divPer = 100/numUniqueStagesLabels;
     var out = "";
     for(var i=0; i< stages.length; ++i){
-      out += '<div id="' + stages[i] +'_Progress" class="progressBar" style="float:left;width:' + divPer+'%">' + stagesLabels[stages[i]] + '</div>';
+        if(i==0 || stagesLabels[stages[i]] != stagesLabels[stages[i-1]]){
+          out += '<div id="' + stagesLabels[stages[i]] +'_Progress" class="progressBar" style="float:left;width:' + divPer+'%">' + stagesLabels[stages[i]] + '</div>';
+        }      
     }
     document.getElementById("progressBarContainer").innerHTML = out;
   }

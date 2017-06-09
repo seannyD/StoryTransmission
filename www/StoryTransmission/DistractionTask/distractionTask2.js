@@ -24,6 +24,8 @@ var distractionTaskDisplayTime = 30 * 1000;
 var distractionTaskSelectTime = 30 * 1000;
 var distractionTaskFeedbackTime = 2 * 1000;
 
+var useTrashcan = false;
+
 //var distractionTaskInstructions = "Instructions for the task";  // set in instructions.js
 
 //-----
@@ -93,6 +95,10 @@ function startDistractionTask(taskNumber){
 
 	updatePoints();
 
+	if(typeof document.getElementById("trash")!="undefined" && useTrashcan){
+		hideMe("trash");
+	}
+
 	//makeDraggableImages();
 	//makeDisplayGrid();
 	showMe("distractionTaskContainer");
@@ -113,6 +119,11 @@ function nextDistractionStage(){
 		switch (distractionStages[distractionStageCounter]) {
 	                case "Instructions":
 	                  setInstruction(distractionTaskInstructions);
+	                  hideMe("displayGrid");
+	                  hideMe("selectGrid");
+	                  if(useTrashcan){
+	                  	hideMe("trash");
+	                  }
 	                  startTimer(distractionTaskInstructionTime);
 	                  setTimeout("nextDistractionStage();",distractionTaskInstructionTime);
 	                  break;
@@ -127,6 +138,7 @@ function nextDistractionStage(){
 
 	                  break;
 	                case "upload":
+	                  distractionStageCounter = -1;
 	                  uploadDistractionTaskData();
 	                default:
 	                	break;
@@ -139,7 +151,9 @@ function distractionTaskClearScreen(){
 	hideMe('displayGrid');
 	document.getElementById("displayGrid").innerHTML = "";
 	document.getElementById("selectGrid").innerHTML = "";
-	hideMe("trash");
+	if(useTrashcan){
+		hideMe("trash");
+	}
 	hideMe('selectGrid');
 	hideMe("instructions")
 }
@@ -221,7 +235,9 @@ function startSelectionStage(){
 	//document.getElementById("selectGrid").style.display='grid';
 	showMe("displayGrid");
 	showMe("selectGrid");
-	showMe("trash");
+	if(useTrashcan){
+		showMe("trash");
+	}
 
 	setTimeout("nextDistractionStage();",distractionTaskSelectTime);
 	startTimer(distractionTaskSelectTime);
@@ -441,7 +457,6 @@ function uploadDistractionTaskData(){
 		console.log(data);
 		setTimeout("nextStage()",500);
 	});
-
 }
 
 //--------
@@ -525,6 +540,25 @@ function drag(ev) {
 
 }
 
+document.addEventListener("dragend", function( ev ) {
+      if(distractionStages[distractionStageCounter] == "select"){
+      	var source = ev.dataTransfer.getData("parent");
+      	var content = ev.dataTransfer.getData("text");
+      	console.log("deleting image");
+      	if(source.substr(0,7)=="display"){
+			// Throwing example away
+			document.getElementById(source).innerHTML = "";
+			// Put back in select grid
+			var i = parseInt(content.split("_")[1]);
+			var rowNumber = Math.floor(i / selectGridColumns);
+			var colNumber = i % selectGridColumns;
+			var locx = "selectDiv_" + rowNumber + "_" + colNumber;
+			console.log("Trash " + locx + " " + content);
+			addImage(locx, content);
+			} 
+      }
+}, false);
+
 function drop(ev) {
 	console.log("-------");
 	ev.preventDefault();
@@ -534,7 +568,10 @@ function drop(ev) {
 		var content = ev.dataTransfer.getData("text");
 		var source = ev.dataTransfer.getData("parent");
 		console.log("DROP source:"+source + " location:"+location + " content:" + content);
-		if((location=="trash" || location=="trashimg")){
+
+
+		// TODO; Possible bug if source isn't found??
+		if(useTrashcan && (location=="trash" || location=="trashimg")){
 			if(source.substr(0,7)=="display"){
 			// Throwing example away
 			document.getElementById(source).innerHTML = "";

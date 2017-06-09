@@ -6,11 +6,29 @@
 // You can specify a title using <h1>Title Text</h1>
 // You can split the string over more than one line as long as you put a forward slash at the end of the line (otherwise it thinks that the string has stopped).
 
+var speakerTestText = 
+'<h1>Audio test</h1>\
+<p>Play the sound below to make sure your audio is working.  Please adjust your speakers or headphones to a comfortable volume.\
+<p>Then press <strong>"Yes, my audio is working"</strong>.';
+
 var techWarning = 
 "<h1>Permission to record your voice</h1>\
 <p>In this experiment, we need to record your voice.  Recording will not begin immediately - you will be told when recording starts and stops.\
 <p>Please follow the instructions below to allow us to use your microphone.\
 <p> INSTRUCTIONS TO DO";
+
+var micTestText = 
+"<h1>Test your microphone</h1>\
+<p>Press <strong>Start Recording</strong> to start recording.  Press <strong>Stop Recording</strong> to finish recording.";
+
+var micTestText2 = 
+"<h1>Test your microphone</h1>\
+<p>Listen to your recording - did it work?";
+
+var micFailMessage = 
+"<h1>Problem with your microphone?</h1>\
+<p>If you're having a problem recording audio, you can try refreshing the page and start again.\
+<p>If this problem persists, you will be unable to do this task.";
 
 var failTechTest = "Sorry, we could not access a microphone on your device.";
 

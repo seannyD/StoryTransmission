@@ -104,6 +104,20 @@ var currOutputSampleRate;
       var blob = e.data;
 	  //console.log("the blob " +  blob + " " + blob.size + " " + blob.type);
 
+    if(testRecording){
+	/*	var arrayBuffer;
+	  	var fileReader = new FileReader();
+
+		fileReader.onload = function(){
+			arrayBuffer = this.result;
+			var buffer = new Uint8Array(arrayBuffer),
+	        data = parseWav(buffer);
+			var wavBlob = new Blob([buffer], {type: 'audio/wav'});
+			createDownloadLink(wavBlob);
+	    }*/
+	    console.log("TEST RECORDING");
+     } else{
+	// Not a test - process the audio and upload to server
 	  var arrayBuffer;
 	  var fileReader = new FileReader();
 
@@ -111,60 +125,65 @@ var currOutputSampleRate;
 		arrayBuffer = this.result;
 		var buffer = new Uint8Array(arrayBuffer),
         data = parseWav(buffer);
-        if(audioSaveType=='wav'){
-			var wavBlob = new Blob([buffer], {type: 'audio/wav'});
-			uploadAudio(wavBlob,'wav');
-		} else{
 
-	        //console.log(data);
-			console.log("Converting to Mp3");
-			//log.innerHTML += "\n" + "Converting to Mp3";
 
-			// TODO: alter sample rate to output sample rate if appropriate
-	        encoderWorker.postMessage({ cmd: 'init', config:{
-	            mode : 3,
-				channels:1,
-				samplerate: data.sampleRate,
-				bitrate: data.bitsPerSample
-	        }});
+        	
+	        if(audioSaveType=='wav'){
+				var wavBlob = new Blob([buffer], {type: 'audio/wav'});
+				uploadAudio(wavBlob,'wav');
+			} else{
 
-	        encoderWorker.postMessage({ cmd: 'encode', buf: Uint8ArrayToFloat32Array(data.samples) });
-	        encoderWorker.postMessage({ cmd: 'finish'});
-	        encoderWorker.onmessage = function(e) {
-	            if (e.data.cmd == 'data') {
+		        //console.log(data);
+				console.log("Converting to Mp3");
+				//log.innerHTML += "\n" + "Converting to Mp3";
 
-					console.log("Done converting to Mp3");
-					
+				// TODO: alter sample rate to output sample rate if appropriate
+		        encoderWorker.postMessage({ cmd: 'init', config:{
+		            mode : 3,
+					channels:1,
+					samplerate: data.sampleRate,
+					bitrate: data.bitsPerSample
+		        }});
 
-					/*var audio = new Audio();
-					audio.src = 'data:audio/mp3;base64,'+encode64(e.data.buf);
-					audio.play();*/
+		        encoderWorker.postMessage({ cmd: 'encode', buf: Uint8ArrayToFloat32Array(data.samples) });
+		        encoderWorker.postMessage({ cmd: 'finish'});
+		        encoderWorker.onmessage = function(e) {
+		            if (e.data.cmd == 'data') {
 
-					//console.log ("The Mp3 data " + e.data.buf);
+						console.log("Done converting to Mp3");
+						
 
-					var mp3Blob = new Blob([new Uint8Array(e.data.buf)], {type: 'audio/mp3'});
-					uploadAudio(mp3Blob,'mp3');
+						/*var audio = new Audio();
+						audio.src = 'data:audio/mp3;base64,'+encode64(e.data.buf);
+						audio.play();*/
 
-					// var url = 'data:audio/mp3;base64,'+encode64(e.data.buf);
-					// var li = document.createElement('li');
-					// var au = document.createElement('audio');
-					// var hf = document.createElement('a');
+						//console.log ("The Mp3 data " + e.data.buf);
 
-					// au.controls = true;
-					// au.src = url;
-					// hf.href = url;
-					// hf.download = fileNamePrefix+ '.mp3';
-					// hf.innerHTML = hf.download;
-					// li.appendChild(au);
-					// li.appendChild(hf);
-					// recordingslist.appendChild(li);
+						var mp3Blob = new Blob([new Uint8Array(e.data.buf)], {type: 'audio/mp3'});
+						uploadAudio(mp3Blob,'mp3');
 
-	            }
-	        }
-	        };
+						// var url = 'data:audio/mp3;base64,'+encode64(e.data.buf);
+						// var li = document.createElement('li');
+						// var au = document.createElement('audio');
+						// var hf = document.createElement('a');
+
+						// au.controls = true;
+						// au.src = url;
+						// hf.href = url;
+						// hf.download = fileNamePrefix+ '.mp3';
+						// hf.innerHTML = hf.download;
+						// li.appendChild(au);
+						// li.appendChild(hf);
+						// recordingslist.appendChild(li);
+
+		            }
+		        }
+		        };
+			  
 		  };
       
-	  fileReader.readAsArrayBuffer(blob);
+	    fileReader.readAsArrayBuffer(blob);
+		}
 
       currCallback(blob);
     }

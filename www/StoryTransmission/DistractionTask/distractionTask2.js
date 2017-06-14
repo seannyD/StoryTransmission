@@ -45,7 +45,7 @@ var playerPoints = 0;
 
 var roundResponses = []; // save participant data
 
-
+var timerType = "numeric" // or "bar"
 var timerTotal = 1000;
 var timerCurrent = 0;
 var timerCountTime = 200;
@@ -93,6 +93,7 @@ function startDistractionTask(taskNumber){
 
 	setupSave();
 
+	playerPoints = 0;
 	updatePoints();
 
 	if(typeof document.getElementById("trash")!="undefined" && useTrashcan){
@@ -161,18 +162,30 @@ function distractionTaskClearScreen(){
 function startTimer(t){
 	clearInterval(timerIntervalId);
 	showMe("timer");
-	timerTotal = t;
-	timerCurrent = 0;
+	var d = new Date();
+	var n = d.getTime();
+	timerCurrent = n;
+	timerTotal = n + t;
 	timerIntervalId = setInterval("incTimer()",timerCountTime);
 }
 
 function incTimer(){
-	//console.log(timerCurrent+" "+timerTotal + " "+timerCountTime);
-	timerCurrent += timerCountTime;
-	if(timerCurrent >= timerTotal){
-		clearInterval(timerIntervalId);
+	if(timerType=="numeric"){
+		var d = new Date();
+	    var timeLeft_seconds = Math.round((timerTotal - d.getTime())/1000);
+	    if(timeLeft_seconds>0){
+	    	document.getElementById("timer").innerHTML = "Remaining time: " + timeLeft_seconds;
+	    } else{
+	    	document.getElementById("timer").innerHTML = "Remaining time: 0";
+	    }
+	} else{
+		//console.log(timerCurrent+" "+timerTotal + " "+timerCountTime);
+		timerCurrent += timerCountTime;
+		if(timerCurrent >= timerTotal){
+			clearInterval(timerIntervalId);
+		}
+		document.getElementById("timerProgress").value = (timerCurrent/ timerTotal)*100;
 	}
-	document.getElementById("timerProgress").value = (timerCurrent/ timerTotal)*100;
 }
 
 function displayImages(){
@@ -527,7 +540,7 @@ function makeDisplayGrid(){
 
 function updatePoints(){
 	// TODO: update points display;
-	document.getElementById("points").innerHTML = playerPoints;
+	document.getElementById("points").innerHTML = "Points: "+playerPoints;
 }
 
 // Drag and Drop

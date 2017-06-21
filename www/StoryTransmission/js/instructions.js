@@ -88,11 +88,15 @@ var recordingInstructionText =
 
 var playStoryInstructionText = 
 "<h1>Listen!</h1>\
-<p>Please listen to the recording below. Pay close attention, as you will be asked to recall as many details from the story as you can.\
+<p>Please press <strong>Listen</strong> to listen to the recording below. Pay close attention: you will be asked to recall as many details from the story as you can.\
 <p><strong>IMPORTANT:</strong> Ensure that your speakers are at a sufficient volume and your sound is working <strong>before</strong> playing the recording, as <strong>it will play only once</strong>. If you do not listen to or cannot hear the full recording and are therefore unable to recall it, your responses will be invalid and may be rejected.\
 <p><strong>WARNING:</strong> This section is timed. From the time you press the play button to listen to the story until the time when you have completed recalling the story (about 20 minutes), you are required to remain at your computer. If it is clear from your data that you were not present for the full task, your responses will be invalid and may be rejected.";
 
 
+var continueMultipleRecordingText = 
+"<h1>Continue Recording?</h1>\
+<p>If you are finished telling your story, click <strong>I have finished telling my story</strong>.\
+<p>Or you can click <strong>Continue Recording</strong> to record more of your story";
 
 
 var speechEvaluationInstructionText1 = 

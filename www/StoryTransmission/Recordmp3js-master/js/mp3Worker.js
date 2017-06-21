@@ -5,6 +5,7 @@ var mp3codec;
 var outputSampleRate;
 
 self.onmessage = function(e) {
+
 	switch (e.data.cmd) {
 	case 'init':
 		if (!e.data.config) {
@@ -37,12 +38,13 @@ self.onmessage = function(e) {
 			'VBR :' + Lame.get_VBR(mp3codec));
 		break;
 	case 'encode':
+		console.log("MP3 Worker " + e.data.fileName);
 		var mp3data = Lame.encode_buffer_ieee_float(mp3codec, e.data.buf, e.data.buf);
-		self.postMessage({cmd: 'data', buf: mp3data.data});
+		self.postMessage({cmd: 'data', buf: mp3data.data, fileName: e.data.fileName});
 		break;
 	case 'finish':
 		var mp3data = Lame.encode_flush(mp3codec);
-		self.postMessage({cmd: 'end', buf: mp3data.data});
+		self.postMessage({cmd: 'end', buf: mp3data.data, fileName: e.data.fileName});
 		Lame.close(mp3codec);
 		mp3codec = null;
 		break;

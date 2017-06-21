@@ -13,7 +13,7 @@ this.onmessage = function(e){
       record(e.data.buffer);
       break;
     case 'exportWAV':
-      exportWAV(e.data.type);
+      exportWAV(e.data.type, e.data.fileName);
       break;
     case 'getBuffer':
       getBuffer();
@@ -39,7 +39,8 @@ function record(inputBuffer){
   recLength += inputBuffer[0].length;
 }
 
-function exportWAV(type){
+function exportWAV(type, filename){
+  
   var buffers = [];
   for (var channel = 0; channel < numChannels; channel++){
     buffers.push(mergeBuffers(recBuffers[channel], recLength));
@@ -60,12 +61,14 @@ function exportWAV(type){
 
     console.log("Resampled from "+ interleaved.length + "samples to "+ resampler.outputBuffer.length+ "samples");
     var dataview = encodeWAV(resampler.outputBuffer);
-    var audioBlob = new Blob([dataview], { type: type });
+
+    // TODO: Currently passing filename as blob type - should move to passing array
+    var audioBlob = new Blob([dataview], { type: filename });
     this.postMessage(audioBlob);
   } else{
     // no resampling
       var dataview = encodeWAV(interleaved);
-      var audioBlob = new Blob([dataview], { type: type });
+      var audioBlob = new Blob([dataview], { type: filename});
       this.postMessage(audioBlob);
   }
 

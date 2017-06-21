@@ -85,24 +85,31 @@ var currOutputSampleRate;
       worker.postMessage({ command: 'getBuffer' })
     }
 
-    this.exportWAV = function(cb, type){
+    this.exportWAV = function(cb, recordingFilename, type){
       currCallback = cb || config.callback;
       type = type || config.type || 'audio/wav'; // if type is not declared, inherits from config or defaults to wav
+      var fileName = recordingFilename || "audio_sample";
+      console.log("exportWav "+fileName);
       if (!currCallback) throw new Error('Callback not set');
       worker.postMessage({
         command: 'exportWAV',
-        type: type
+        type: type,
+        fileName: fileName
       });
     }
 
     this.setFilenamePrefix = function(t){
+    	// Note that this approach will run into problems if asychronous uploading is possible
     	fileNamePrefix = t;
     }
 
-	//Mp3 conversion
+	
     worker.onmessage = function(e){
       var blob = e.data;
-	  //console.log("the blob " +  blob + " " + blob.size + " " + blob.type);
+      var fileName = blob.type;  // passing filname by the type string - not good!
+
+      //var filename = blob.filename;
+	  console.log("the blob " +  blob.size + " " + blob.type + " " + fileName);
 
     if(testRecording){
 	/*	var arrayBuffer;
@@ -120,37 +127,36 @@ var currOutputSampleRate;
 	// Not a test - process the audio and upload to server
 	  var arrayBuffer;
 	  var fileReader = new FileReader();
+	  fileReader.fileName = fileName;
 
-	  fileReader.onload = function(){
-		arrayBuffer = this.result;
-		var buffer = new Uint8Array(arrayBuffer),
-        data = parseWav(buffer);
+	  fileReader.onload = (function(readerEvt){
+		  	var fileName = readerEvt.target.fileName;
+		  	console.log("FileReader "+fileName);
+			arrayBuffer = this.result;
+			var buffer = new Uint8Array(arrayBuffer),
+	        data = parseWav(buffer);
 
-
-        	
 	        if(audioSaveType=='wav'){
 				var wavBlob = new Blob([buffer], {type: 'audio/wav'});
-				uploadAudio(wavBlob,'wav');
+				uploadAudio(wavBlob,'wav',fileName);
 			} else{
-
-		        //console.log(data);
+				//Mp3 conversion
 				console.log("Converting to Mp3");
-				//log.innerHTML += "\n" + "Converting to Mp3";
 
 				// TODO: alter sample rate to output sample rate if appropriate
-		        encoderWorker.postMessage({ cmd: 'init', config:{
+		        encoderWorker.postMessage({ cmd: 'init', fileName: fileName , config:{
 		            mode : 3,
 					channels:1,
 					samplerate: data.sampleRate,
 					bitrate: data.bitsPerSample
 		        }});
 
-		        encoderWorker.postMessage({ cmd: 'encode', buf: Uint8ArrayToFloat32Array(data.samples) });
-		        encoderWorker.postMessage({ cmd: 'finish'});
+		        encoderWorker.postMessage({ cmd: 'encode', buf: Uint8ArrayToFloat32Array(data.samples), fileName: fileName });
+		        encoderWorker.postMessage({ cmd: 'finish', fileName: fileName});
 		        encoderWorker.onmessage = function(e) {
 		            if (e.data.cmd == 'data') {
 
-						console.log("Done converting to Mp3");
+						console.log("Done converting to Mp3 " + e.data.fileName);
 						
 
 						/*var audio = new Audio();
@@ -160,7 +166,7 @@ var currOutputSampleRate;
 						//console.log ("The Mp3 data " + e.data.buf);
 
 						var mp3Blob = new Blob([new Uint8Array(e.data.buf)], {type: 'audio/mp3'});
-						uploadAudio(mp3Blob,'mp3');
+						uploadAudio(mp3Blob,'mp3',e.data.fileName);
 
 						// var url = 'data:audio/mp3;base64,'+encode64(e.data.buf);
 						// var li = document.createElement('li');
@@ -180,7 +186,7 @@ var currOutputSampleRate;
 		        }
 		        };
 			  
-		  };
+		  });
       
 	    fileReader.readAsArrayBuffer(blob);
 		}
@@ -232,13 +238,14 @@ var currOutputSampleRate;
 		return f32Buffer;
 	}
 
-	function uploadAudio(mp3Data,dtype){
+	function uploadAudio(mp3Data,dtype, fileName){
 		var reader = new FileReader();
+		reader.fileName = fileName;
 		reader.onload = function(event){
 			var fd = new FormData();
-			var filename = fileNamePrefix + '.'+dtype;
-			console.log(filename);
-			var mp3Name = encodeURIComponent(filename);
+			var fileName = event.target.fileName + '.'+dtype;
+			console.log(fileName);
+			var mp3Name = encodeURIComponent(fileName);
 			console.log("mp3name = " + mp3Name);
 			fd.append('fname', mp3Name);
 			fd.append('data', event.target.result);

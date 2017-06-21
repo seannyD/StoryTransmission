@@ -10,6 +10,9 @@ var numberOfRecordedSamples = 0; // increased every time a recording is called
 
 var startTime = getCurrentTime();
 
+var timeLog = [];
+addToTimeLog("Page Load");
+
 var participantID = "";
 
 var workerCode = "";
@@ -75,71 +78,75 @@ function nextStage(){
     document.getElementById(stagesLabels[stages[stageCounter]]+"_Progress").style.color="#FFFFFF";
   }
 
+  addToTimeLog(stages[stageCounter]);
+
 	switch (stages[stageCounter]) {
-                case "consent":
-                  setInstruction("<h1>The effects of social transmission biases on human cultural evolution</h1>");
-                  launchSurvey(consentSurvey);
-                  break;
-                case "speakerTest":
-                  doSpeakerTest();
-                  break;
-                case "techTest":
-                  hideMe("testDiv");
-                  doTechTest();
-                  break;
-                case "micTest":
-                  doMicTest();
-                  break;
-                case "localisation": 
-                	launchLocalisationSurvey();
-                  break;
-                case "story1":
-                	showPlayStory(0);
-                  break;
-                case "story2":
-                	showPlayStory(1);
-                  break;
-                case "distraction1": // up
-                  startDistractionTask(0);
-                  break;
-                case "distraction2":
-                  startDistractionTask(1);
-                  break;
-                case "recording1":
-                  testRecording = false;
-                  numberOfRecordedSamples += 1;
-                  showRecordingControls(sample1);
-                  break;
-                case "recording2":
-                  testRecording = false;
-                  numberOfRecordedSamples += 1;
-                  showRecordingControls(sample2);
-                  break;
-                case "speechEvaluation1.play":
-                  speechEvaluation(0);
-                  break;
-                case "speechEvaluation2.play":
-                  speechEvaluation(1);
-                  break;
-                case "speechEvaluation1.eval":
-                  launchSpeechEvaluationSurvey(0);
-                  break;
-                case "speechEvaluation2.eval":
-                  launchSpeechEvaluationSurvey(1);
-                  break;
-                case "demographySurvey":
-                  launchDemographySurvey();
-                  break;
-                case "checkUploaded":
-                  checkRecordingsHaveUploaded();
-                  break;
-                case "workerCode":
-                  showWorkerCode();
-                  break;
-                default:
-                  showWorkerCode(); // by default, end the experiment nicely!
-                  break;
-                }
+
+      case "consent":
+        setInstruction("<h1>The effects of social transmission biases on human cultural evolution</h1>");
+        launchSurvey(consentSurvey);
+        break;
+      case "speakerTest":
+        doSpeakerTest();
+        break;
+      case "techTest":
+        hideMe("testDiv");
+        doTechTest();
+        break;
+      case "micTest":
+        doMicTest();
+        break;
+      case "localisation": 
+      	launchLocalisationSurvey();
+        break;
+      case "story1":
+      	showPlayStory(0);
+        break;
+      case "story2":
+      	showPlayStory(1);
+        break;
+      case "distraction1": // up
+        startDistractionTask(0);
+        break;
+      case "distraction2":
+        startDistractionTask(1);
+        break;
+      case "recording1":
+        testRecording = false;
+        numberOfRecordedSamples += 1;
+        showRecordingControls(sample1);
+        break;
+      case "recording2":
+        testRecording = false;
+        numberOfRecordedSamples += 1;
+        showRecordingControls(sample2);
+        break;
+      case "speechEvaluation1.play":
+        speechEvaluation(0);
+        break;
+      case "speechEvaluation2.play":
+        speechEvaluation(1);
+        break;
+      case "speechEvaluation1.eval":
+        launchSpeechEvaluationSurvey(0);
+        break;
+      case "speechEvaluation2.eval":
+        launchSpeechEvaluationSurvey(1);
+        break;
+      case "demographySurvey":
+        launchDemographySurvey();
+        break;
+      case "checkUploaded":
+        checkRecordingsHaveUploaded();
+        break;
+      case "workerCode":
+        saveTimeLog();
+        showWorkerCode();
+        break;
+      default:
+        showWorkerCode(); // by default, end the experiment nicely!
+        break;
+      }
   }
 }
 
@@ -282,3 +289,47 @@ function startTestRun(){
     setTimeout("nextStage();",1000);
 
 }
+
+
+// --------
+// Time log
+
+function addToTimeLog(message){
+  timeLog.push([message, getCurrentTime()]);
+}
+
+function saveTimeLog (){
+  var out = "Message,Time\n";
+  for(var i=0;i<timeLog.length; ++i){
+    out += timeLog[i].join(",")+"\n";
+  }
+
+  var fd = new FormData();
+  var filename = participantID  + '_timeLog.csv';
+  
+  fd.append('fname', filename);
+  fd.append('data', out);
+  $.ajax({
+    type: 'POST',
+    url: uploadSurveyPHPLocation,
+    data: fd,
+    processData: false,
+    contentType: false
+  }).done(function(data) {
+    console.log(data);
+  });
+
+}
+
+
+// ---------------
+// Window Handling
+
+$(window).blur(function(e) {
+    // Do Blur Actions Here
+    addToTimeLog("Participant blur window " + stages[stageCounter]);
+});
+$(window).focus(function(e) {
+    // Do Focus Actions Here
+    addToTimeLog("Participant focus window " + stages[stageCounter]);
+});

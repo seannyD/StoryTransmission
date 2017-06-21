@@ -8,6 +8,13 @@
 //       Then it posts the data back, triggering recordmp3::worker.onmessage, 
 //   recordmp3::worker.onmessage : optinally converts to mp3 then calls recordmp3::uploadAudio()
 
+  var waitingForUploadIntervalTime = 1000;
+  var waitingForUploadTimeWaiting = 0;
+  var waitingForUploadTimeout = 120000;
+  var asynchronousUploading = true;  
+  var allowMultipleRecordingSessions = true; // per story  
+
+
 function __log(e, data) {
     console.log(e + " " + (data || ''));
   }
@@ -21,23 +28,25 @@ function __log(e, data) {
 
   var testRecording = false;
 
-  var asynchronousUploading = true;
+  var multipleRecordingRound = 1;
+
   // assuming only one test of uploading at the end.
   var waitingForUploadIntervalId;
-  var waitingForUploadIntervalTime = 1000;
-  var waitingForUploadTimeWaiting = 0;
-  var waitingForUploadTimeout = 120000;
+
 
   // audioSaveType = 'wav' or 'mp3' is set in recordmp3.js
 
   function showRecordingControls(storySample){
     currentStorySample = storySample;
+    multipleRecordingRound = 1;
+    document.getElementById("startRecordingButton").innerHTML="Start Recording";
     document.getElementById("startRecordingButton").disabled=false;
     document.getElementById("stopRecordingButton").disabled=true;
     document.getElementById("startRecordingButton").className="btn btn-success";
     document.getElementById("stopRecordingButton").className="btn btn-danger disabled";
     setInstruction(recordingInstructionText);
     showMe("recorderContainer");
+    hideMe("multipleRecordingsDiv");
   }
 
   function startUserMedia(stream) {
@@ -62,12 +71,19 @@ function __log(e, data) {
   }
 
   function startRecording(button) {
+
+    addToTimeLog("Start recording "+ currentStorySample + " " + multipleRecordingRound);
+
     document.getElementById("startRecordingButton").disabled=true;
     document.getElementById("stopRecordingButton").disabled=false;
     document.getElementById("startRecordingButton").className="btn btn-success disabled";
     document.getElementById("stopRecordingButton").className="btn btn-danger";
     
-    recorder.setFilenamePrefix(participantID + "_" + currentStorySample);
+    hideMe("multipleRecordingsDiv");
+
+    // can't set filename here, because asynchronous uploading might confuse things
+    // so send to upload function
+    //recorder.setFilenamePrefix(participantID + "_" + currentStorySample + "_" + multipleRecordingRound);
 
     recorder && recorder.record();
     button.disabled = true;
@@ -76,13 +92,15 @@ function __log(e, data) {
 
   function stopRecording(button) {
     console.log("STOP RECORDING");
+    addToTimeLog("Stop recording "+ currentStorySample + " " + multipleRecordingRound);
     recorder && recorder.stop();
     document.getElementById("startRecordingButton").disabled=true;
     document.getElementById("stopRecordingButton").disabled=true;
     document.getElementById("startRecordingButton").className="btn btn-success disabled";
     document.getElementById("stopRecordingButton").className="btn btn-danger disabled";
 
-    hideMe("recorderContainer");
+    hideMe("recorderContainer");  // will be shown again if allowing multiple recordings
+    
 
     // create WAV download link using audio data blob
     //createDownloadLink();
@@ -94,28 +112,50 @@ function __log(e, data) {
       setInstruction(micTestText2);
       showMe('testRecorder');
       hideMe('micWorkedButton'); // shown when playing starts
+      hideMe('multipleRecordingsDiv');
 
     } else{
 
       setInstruction(uploadingText);
-      document.getElementById("loader").style.display = 'block';
 
       // The function called here executes after sending the export
       // commands to the recorder worker (before upload succeeds and, if mp3, before encoding).  
       // The callback from the upload is handled 
       // by the AJAX 'done' statement in recordmp3.js
-      recorder && recorder.exportWAV(function(blob) {
-        //if(asynchronousUploading){
-        //  setTimeout("nextStage();",100); 
-        //}
-      });
+
+      //TODO: pass filename
+      var recordingFilename = participantID + "_" + currentStorySample + "_" + multipleRecordingRound;
+      recorder && recorder.exportWAV(function(blob) {}, recordingFilename);
 
       recorder.clear();
 
-      if(asynchronousUploading){
-        setTimeout("nextStage();",100);
+
+      if(allowMultipleRecordingSessions){
+        if(asynchronousUploading){
+          setInstruction(continueMultipleRecordingText);
+          showMe("recorderContainer");
+          document.getElementById("startRecordingButton").disabled=false;
+          document.getElementById("stopRecordingButton").disabled=true;
+          document.getElementById("startRecordingButton").className="btn btn-success";
+          document.getElementById("stopRecordingButton").className="btn btn-danger disabled";
+          showMe("multipleRecordingsDiv");
+          multipleRecordingRound += 1;
+        }
+      } else{
+        if(asynchronousUploading){
+          setTimeout("nextStage();",100);
+        } else{
+          // display loader and wait for callback from recorder
+          document.getElementById("loader").style.display = 'block';
+        }
       }
     }
+  }
+
+  function finishedMultipleRecording(button){
+    // Participant has indicated that they're done recording their story.
+    hideMe("recorderContainer");
+    setTimeout("nextStage();",100);
   }
 
   function createDownloadLink() {
@@ -137,14 +177,27 @@ function __log(e, data) {
   }
 
   function controlRecorderFinishedUploading(){
-    // asychronous uploading behaviour is already done by this point.
-    console.log("CR Finished");
+
+    //  TODO: track number of successful recordings
     numberOfSuccessfulUploads += 1;
-    // If we've been waiting for the upload to finish, move on to the next stage
-    if(!asynchronousUploading){
-      hideMe("loader");
-      setTimeout("nextStage();",100);
-    }
+    
+      // asychronous uploading behaviour is already done by this point.
+      console.log("CR Finished");
+     
+      // If we've been waiting for the upload to finish, move on to the next stage
+      // or show the multiple recordings div
+      if(!asynchronousUploading){
+        hideMe("loader");
+        if(allowMultipleRecordingSessions){
+          setInstruction(continueMultipleRecordingText);
+          showMe("recorderContainer");
+          showMe("multipleRecordingsDiv");
+          multipleRecordingRound += 1;
+        } else{
+          setTimeout("nextStage();",100);
+        }
+      }
+    
   }
 
   //window.onload = function init() {

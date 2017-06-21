@@ -51,6 +51,10 @@
    <div id="recorderContainer">
      <button id="startRecordingButton" onclick="startRecording(this);" class="btn btn-success active">Start Recording</button>
      <button id="stopRecordingButton" onclick="stopRecording(this);" class="btn btn-danger disabled" disabled>Stop Recording</button>
+     <br /><br />
+     <div id="multipleRecordingsDiv">
+      <button id="finishedStory" onclick="finishedMultipleRecording(this);" class="btn btn-success active">I have finished telling my story</button>
+     </div>
   </div>
     <div id="testRecorder" style="display:none">
         <audio id="testRecorderAudio" onplay="testRecorderAudioStarted()" controls></audio><br /><br />

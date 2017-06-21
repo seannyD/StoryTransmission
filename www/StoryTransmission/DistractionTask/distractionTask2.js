@@ -19,7 +19,7 @@ var displayGridRows = 4;
 var cellSize = "60px";
 var cellSize2 = "80px";
 
-var distractionTaskInstructionTime = 5 * 1000;
+var distractionTaskInstructionTime = 10 * 1000;
 var distractionTaskDisplayTime = 30 * 1000;
 var distractionTaskSelectTime = 30 * 1000;
 var distractionTaskFeedbackTime = 2 * 1000;

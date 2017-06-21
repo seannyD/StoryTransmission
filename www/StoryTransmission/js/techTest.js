@@ -13,6 +13,7 @@ function doTechTest(){
 
 function userAgreedToShareMicrophone(){
 	hideMe("techTest");
+	showMe("loader");
 	initRecorder();
 }
 
@@ -38,6 +39,7 @@ function doMicTest(){
     document.getElementById("stopRecordingButton").className="btn btn-danger disabled";
 	setInstruction(micTestText);
 	showMe("recorderContainer");
+	hideMe("multipleRecordingsDiv");
 	hideMe('testRecorder');
 }
 

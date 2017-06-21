@@ -42,7 +42,7 @@ function __log(e, data) {
     document.getElementById("startRecordingButton").innerHTML="Start Recording";
     document.getElementById("startRecordingButton").disabled=false;
     document.getElementById("stopRecordingButton").disabled=true;
-    document.getElementById("startRecordingButton").className="btn btn-success";
+    document.getElementById("startRecordingButton").className="btn btn-success active";
     document.getElementById("stopRecordingButton").className="btn btn-danger disabled";
     setInstruction(recordingInstructionText);
     showMe("recorderContainer");
@@ -133,10 +133,11 @@ function __log(e, data) {
       if(allowMultipleRecordingSessions){
         if(asynchronousUploading){
           setInstruction(continueMultipleRecordingText);
+          document.getElementById("startRecordingButton").innerHTML="Continue Recording";
           showMe("recorderContainer");
           document.getElementById("startRecordingButton").disabled=false;
           document.getElementById("stopRecordingButton").disabled=true;
-          document.getElementById("startRecordingButton").className="btn btn-success";
+          document.getElementById("startRecordingButton").className="btn btn-success active";
           document.getElementById("stopRecordingButton").className="btn btn-danger disabled";
           showMe("multipleRecordingsDiv");
           multipleRecordingRound += 1;

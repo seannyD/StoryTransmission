@@ -22,23 +22,23 @@
 
 
 .displayCell{
-	width: 7vw;
-	height: 7vw;
+	width: 10vw;
+	height: 10vw;
 	border-style:solid;
 	display:inline-block;
 	float: left;
 }
 
 .selectCell{
-	width: 7vw;
-	height: 7vw;
+	width: 10vw;
+	height: 10vw;
 	border-style:solid;
 	display:inline-block;
 }
 
 .card{
-	width: 6.5vw;
-	height: 6.5vw;
+	width: 8vw;
+	height: 8vw;
 }
 
 

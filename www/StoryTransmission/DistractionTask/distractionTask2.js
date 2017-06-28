@@ -6,14 +6,18 @@
 // TOOD: record screen size?
 
 
-var numStimuli = 15;
-var NumSymbolsObserved = 7;
+var numStimuli = 9;//15;
+//var chosenLetters = ["A", "B", "C", "D", "E", "I", "J", "K", "L", "M" ,"O" ,"T" ,"U" ,"V" ,"Y"];
+var chosenLetters = ["A", "B", "C", "D", "I", "K", "O", "U", "V"];
+					//0,1,2,3,5,7,10,12,13
+
+var NumSymbolsObserved = 5 //7;
 var NumberOfRounds = 3;
 
 var gridImages = [];
 
 var selectGridColumns = 3;
-var displayGridColumns = 6;
+var displayGridColumns = 4;
 var displayGridRows = 4;
 
 var cellSize = "60px";
@@ -96,7 +100,7 @@ function startDistractionTask(taskNumber){
 	playerPoints = 0;
 	updatePoints();
 
-	if(typeof document.getElementById("trash")!="undefined" && useTrashcan){
+	if(typeof document.getElementById("trash")!="undefined" && !useTrashcan){
 		hideMe("trash");
 	}
 
@@ -430,7 +434,6 @@ function recordResponses(){
 }
 
 function numbersToLetters(nums){
-	var chosenLetters = ["A", "B", "C", "D", "E", "I", "J", "K", "L", "M" ,"O" ,"T" ,"U" ,"V" ,"Y"];
 	var out = [];
 	for(var i=0;i<nums.length; ++i){
 		out.push(chosenLetters[nums[i]]);

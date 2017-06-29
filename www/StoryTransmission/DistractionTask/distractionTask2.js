@@ -64,7 +64,7 @@ var timerIntervalId = 0;
 
 var distractionTaskSaveFields = ['participantID','playerDisplayLocations','playerDisplaySymbols','playerDisplaySymbols.alpha',
 				'playerDisplayCorrect', 'playerTechnicalPoints','currentDisplaySymbols','currentDisplaySymbols.alpha',
-				,'currentDisplayLocations', 'playerSymbolsCorrect','playerLocationsCorrect','playerSymbolsAndLocationsCorrect', "time"];
+				'currentDisplayLocations', 'playerSymbolsCorrect','playerLocationsCorrect','playerSymbolsAndLocationsCorrect', "time"];
 
 
 var distractionStages;

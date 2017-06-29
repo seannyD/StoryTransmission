@@ -202,7 +202,7 @@ function __log(e, data) {
       //li.appendChild(au);
       //li.appendChild(hf);
       showMe("testRecorder");
-    }, "wav");
+    }, "NONE", "audio/wav");
   }
 
   function controlRecorderFinishedUploading(){

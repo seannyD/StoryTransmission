@@ -249,6 +249,7 @@ function makeProgressBar(){
 }
 
 
+
 // -------------------
 //   For testing
 
@@ -348,3 +349,29 @@ $(window).focus(function(e) {
     // Do Focus Actions Here
     addToTimeLog("Participant focus window " + stages[stageCounter]);
 });
+
+
+window.onbeforeunload = function (e) {
+
+   var askBeforeLoading = false;
+   if(stageCounter>=0){
+     if(stages[stageCounter]!="workerCode"){
+       askBeforeLoading = true;
+     }
+   } else{
+     askBeforeLoading = true;
+   }
+
+   if(askBeforeLoading){
+        e = e || window.event;
+
+        // For IE and Firefox prior to version 4
+        if (e) {
+            e.returnValue = 'You have not completed the experiment, are you sure you want to close this window?';
+        }
+
+        // For Safari
+        return 'You have not completed the experiment, are you sure you want to close this window?';
+     }
+   
+};

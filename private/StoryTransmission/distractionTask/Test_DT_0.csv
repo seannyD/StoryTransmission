@@ -1,4 +1,4 @@
-participantID,playerDisplayLocations,playerDisplaySymbols,playerDisplaySymbols.alpha,playerDisplayCorrect,playerTechnicalPoints,currentDisplaySymbols,currentDisplaySymbols.alpha,,currentDisplayLocations,time
-Test,0-1_1-2_2-2_3-1_,7_1_8_0,U_B_V_A,false_false_false_false,3,8_5_6_4_3,V_K_O_I_D,undefined,3-1_1-0_0-0_2-3_1-2_,2017-6-28 12:22:13
-Test,0-0_2-1_2-2_2-3_3-3_,0_2_5_6_7,A_C_K_O_U,true_true_false_false_false,10,5_0_2_1_8,K_A_C_B_V,undefined,3-3_0-0_2-1_2-3_2-2_,2017-6-28 12:22:35
-Test,,,,,0,0_6_8_2_5,A_O_V_C_K,undefined,1-0_3-1_2-3_0-3_0-1_,2017-6-28 12:22:57
+participantID,playerDisplayLocations,playerDisplaySymbols,playerDisplaySymbols.alpha,playerDisplayCorrect,playerTechnicalPoints,currentDisplaySymbols,currentDisplaySymbols.alpha,,currentDisplayLocations,playerSymbolsCorrect,playerLocationsCorrect,playerSymbolsAndLocationsCorrect,time
+Test,2-0_3-0_3-1_3-2_3-3_,6_3_2_7_0,O_D_C_U_A,true_false_true_false_false,7,3_6_2_1_7,D_O_C_B_U,undefined,3-3_2-0_3-1_3-2_3-0_,4,5,2,2017-6-29 11:27:47
+Test,0-0_0-1_0-3_1-1_2-0_,0_8_7_3_4,A_V_U_D_I,true_true_false_false_true,7,7_8_4_3_0,U_V_I_D_A,undefined,1-2_0-1_2-0_0-3_0-0_,5,4,3,2017-6-29 11:28:9
+Test,0-0_0-2_1-1_2-2_3-1_,0_6_7_5_4,A_O_U_K_I,true_true_false_false_false,5,4_0_6_3_2,I_A_O_D_C,undefined,1-2_0-0_0-2_3-1_2-3_,3,3,2,2017-6-29 11:28:31

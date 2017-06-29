@@ -16,8 +16,8 @@
   	background-color: #fff;
   	color: #444;
   	position: absolute;
-	top: 12%;
-	left: 55%;
+	top: 20%;
+	left: 48%;
 	width: 25%;
 	height: 60%;
 }
@@ -26,8 +26,8 @@
 	position: absolute;
 	top: 20%;
 	left: 2%;
-	width: 47%;
-	height: 80%;
+	width: 40%;
+	height: 75%;
 	display: inline;
   	background-color: #fff;
   	color: #444;
@@ -36,23 +36,23 @@
 
 
 .displayCell{
-	width: 7vw;
-	height: 7vw;
+	width: 8vw;
+	height: 8vw;
 	border-style:solid;
 	display:inline-block;
 	float: left;
 }
 
 .selectCell{
-	width: 7vw;
-	height: 7vw;
+	width: 8vw;
+	height: 8vw;
 	border-style:solid;
 	display:inline-block;
 }
 
 .card{
-	width: 6.5vw;
-	height: 6.5vw;
+	width: 7.9vw;
+	height: 7.9vw;
 }
 
 
@@ -61,6 +61,14 @@
 	top: 60%;
 	left: 50%;
 	width: 8%;
+}
+
+#DragArrow{
+	position:absolute;
+	top: 30%;
+	left: 38%;
+	width: 8%;
+	display: none;
 }
 
 #progressBarContainer{

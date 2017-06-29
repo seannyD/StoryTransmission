@@ -11,6 +11,9 @@ var numStimuli = 9;//15;
 var chosenLetters = ["A", "B", "C", "D", "I", "K", "O", "U", "V"];
 					//0,1,2,3,5,7,10,12,13
 
+
+var selectStimOrder = []; // set in startDistractionTask();
+
 var NumSymbolsObserved = 5 //7;
 var NumberOfRounds = 3;
 
@@ -42,8 +45,11 @@ var currentDisplaySymbols = [];
 
 var playerDisplayLocations = [];
 var playerDisplaySymbols = [];
-var playerDisplayCorrect = [];
-var playerTechnicalPoints = [];
+var playerDisplayCorrect = []; //VSLT "P&D"
+var playerSymbolCorrect = []; //VSLT "D"
+var playerLocationCorrect = []; //VSLT "P"
+var playerTechnicalPoints = []; // VSLT "P + P&D"
+
 
 var playerPoints = 0;
 
@@ -58,7 +64,7 @@ var timerIntervalId = 0;
 
 var distractionTaskSaveFields = ['participantID','playerDisplayLocations','playerDisplaySymbols','playerDisplaySymbols.alpha',
 				'playerDisplayCorrect', 'playerTechnicalPoints','currentDisplaySymbols','currentDisplaySymbols.alpha',
-				,'currentDisplayLocations', "time"];
+				,'currentDisplayLocations', 'playerSymbolsCorrect','playerLocationsCorrect','playerSymbolsAndLocationsCorrect', "time"];
 
 
 var distractionStages;
@@ -73,6 +79,14 @@ var distractionTaskNumber = 0;
 function startDistractionTask(taskNumber){
 
 	preloadGridImages();
+
+	if(selectStimOrder.length ==0){
+		for(var i=0; i<numStimuli;++i){
+			selectStimOrder.push(i);
+		}
+		// randomise once, so it remains the same throughout the experiment
+		shuffle(selectStimOrder);
+	}
 
 	distractionTaskNumber = taskNumber;
 	
@@ -161,6 +175,7 @@ function distractionTaskClearScreen(){
 	}
 	hideMe('selectGrid');
 	hideMe("instructions")
+	hideMe("DragArrow");
 }
 
 function startTimer(t){
@@ -255,6 +270,7 @@ function startSelectionStage(){
 	if(useTrashcan){
 		showMe("trash");
 	}
+	showMe("DragArrow");
 
 	setTimeout("nextDistractionStage();",distractionTaskSelectTime);
 	startTimer(distractionTaskSelectTime);
@@ -345,11 +361,14 @@ function doFeedback(){
 			}
 		}
 	}
+
+
+
 	console.log("Technical points "+correctSymbolPoints + " " + correctLocationPoints + " "+ correctSymbolAndLocationPoints);
-	playerTechnicalPoints = correctSymbolPoints + correctLocationPoints + correctSymbolAndLocationPoints;
+	playerTechnicalPoints = correctLocationPoints + correctSymbolAndLocationPoints;
 
 
-	recordResponses();
+	recordResponses(correctSymbolPoints,correctLocationPoints,correctSymbolAndLocationPoints);
 
 	// move on to next stage
 	setTimeout("nextDistractionStage()",distractionTaskFeedbackTime);
@@ -381,7 +400,7 @@ function setupSave(){
 	}
 }
 
-function recordResponses(){
+function recordResponses(correctSymbolPoints,correctLocationPoints,correctSymbolAndLocationPoints){
 	//playerDisplayLocations;
 	//playerDisplaySymbols;
 	//playerDisplayCorrect;
@@ -427,6 +446,9 @@ function recordResponses(){
 	roundResponses["playerDisplayLocations"].push(playerLocationsText);
 	roundResponses["playerDisplayCorrect"].push(playerDisplayCorrectText);
 	roundResponses["playerTechnicalPoints"].push(playerTechnicalPoints); // defined  in doFeedback()
+	roundResponses["playerSymbolsCorrect"].push(correctSymbolPoints);
+	roundResponses["playerLocationsCorrect"].push(correctLocationPoints);
+	roundResponses["playerSymbolsAndLocationsCorrect"].push(correctSymbolAndLocationPoints);
 	roundResponses["time"].push(getCurrentTime());
 
 
@@ -481,14 +503,17 @@ function uploadDistractionTaskData(){
 function makeDraggableImages(){
 
 	var text = "";
+	
 
 	for(var i=0; i <numStimuli; ++i){
 
 		rowNumber = Math.floor(i / selectGridColumns);
 		colNumber = i % selectGridColumns;
 
+		var selImagei = selectStimOrder[i];
+
 		text += '<div id="selectDiv_'+ rowNumber + "_" + colNumber +'" style="display:inline-block;">';
-		text += getImageText(i,true);		 
+		text += getImageText(selImagei,true);		 
 		text += "</div>"
 
 	}

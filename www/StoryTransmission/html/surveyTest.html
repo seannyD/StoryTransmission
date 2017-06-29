@@ -79,9 +79,12 @@
     <div id="points"></div>
     <div id="displayGrid"></div>
     <div id="selectGrid"></div>
-<!--    <div id="trash" ondrop="drop(event)" ondragover="preventDefault(event)">
+    <div id="DragArrow">
+      <image id="DragArrowImg" src="../DistractionTask/images/DragArrow.png" style="width:100%">
+    </div>
+    <div id="trash" ondrop="drop(event)" ondragover="preventDefault(event)">
       <image id="trashimg" ondrop="drop(event)" ondragover="preventDefault(event)" src="../DistractionTask/images/bin.png" style="width:100%">
-    </div>  -->
+    </div>
     <div id="timer">
       <progress id="timerProgress" value="0" max="100"></progress>
     </div>
@@ -104,17 +107,20 @@
   <br /><br />
   DISTRACTION TASK
   <br />
-  NumSymbolsObserved  = <input id="NumSymbolsObserved" value="7" /><br />
+  NumSymbolsObserved  = <input id="NumSymbolsObserved" value="5" /><br />
     NumberOfRounds = <input id="NumberOfRounds" value="3" /><br />
 
     selectGridColumns <input id="selectGridColumns" value="3" /><br />
-    displayGridColumns <input id="displayGridColumns" value="6" /><br />
+    displayGridColumns <input id="displayGridColumns" value="4" /><br />
     displayGridRows <input id="displayGridRows" value="4" /><br />
 
     distractionTaskInstructionTime <input id="distractionTaskInstructionTime" value="5000" /><br />
     distractionTaskDisplayTime (ms) <input id="distractionTaskDisplayTime" value="30000" /><br />
     distractionTaskSelectTime (ms) <input id="distractionTaskSelectTime" value="30000" /><br />
     distractionTaskFeedbackTime (ms) <input id="distractionTaskFeedbackTime" value="2000" /><br />
+
+    
+
   <br /><br />
   <button onclick="startTestRun()">START</button><br />
   </div>

@@ -1,4 +1,4 @@
-//TODO: record browser type, location of country
+//TODO: record browser type
 
 
 // Define and keep track of order of stages
@@ -283,7 +283,11 @@ function startTestRun(){
   distractionTaskSelectTime = parseInt(document.getElementById("distractionTaskSelectTime").value);
   distractionTaskFeedbackTime= parseInt(document.getElementById("distractionTaskFeedbackTime").value);
 
-
+  for(var i=0; i<numStimuli;++i){
+      selectStimOrder.push(i);
+    }
+    // randomise once, so it remains the same throughout the experiment
+    shuffle(selectStimOrder);
 
     hideMe("testDiv");
     setTimeout("nextStage();",1000);

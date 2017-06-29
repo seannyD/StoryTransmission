@@ -1,6 +1,6 @@
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="../DistractionTask/distraction.css">
+<link rel="stylesheet" type="text/css" href="../css/style.css">
 </head>
 <script src="../js/instructions.js"></script>
 <script src="../Recordmp3js-master/js/jquery-1.11.0.min.js"></script>
@@ -26,6 +26,13 @@ function startTestDistractionTask(){
 	distractionTaskDisplayTime = parseInt(document.getElementById("distractionTaskDisplayTime").value);
 	distractionTaskSelectTime = parseInt(document.getElementById("distractionTaskSelectTime").value);
 	distractionTaskFeedbackTime= parseInt(document.getElementById("distractionTaskFeedbackTime").value);
+
+
+	for(var i=0; i<numStimuli;++i){
+			selectStimOrder.push(i);
+		}
+		// randomise once, so it remains the same throughout the experiment
+		shuffle(selectStimOrder);
 
 	hideMe("settings");
 	document.getElementById("displayGrid").style.display = 'grid'
@@ -62,6 +69,9 @@ function startTestDistractionTask(){
   <div id="points"></div>
   <div id="displayGrid"></div>
   <div id="selectGrid"></div>
+  <div id="DragArrow">
+  <image id="DragArrowImg" src="../DistractionTask/images/DragArrow.png" style="width:100%">
+  </div>
   <div id="trash" ondrop="drop(event)" ondragover="preventDefault(event)">
     <image id="trashimg" ondrop="drop(event)" ondragover="preventDefault(event)" src="../DistractionTask/images/bin.png" style="width:100%">
   </div>

@@ -10,6 +10,7 @@ function startQualifyingExperiment(){
       "qualifyingSurvey",
       "qualifyingWorkerCode"];
 
+
       // TODO: change workerCode
       participantID = "Q_"+new Date().getTime();
       // this is just temporary

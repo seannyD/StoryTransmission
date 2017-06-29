@@ -14,6 +14,9 @@
   var asynchronousUploading = true;  
   var allowMultipleRecordingSessions = true; // per story  
 
+  var blinkLightIntervalID = null;
+  var blinkLightStage = -1;
+
 
 function __log(e, data) {
     console.log(e + " " + (data || ''));
@@ -71,7 +74,7 @@ function __log(e, data) {
   }
 
   function startRecording(button) {
-
+    startBlinkLight();
     addToTimeLog("Start recording "+ currentStorySample + " " + multipleRecordingRound);
 
     document.getElementById("startRecordingButton").disabled=true;
@@ -92,6 +95,7 @@ function __log(e, data) {
 
   function stopRecording(button) {
     console.log("STOP RECORDING");
+    stopBlinkLight();
     addToTimeLog("Stop recording "+ currentStorySample + " " + multipleRecordingRound);
     recorder && recorder.stop();
     document.getElementById("startRecordingButton").disabled=true;
@@ -150,6 +154,30 @@ function __log(e, data) {
           document.getElementById("loader").style.display = 'block';
         }
       }
+    }
+  }
+
+  function startBlinkLight(){
+    if(blinkLightIntervalID != null){
+      clearInterval(blinkLightIntervalID);
+    }
+    blinkLightIntervalID = setInterval("toggleBlinkLight()", 500);
+  }
+
+  function stopBlinkLight(){
+    if(blinkLightIntervalID != null){
+      clearInterval(blinkLightIntervalID);
+    }
+    document.getElementById("recordingLight").src="../resources/images/RecordingLight_off.png"
+  }
+
+  function toggleBlinkLight(){
+    blinkLightStage += 1;
+    if(blinkLightStage ==2){
+      blinkLightStage = -1;
+      document.getElementById("recordingLight").src="../resources/images/RecordingLight_off.png";
+    } else{
+      document.getElementById("recordingLight").src="../resources/images/RecordingLight_on.png";
     }
   }
 

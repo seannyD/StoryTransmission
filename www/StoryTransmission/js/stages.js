@@ -16,6 +16,7 @@ addToTimeLog("Page Load");
 var participantID = "";
 
 var workerCode = "";
+var MTWorkerData = {};
 var progressBar = true;
 
 // these are shuffled below
@@ -58,7 +59,10 @@ var stagesLabels = {"consent":"Consent >",
                     'speechEvaluation2.playAndEval':"Survey 2 >",
                     'demographySurvey':"Survey 3 >",
                     'checkUploaded':"Upload results >",
-                    'workerCode':"Worker Code"
+                    'workerCode':"Worker Code",
+                    'qualifyingSurvey':"Survey >",
+                    'qualifyingWorkerCode':"Worker Code",
+                    'qualifyingConsent':"Consent >"
                     }
 
 //stages = ["localisation", 'demographySurvey','workerCode'];
@@ -89,6 +93,10 @@ function nextStage(){
       case "consent":
         setInstruction("<h1>The effects of social transmission biases on human cultural evolution</h1>");
         launchSurvey(consentSurvey);
+        break;
+      case "qualifyingConsent":
+        setInstruction("<h1>Qualifying Task</h1>");
+        launchSurvey(qualifyingConsentSurvey);
         break;
       case "speakerTest":
         doSpeakerTest();
@@ -153,6 +161,12 @@ function nextStage(){
         saveTimeLog();
         showWorkerCode();
         break;
+      case "qualifyingSurvey":
+        launchQualifyingSurvey();
+        break;
+      case "qualifyingWorkerCode":
+        showQualifyingWorkerCode();
+        break;
       default:
         showWorkerCode(); // by default, end the experiment nicely!
         break;
@@ -211,6 +225,8 @@ $( document ).ready(function() {
   $.getScript("../survey/SURVEY_consent.js");
   $.getScript("../survey/SURVEY_localisation.js");
   $.getScript("../survey/SURVEY_demography_USA.js");
+  $.getScript("../survey/SURVEY_qualifying.js");
+  $.getScript("../survey/SURVEY_qualifyingConsent.js");
   // the last survey to be loaded should call surveysLoaded() to start the experiment
   $.getScript("../survey/SURVEY_demography_UK.js",surveysLoaded());
 
@@ -220,12 +236,28 @@ $( document ).ready(function() {
 });
 
 function surveysLoaded(){
-  setTimeout("nextStage();",1000);
+  
   var urlvars = getUrlVars();
+
+  //  MECHANICAL TURK DATA
+  //  https://tictactoe.amazon.com/gamesurvey.cgi?gameid=01523
+  //  &assignmentId=123RVWYBAZW00EXAMPLE456RVWYBAZW00EXAMPLE
+  //  &hitId=123RVWYBAZW00EXAMPLE
+  //  &turkSubmitTo=https://www.mturk.com/
+  //  &workerId=AZ3456EXAMPLE
+  MTWorkerData["MT_assignmentId"] = urlvars["assignmentId"] || "";
+  MTWorkerData["MT_hitId"] = urlvars["hitId"] || "";
+  MTWorkerData["MT_workerId"] = urlvars["workerId"] || "";
+  console.log(MTWorkerData);
+
   if(urlvars["test"]){
     showMe("testDiv");
     document.getElementById("stagesText").value = stages;
   }
+  if(urlvars["qualify"]){
+    startQualifyingExperiment();
+  }
+  setTimeout("nextStage();",1000);
 }
 
 

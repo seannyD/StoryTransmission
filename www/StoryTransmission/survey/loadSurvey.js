@@ -80,6 +80,10 @@ function finishDemographySurvey(survey){
 	sd['startTime'] = startTime;
 	sd['endTime'] = getCurrentTime();
 
+	sd["_MT_assignmentId"] = MTMTWorkerData["MT_assignmentId"];
+  	sd["_MT_hitID"] = MTWorkerData["MT_hitId"];
+  	sd["_MT_workerId"] = MTWorkerData["MT_workerId"];
+
 	for (var key in localisationSurveyResults) {
 	  if (localisationSurveyResults.hasOwnProperty(key)) {
 	    //console.log(key + " -> " + p[key]);

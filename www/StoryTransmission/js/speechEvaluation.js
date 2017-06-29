@@ -133,6 +133,10 @@ function finishSpeechEvaluationSurvey(survey){
 	sd['evaluationPrestige'] = evaluationPrestigeType;
 	sd['evaluationPresentationNumber'] = currentEvaluationNumber;
 
+	sd["_MT_assignmentId"] = MTMTWorkerData["MT_assignmentId"];
+  	sd["_MT_hitID"] = MTWorkerData["MT_hitId"];
+  	sd["_MT_workerId"] = MTWorkerData["MT_workerId"];
+
 	for (var key in localisationSurveyResults) {
 	  if (localisationSurveyResults.hasOwnProperty(key)) {
 	    //console.log(key + " -> " + p[key]);

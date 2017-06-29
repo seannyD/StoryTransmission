@@ -66,7 +66,6 @@ function speakerTestStarted(){
 }
 
 function finishedTestAudio(){
-	// TODO: stop audio playing
 	var au = document.getElementById("TestAudio");
 	au.pause();
 	setTimeout("nextStage()",100);

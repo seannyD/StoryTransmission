@@ -34,8 +34,7 @@
    <div id="instructions"></div>
    <div class="loader" id="loader"></div>
 
-   <div id="surveyContainer"></div>
-
+   
    <div id="playStoryContainer">
        <audio id="playStoryPlayer" onended="playStoryPlayerEnded()">
           <source id="playStorySource" src="" type="audio/mpeg">
@@ -47,6 +46,15 @@
           </div>
         </div>
    </div>
+
+   <div id="playEvalContainer">
+       <audio id="playEvalPlayer" onended="">
+          <source id="playEvalSource" src="" type="audio/mpeg">
+       </audio>
+       <button type="button" id="playEvalButton" onclick="playEvalButtonPress()" class="btn btn-success">Listen</button>        
+   </div>
+
+   <div id="surveyContainer"></div>
 
    <div id="recorderContainer">
      <button id="startRecordingButton" onclick="startRecording(this);" class="btn btn-success active">Start Recording</button>

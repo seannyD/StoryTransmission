@@ -31,8 +31,10 @@ var stages = [
       "localisation",  
 			'story1','distraction1','recording1',
 			'story2','distraction2','recording2',
-      'speechEvaluation1.play','speechEvaluation1.eval',
-      'speechEvaluation2.play','speechEvaluation2.eval',
+      //'speechEvaluation1.play','speechEvaluation1.eval',
+      //'speechEvaluation2.play','speechEvaluation2.eval',
+      'speechEvaluation1.playAndEval',
+      'speechEvaluation2.playAndEval',
 			'demographySurvey','checkUploaded','workerCode'];
       // TODO: I give my consent to use this data ...
       // TODO: check country ip address
@@ -52,6 +54,8 @@ var stagesLabels = {"consent":"Consent >",
                     'speechEvaluation1.eval':"Survey 1 >",
                     'speechEvaluation2.play':"Survey 2 >",
                     'speechEvaluation2.eval':"Survey 2 >",
+                    'speechEvaluation1.playAndEval':"Survey 1 >",
+                    'speechEvaluation2.playAndEval':"Survey 2 >",
                     'demographySurvey':"Survey 3 >",
                     'checkUploaded':"Upload results >",
                     'workerCode':"Worker Code"
@@ -133,6 +137,12 @@ function nextStage(){
       case "speechEvaluation2.eval":
         launchSpeechEvaluationSurvey(1);
         break;
+      case "speechEvaluation1.playAndEval":
+        playAndEvaluation(0);
+        break;
+      case "speechEvaluation2.playAndEval":
+        playAndEvaluation(1);
+        break;
       case "demographySurvey":
         launchDemographySurvey();
         break;
@@ -190,6 +200,7 @@ function clearScreen(){
   hideMe("techTest");
   hideMe("testRecorder");
   hideMe("SpeakerTest");
+  hideMe("playEvalContainer");
 
 }
 

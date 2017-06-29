@@ -13,8 +13,6 @@ var currentEvaluationNumber = 0;
 var originalSpeechEvaluationQuestionOrder = [];
 
 function speechEvaluation(sampleNum){
-
-	// TODO: randomise order that samples are played
     
 	if(sampleNum==0){
 		setInstruction(speechEvaluationInstructionText1);
@@ -25,12 +23,27 @@ function speechEvaluation(sampleNum){
 	
 	currentEvaluationNumber = sampleNum;
 	evaluationPrestigeType = speechEvaluationOrder[sampleNum];
-	audioToPlay = audioFolder+experimentLocation + "_" + evaluationPrestigeType+"_Comma.mp3";
+	var evalAudioToPlay = audioFolder+experimentLocation + "_" + evaluationPrestigeType+"_Comma.mp3";
+
+	var audio = document.getElementById('playEvalPlayer');
+    var source = document.getElementById('playEvalSource');
+	audio.pause();
+	source.src = evalAudioToPlay;
+	audio.load();
 	
 	speechEvaluationStartTime = getCurrentTime();
 	readyToPlay = true;
-	showMe("playStoryContainer");
-	showMe("playStoryButton");
+	showMe("playEvalContainer");
+	showMe("playEvalButton");
+
+}
+
+function playEvalButtonPress(){
+	var audio = document.getElementById('playEvalPlayer');
+    var source = document.getElementById('playEvalSource');
+	audio.oncanplaythrough = audio.play();
+	hideMe("playEvalButton");
+	showMe("surveyContainer");
 
 }
 
@@ -54,7 +67,20 @@ function launchSpeechEvaluationSurvey(sampleNum){
 
 }
 
+function playAndEvaluation(sampleNum){
+	speechEvaluation(sampleNum);
+	launchSpeechEvaluationSurvey(sampleNum);
+	hideMe("surveyContainer"); // hide until participant starts playing the voice
+}
+
 function finishSpeechEvaluationSurvey(survey){
+
+
+	// stop audio playing (if playing)
+	var audio = document.getElementById('playEvalPlayer');
+    audio.pause();
+
+
 	console.log(JSON.stringify(survey.data));
 	console.log(survey.data);
 	var sdx= survey.data;

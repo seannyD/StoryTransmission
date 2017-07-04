@@ -44,7 +44,8 @@ var participantDeclinedToShareMicrophoneText =
 
 var micTestText = 
 "<h1>Test your microphone</h1>\
-<p>Press <strong>Start Recording</strong> to start recording.  Press <strong>Stop Recording</strong> to finish recording.";
+<p>Press <strong>Start Recording</strong> to start recording.  Press <strong>Stop Recording</strong> to finish recording.\
+<p>Please read the following sentence. <strong>Edison invented the phonograph in 1877 for the recording of sound.</strong>";
 
 var micTestText2 = 
 "<h1>Test your microphone</h1>\
@@ -88,7 +89,7 @@ var uploadingText = "<h1>Uploading</h1><p>Uploading your story, please wait ..."
 
 var recordingInstructionText = 
 "<h1>Tell us a story!</h1>\
-<p>Using your microphone, please record yourself recalling as many details as you can from the story you just heard. It is okay if you do not recall them in the correct order or remember something later—any details of the story can be mentioned at any time in the recording. \
+<p>Using your microphone, please tell us the story that you have just heard. It is okay if you cannot remember everything but please try and recall as many details as possible. \
 <p>Press <strong>Start Recording</strong> to start recording.  Press <strong>Stop Recording</strong> to finish recording. \
 <p>After your recording has been stopped, pressing record again will add to the previous recording, if you have anything to add.\
 <p>Once you have finished, before submitting your recording, press play and skip around using the progress bar to ensure it is audible, understandable, and of good quality. You can press record to say again any parts of the recording that were not clear.\

@@ -114,14 +114,14 @@ var continueMultipleRecordingText =
 var speechEvaluationInstructionText1 = 
 "<h1>Speaker Evaluation: Speaker 1</h1>\
 <p>Please listen to the recording below.  You will then be asked to indicate your impressions of the speaker. You may listen to each recording as many times as needed.\
-<p><strong>IMPORTANT:</strong> Pay close attention to the items on each rating scale. Please try to use the entire breadth of the scale.\
+<p><strong>IMPORTANT:</strong> Pay close attention to the items on each rating scale. Please use the entire breadth of the scale.\
 <p>The passage, from 'Comma Gets a Cure', is copyright 2000 Douglas N. Honorof, Jill McCullough & Barbara Somerville. All rights reserved.";
 
 
 var speechEvaluationInstructionText2 = 
 "<h1>Speaker Evaluation: Speaker 2</h1>\
 <p>Please listen to the recording below.  You will then be asked to indicate your impressions of the speaker. You may listen to each recording as many times as needed.\
-<p><strong>IMPORTANT:</strong> Pay close attention to the items on each rating scale. Please try to use the entire breadth of the scale.\
+<p><strong>IMPORTANT:</strong> Pay close attention to the items on each rating scale. Please use the entire breadth of the scale.\
 <p>The passage, from 'Comma Gets a Cure', is copyright 2000 Douglas N. Honorof, Jill McCullough & Barbara Somerville. All rights reserved.";
 
 var distractionTaskInstructions = 

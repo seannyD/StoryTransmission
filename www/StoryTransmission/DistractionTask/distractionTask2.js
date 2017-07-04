@@ -158,7 +158,7 @@ function nextDistractionStage(){
 	                  break;
 	                case "upload":
 	                  distractionStageCounter = -1;
-	                  uploadDistractionTaskData();
+	                  uploadDistractionTaskData();  // successful upload starts next stage
 	                default:
 	                	break;
 	     }
@@ -210,6 +210,8 @@ function incTimer(){
 function displayImages(){
 	distractionTaskClearScreen();
 
+	setInstruction(distractionTaskWatchInstructions);
+
 	// show grid
 	//document.getElementById("displayGrid").style.display='grid';
 	showMe("displayGrid");
@@ -260,6 +262,7 @@ function displayImages(){
 
 function startSelectionStage(){
 	distractionTaskClearScreen();
+	setInstruction(distractionTaskSelectInstructions);
 	makeDisplayGrid();
 	makeDraggableImages();
 	// can't use showMe() because it changes the display to 'inline'
@@ -369,6 +372,9 @@ function doFeedback(){
 
 
 	recordResponses(correctSymbolPoints,correctLocationPoints,correctSymbolAndLocationPoints);
+
+	// clear screen for short pause before moving on
+	setTimeout("makeDisplayGrid()",distractionTaskFeedbackTime - 500);
 
 	// move on to next stage
 	setTimeout("nextDistractionStage()",distractionTaskFeedbackTime);
@@ -481,20 +487,27 @@ function uploadDistractionTaskData(){
 
 	// Upload to server
 	var fd = new FormData();
-	var filename = participantID  + '_DT_' + distractionTaskNumber + '.csv';
+	//var filename = participantID  + '_DT_' + distractionTaskNumber + '.csv';
 	
-	fd.append('fname', filename);
+	//fd.append('fname', filename);
 	fd.append('data', csvText);
+	fd.append('filetype','distraction');
+	fd.append("id",participantID + "_distraction_" + distractionTaskNumber);
 	$.ajax({
 		type: 'POST',
-		url: uploadDistractionTaskPHPLocation,
+		url: uploadSurveyPHPLocation,
 		data: fd,
 		processData: false,
 		contentType: false
 	}).done(function(data) {
 		console.log(data);
+		var bits = data.split(";");
+		if(bits.length==2){
+			addToFileLog(bits[0],bits[1]);
+		}
 		setTimeout("nextStage()",500);
 	});
+	//TODO: action on fail?
 }
 
 //--------

@@ -7,17 +7,22 @@
 // pull the raw binary data from the POST array
 $data = substr($_POST['data'], strpos($_POST['data'], ",") + 1);
 // decode it
-$filename = $_POST['fname'];
-echo("---");
-echo($filename);
+//$filename = $_POST['fname'];
+$id = $_POST['id'];
+
+
+$base = '../../../private/StoryTransmission/recordings/';
+if(file_exists ( "/srv/www.excdlab/data" )){
+$base = '/srv/www.excdlab/data/StoryTransmission/recordings/';
+}
+
+$filename = $base."REC".md5(microtime()).".mp3";
+echo($id.";".$filename);
+
 $decodedData = base64_decode($data);
-// print out the raw data, 
-//echo ($decodedData);
-//$filename = 'audio_recording_' . date( 'Y-m-d-H-i-s' ) .'.mp3';
-// write the data out to the file
-if(strpos($filename, '..') === FALSE){
-$fp = fopen('../../../private/StoryTransmission/recordings/'.$filename, 'wb');
+
+$fp = fopen($filename, 'wb');
 fwrite($fp, $decodedData);
 fclose($fp);
-}
+
 ?>

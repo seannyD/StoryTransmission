@@ -99,10 +99,12 @@ function finishDemographySurvey(survey){
 
 function uploadSurvey(surveyText){
 	var fd = new FormData();
-	var filename = participantID  + '.csv';
+	//var filename = participantID  + '.csv';
 	
-	fd.append('fname', filename);
+	//fd.append('fname', filename);
 	fd.append('data', surveyText);
+	fd.append('filetype', "survey");
+	fd.append('id', participantID+"_Survey_0");
 	$.ajax({
 		type: 'POST',
 		url: uploadSurveyPHPLocation,
@@ -111,6 +113,10 @@ function uploadSurvey(surveyText){
 		contentType: false
 	}).done(function(data) {
 		console.log(data);
+		var bits = data.split(";");
+		if(bits.length==2){
+			addToFileLog(bits[0],bits[1]);
+		}
 		setTimeout("nextStage()",500);
 	});
 }

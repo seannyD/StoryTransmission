@@ -11,6 +11,7 @@ var numberOfRecordedSamples = 0; // increased every time a recording is called
 var startTime = getCurrentTime();
 
 var timeLog = [];
+var fileLog = []; //log of files and locations on server
 addToTimeLog("Page Load");
 
 var participantID = "";
@@ -159,6 +160,7 @@ function nextStage(){
         break;
       case "workerCode":
         saveTimeLog();
+        saveFileLog();
         showWorkerCode();
         break;
       case "qualifyingSurvey":
@@ -347,16 +349,51 @@ function addToTimeLog(message){
 }
 
 function saveTimeLog (){
-  var out = "Message,Time\n";
+  var out = "participantId,Message,Time\n";
   for(var i=0;i<timeLog.length; ++i){
-    out += timeLog[i].join(",")+"\n";
+    out += participantID + "," + timeLog[i].join(",")+"\n";
   }
 
-  var fd = new FormData();
-  var filename = participantID  + '_timeLog.csv';
+
   
-  fd.append('fname', filename);
+  var fd = new FormData();
+ // var filename = participantID  + '_timeLog.csv';
+  
+  //fd.append('fname', filename);
   fd.append('data', out);
+  fd.append('filetype','timelog');
+  fd.append("id", participantID+"_Time_");
+  $.ajax({
+    type: 'POST',
+    url: uploadSurveyPHPLocation,
+    data: fd,
+    processData: false,
+    contentType: false
+  }).done(function(data) {
+    var bits = data.split(";");
+    if(bits.length==2){
+      addToFileLog(bits[0],bits[1]);
+    }
+  });
+
+}
+
+// ------
+// FileLog
+function addToFileLog(filetype, filename){
+  fileLog.push([filetype,filename]);
+}
+
+function saveFileLog(){
+  var out = "participantID,filetype,filename\n";
+  for(var i=0;i<fileLog.length; ++i){
+    out += participantID + "," + fileLog[i].join(",")+"\n";
+  }
+  var fd = new FormData();
+
+  fd.append('data', out);
+  fd.append('filetype','filelog');
+  fd.append("id","fileLog");
   $.ajax({
     type: 'POST',
     url: uploadSurveyPHPLocation,
@@ -366,7 +403,6 @@ function saveTimeLog (){
   }).done(function(data) {
     console.log(data);
   });
-
 }
 
 

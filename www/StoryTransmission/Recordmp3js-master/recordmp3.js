@@ -247,8 +247,9 @@ var currOutputSampleRate;
 			console.log(fileName);
 			var mp3Name = encodeURIComponent(fileName);
 			console.log("mp3name = " + mp3Name);
-			fd.append('fname', mp3Name);
+			//fd.append('fname', mp3Name);
 			fd.append('data', event.target.result);
+			fd.append("id",fileName);
 			$.ajax({
 				type: 'POST',
 				url: uploadPHPLocation,
@@ -257,6 +258,10 @@ var currOutputSampleRate;
 				contentType: false
 			}).done(function(data) {
 				console.log(data);
+				var bits = data.split(";");
+				if(bits.length==2){
+					addToFileLog(bits[0],bits[1]);
+				}
 				controlRecorderFinishedUploading();
 				//setTimeout("controlRecorderFinishedUploading()",500);
 				//log.innerHTML += "\n" + data;

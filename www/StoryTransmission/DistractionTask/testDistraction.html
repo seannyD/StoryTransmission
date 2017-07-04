@@ -1,19 +1,27 @@
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="../css/style.css">
+  <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <link rel="stylesheet" href="../css/bootstrap.css">
 </head>
 <script src="../js/instructions.js"></script>
 <script src="../Recordmp3js-master/js/jquery-1.11.0.min.js"></script>
 <script src="../DistractionTask/distractionTask2.js"></script>
 <script src="../js/utils.js"></script>
 
-<script>participantID="Test"; 
+<script>
+
+participantID="Test_" + new Date().getTime(); 
 
 function nextStage(){
-	alert("End of distraction test");
+	//alert("End of distraction test\nYou scored "+playerPoints+ " points!");
+	document.getElementById("gameOverMessage").innerHTML = "<h1>Game over!</h1><p>You scored <strong>" + playerPoints + "</strong> points!";
+	showMe("gameOver");
 	showMe("settings");
+	hideMe('DragArrow');
+	
 	document.getElementById("output").innerHTML = tmpOutputText;
 	document.getElementById("displayGrid").style.display = 'none';
+	document.getElementById("selectGrid").style.display = 'none';
 	}
 
 function startTestDistractionTask(){
@@ -28,6 +36,8 @@ function startTestDistractionTask(){
 	distractionTaskFeedbackTime= parseInt(document.getElementById("distractionTaskFeedbackTime").value);
 
 
+	playerPoints = 0;
+
 	for(var i=0; i<numStimuli;++i){
 			selectStimOrder.push(i);
 		}
@@ -35,9 +45,14 @@ function startTestDistractionTask(){
 		shuffle(selectStimOrder);
 
 	hideMe("settings");
+	hideMe("trash");
 	document.getElementById("displayGrid").style.display = 'grid'
 	startDistractionTask(0);
 
+}
+
+function gameOverClick(){
+	hideMe("gameOver");
 }
 
 
@@ -45,6 +60,16 @@ function startTestDistractionTask(){
 
 <body onload ='hideMe("displayGrid")'>
 
+
+<div id="gameOver" style="position:absolute; width: 100%; height: 100%; z-index:2; background:#00bf07">
+	<div class="container">
+		<div id="gameOverMessage"></div>
+	</div>
+	<button onclick="hideMe('gameOver')" style="position:absolute;top:70%; left: 10%">Next Player</button>
+</div>
+
+
+<div class="container">
 <div id="settings" style="z-index:2"> 
 
 	NumSymbolsObserved  = <input id="NumSymbolsObserved" value="5" /><br />
@@ -65,19 +90,21 @@ function startTestDistractionTask(){
 
 <div id="instructions"></div>
 
-<div id="distractionTaskContainer">
-  <div id="points"></div>
-  <div id="displayGrid"></div>
-  <div id="selectGrid"></div>
-  <div id="DragArrow">
-  <image id="DragArrowImg" src="../DistractionTask/images/DragArrow.png" style="width:100%">
-  </div>
-  <div id="trash" ondrop="drop(event)" ondragover="preventDefault(event)">
-    <image id="trashimg" ondrop="drop(event)" ondragover="preventDefault(event)" src="../DistractionTask/images/bin.png" style="width:100%">
-  </div>
-  <div id="timer">
-    <progress id="timerProgress" value="0" max="100"></progress>
-  </div>
+
+	<div id="distractionTaskContainer">
+	  <div id="points"></div>
+	  <div id="displayGrid"></div>
+	  <div id="selectGrid"></div>
+	  <div id="DragArrow">
+	  <image id="DragArrowImg" src="../DistractionTask/images/DragArrow.png" style="width:100%">
+	  </div>
+	  <div id="trash" ondrop="drop(event)" ondragover="preventDefault(event)">
+	    <image id="trashimg" ondrop="drop(event)" ondragover="preventDefault(event)" src="../DistractionTask/images/bin.png" style="width:100%">
+	  </div>
+	  <div id="timer">
+	    <progress id="timerProgress" value="0" max="100"></progress>
+	  </div>
+	</div>
 </div>
 
 

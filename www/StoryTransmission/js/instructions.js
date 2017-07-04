@@ -24,6 +24,7 @@ var techWarning =
 
 var participantDeclinedToShareMicrophoneText =
 '<h1>Permission to record your voice</h1>\
+<p>You are required to use your microphone to complete this task.\
 <p><span class="text-warning"><strong>You declined to share your microphone.</strong></span>  This experiment involves recording your voice, so we need to access the microphone.\
 <p>If you would like to continue with the experiment, you can still do so by <strong>Removing the temporary block</strong>:\
 <ul>\
@@ -53,10 +54,31 @@ var micTestText2 =
 
 var micFailMessage = 
 "<h1>Problem with your microphone?</h1>\
+<p>You are required to use your microphone to complete this task.\
 <p>If you're having a problem recording audio, you can try refreshing the page and start again.\
-<p>If this problem persists, you will be unable to do this task.";
+<p>If this problem persists, you will be unable to complete this task.";
 
 var failTechTest = "Sorry, we could not access a microphone on your device.";
+
+
+var failUploadText = 
+"<h1>Warning</h1>\
+<p><span class=\"text-warning\">There was a problem uploading your data</span>\
+<p>Your recording failed to upload to the server. Please contact the researchers to make them aware of the problem and ensure you receive payment.\
+<p>Please include your Mechanical Turk Worker ID in any correspondence.\
+<p>Contact: Richard E.W. Berl, Department of Human Dimensions of Natural Resources Colorado State University, rewberl@colostate.edu";
+
+var uploadTimeoutText = 
+"<h1>Your recording is taking longer than expected to upload.<h1>\
+<p>You can leave this window open in the background and check back in a few minutes. If the upload takes more than 10-15 minutes or you have run out of the time allotted for the task, please contact the researchers to make them aware of the problem and ensure you receive payment.\
+<p>Please include your Mechanical Turk Worker ID in any correspondence.\
+<p>Contact: Richard E.W. Berl, rewberl@colostate.edu";
+
+var generalErrorText = 
+"<h1>An error has occurred</h1>\
+<p>Please contact the researchers to make them aware of the problem and ensure you receive payment.\
+<p>Please include your Mechanical Turk Worker ID in any correspondence.\
+<p>Contact: Richard E.W. Berl, rewberl@colostate.edu";
 
 // No longer using prolific
 //var endSurveyText = "Thank you for completing the survey, follow the link below to get your worker code. <br /><br />" ;
@@ -128,6 +150,10 @@ var distractionTaskInstructions =
 "<h1>Memory test</h1>\
 <p>You will now be asked to complete a memory test. You will be shown a rectangular grid, with a set of 5 \"cards\" with different symbols on them placed in a specific arrangement on the grid. You will have 30 seconds to memorize the symbols on the cards and their placement on the grid. You will then have 30 seconds to choose the cards with the correct symbols and place them in the correct arrangement. This task will be repeated a total of 3 times.\
 <p>Press the button below when you are ready.";
+
+
+var distractionTaskWatchInstructions = "<h1>Remember the symbols!</h1>"
+var distractionTaskSelectInstructions = "<h1>Drag the correct symbols to the correct locations!</h1>"
 
 function setInstruction(t){
 	showMe("instructions");

@@ -92,18 +92,22 @@ function finishQualifyingSurvey(survey){
 
 	// write to qualifyingSurvey/...
 	var fd = new FormData();
-	var filename = participantID  + '.csv';
-	
-	fd.append('fname', filename);
+
 	fd.append('data', outString);
+	fd.append("filetype","qualify");
+	fd.append("id",participantID + "_Qual_0");
 	$.ajax({
 		type: 'POST',
-		url: uploadQualSurveyPHPLocation,
+		url: uploadSurveyPHPLocation,
 		data: fd,
 		processData: false,
 		contentType: false
 	}).done(function(data) {
 		console.log(data);
+		var bits = data.split(";");
+		if(bits.length==2){
+			addToFileLog(bits[0],bits[1]);
+		}
 		setTimeout("nextStage()",500);
 	});
 

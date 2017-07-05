@@ -462,8 +462,8 @@ function recordResponses(correctSymbolPoints,correctLocationPoints,correctSymbol
 	roundResponses["playerSymbolsAndLocationsCorrect"].push(correctSymbolAndLocationPoints);
 	roundResponses["time"].push(getCurrentTime());
 
-	roundResponses["distractionTaskchosenLetters"] = chosenLetters.join("_");
-	roundResponses["distractionTaskselectStimOrder"] = selectStimOrder.join("_"); // set in startDistractionTask();
+	roundResponses["distractionTaskchosenLetters"].push(chosenLetters.join("_"));
+	roundResponses["distractionTaskselectStimOrder"].push(selectStimOrder.join("_")); // set in startDistractionTask();
 	roundResponses["distractionTaskNumSymbolsObserved"].push(NumSymbolsObserved);
 	roundResponses["distractionTaskNumberOfRounds"].push(NumberOfRounds);
 	roundResponses["distractionTasknumStimuli"].push(numStimuli);

@@ -38,15 +38,18 @@ function startTestDistractionTask(){
 	distractionTaskSelectTime = parseInt(document.getElementById("distractionTaskSelectTime").value);
 	distractionTaskFeedbackTime= parseInt(document.getElementById("distractionTaskFeedbackTime").value);
 
+	selectStimOrder = [];
+
+	preloadGridImages();
 
 	playerPoints = 0;
-
-	for(var i=0; i<numStimuli;++i){
+	if(selectStimOrder.length ==0){
+		for(var i=0; i<numStimuli;++i){
 			selectStimOrder.push(i);
 		}
 		// randomise once, so it remains the same throughout the experiment
 		shuffle(selectStimOrder);
-
+	}
 	hideMe("settings");
 	hideMe("trash");
 	document.getElementById("displayGrid").style.display = 'grid'

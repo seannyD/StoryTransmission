@@ -148,7 +148,7 @@ var speechEvaluationInstructionText2 =
 
 var distractionTaskInstructions = 
 "<h1>Memory test</h1>\
-<p>You will now be asked to complete a memory test. You will be shown a rectangular grid, with a set of 5 \"cards\" with different symbols on them placed in a specific arrangement on the grid. You will have 30 seconds to memorize the symbols on the cards and their placement on the grid. You will then have 30 seconds to choose the cards with the correct symbols and place them in the correct arrangement. This task will be repeated a total of 3 times.\
+<p>You will now be asked to complete a memory test. You will be shown a rectangular grid, with a set of 5 \"cards\" with different symbols on them placed in a specific arrangement on the grid. You will have a short time to memorize the symbols on the cards and their placement on the grid. You will then have a short time to choose the cards with the correct symbols and place them in the correct arrangement. This task will be repeated a total of 3 times.\
 <p>Press the button below when you are ready.";
 
 

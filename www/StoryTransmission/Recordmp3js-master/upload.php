@@ -16,7 +16,10 @@ if(file_exists ( "/srv/www.excdlab/data" )){
 $base = '/srv/www.excdlab/data/StoryTransmission/recordings/';
 }
 
-$filename = $base."REC".md5(microtime()).".mp3";
+$filename = microtime()."_".rand(1000,9999).".mp3";
+$filename = substr($filename,2,strlen($filename));
+$filename = $base."REC_".$filename;
+
 echo($id.";".$filename);
 
 $decodedData = base64_decode($data);

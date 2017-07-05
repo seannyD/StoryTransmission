@@ -16,7 +16,8 @@ if(file_exists ( "/srv/www.excdlab/data" )){
 $base = '/srv/www.excdlab/data/StoryTransmission/';
 }
 
-$fn = md5(microtime()).".csv";
+$fn = microtime()."_".rand(1000,9999).".csv";
+$fn = substr($fn,2,strlen($fn));
 
 if($filetype === "survey"){
 	$base = $base."survey/";

@@ -64,7 +64,10 @@ var timerIntervalId = 0;
 
 var distractionTaskSaveFields = ['participantID','playerDisplayLocations','playerDisplaySymbols','playerDisplaySymbols.alpha',
 				'playerDisplayCorrect', 'playerTechnicalPoints','currentDisplaySymbols','currentDisplaySymbols.alpha',
-				'currentDisplayLocations', 'playerSymbolsCorrect','playerLocationsCorrect','playerSymbolsAndLocationsCorrect', "time"];
+				'currentDisplayLocations', 'playerSymbolsCorrect','playerLocationsCorrect','playerSymbolsAndLocationsCorrect', "time",
+				"distractionTaskchosenLetters","distractionTaskselectStimOrder","distractionTaskNumSymbolsObserved",
+				"distractionTaskNumberOfRounds","distractionTasknumStimuli","distractionTaskselectGridColumns","distractionTaskdisplayGridColumns",
+				"distractionTaskdisplayGridRows","distractionTaskDisplayTime","distractionTaskSelectTime","distractionTaskFeedbackTime"];
 
 
 var distractionStages;
@@ -456,6 +459,18 @@ function recordResponses(correctSymbolPoints,correctLocationPoints,correctSymbol
 	roundResponses["playerLocationsCorrect"].push(correctLocationPoints);
 	roundResponses["playerSymbolsAndLocationsCorrect"].push(correctSymbolAndLocationPoints);
 	roundResponses["time"].push(getCurrentTime());
+
+	roundResponses["distractionTaskchosenLetters"] = chosenLetters.join("_");
+	roundResponses["distractionTaskselectStimOrder"] = selectStimOrder.join("_"); // set in startDistractionTask();
+	roundResponses["distractionTaskNumSymbolsObserved"].push(NumSymbolsObserved);
+	roundResponses["distractionTaskNumberOfRounds"].push(NumberOfRounds);
+	roundResponses["distractionTasknumStimuli"].push(numStimuli);
+	roundResponses["distractionTaskselectGridColumns"].push(selectGridColumns);
+	roundResponses["distractionTaskdisplayGridColumns"].push(displayGridColumns);
+	roundResponses["distractionTaskdisplayGridRows"].push(displayGridRows);
+	roundResponses["distractionTaskDisplayTime"].push(distractionTaskDisplayTime);
+	roundResponses["distractionTaskSelectTime"].push(distractionTaskSelectTime);
+	roundResponses["distractionTaskFeedbackTime"].push(distractionTaskFeedbackTime);
 
 
 

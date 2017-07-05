@@ -26,6 +26,8 @@ var displayGridRows = 4;
 var cellSize = "60px";
 var cellSize2 = "80px";
 
+
+
 var distractionTaskInstructionTime = 10 * 1000;
 var distractionTaskDisplayTime = 30 * 1000;
 var distractionTaskSelectTime = 30 * 1000;
@@ -609,6 +611,8 @@ function drag(ev) {
 
 }
 
+// TODO: addImage is firing twice on drop outside displaydiv?
+// Or this event listener + "drop(ev)" are both firing?
 document.addEventListener("dragend", function( ev ) {
       if(distractionStages[distractionStageCounter] == "select"){
       	var source = ev.dataTransfer.getData("parent");
@@ -618,9 +622,16 @@ document.addEventListener("dragend", function( ev ) {
 			// Throwing example away
 			document.getElementById(source).innerHTML = "";
 			// Put back in select grid
-			var i = parseInt(content.split("_")[1]);
-			var rowNumber = Math.floor(i / selectGridColumns);
-			var colNumber = i % selectGridColumns;
+			var imageNumber = content.split("_")[1];
+				// the images are not necessarily placed from 1 to 9
+			var imageLocation = 0;
+			for(var i=0; i < selectStimOrder.length;++i){
+				if(selectStimOrder[i]==imageNumber){
+					imageLocation = i;
+				}
+			}
+			var rowNumber = Math.floor(imageLocation / selectGridColumns);
+			var colNumber = imageLocation % selectGridColumns;
 			var locx = "selectDiv_" + rowNumber + "_" + colNumber;
 			console.log("Trash " + locx + " " + content);
 			addImage(locx, content);
@@ -653,9 +664,26 @@ function drop(ev) {
 			addImage(locx, content);
 			} 
 
-		} else{
+		} else{	
+				// remove image from source
+				// (replace with blank card)
+				var imageNumber = content.split("_")[1];
+				// the images are not necessarily placed from 1 to 9
+				var imageLocation = 0;
+				for(var i=0; i < selectStimOrder.length;++i){
+					if(selectStimOrder[i]==imageNumber){
+						imageLocation = i;
+					}
+				}
+				
+				var rowNumber = Math.floor(imageLocation / selectGridColumns);
+				var colNumber = imageLocation % selectGridColumns;
+				var locx = "selectDiv_" + rowNumber + "_" + colNumber;
+				document.getElementById(locx).innerHTML = 
+					'<img id="' + 'selGrid_' + imageNumber +'" draggable="false" src="../DistractionTask/images/blank.png" class="card">';
+				
+				// add image to destination
 				addImage(location,content);
-				document.getElementById(source).innerHTML = "";
 		}
 	}
 
@@ -678,12 +706,20 @@ function addImage(location, content){
 			console.log("SEL PASTE "+ locdiv.id);
 		}
 		var ximg = locdiv.getElementsByTagName('img')[0].id;
-		var i = ximg.split("_")[1];
-		var rowNumber = Math.floor(i / selectGridColumns);
-		var colNumber = i % selectGridColumns;
+		var imageNumber = ximg.split("_")[1];
+		// select div is not necessarily placed 1 to 9
+		// so find position from selectStimOrder 
+		var imageLocation = 0;
+		for(var i=0; i < selectStimOrder.length;++i){
+			if(selectStimOrder[i]==imageNumber){
+				imageLocation = i;
+			}
+		}
+		var rowNumber = Math.floor(imageLocation / selectGridColumns);
+		var colNumber = imageLocation % selectGridColumns;
 		var locx = "selectDiv_" + rowNumber + "_" + colNumber;
 		console.log("Put back " + ximg + ":"+locx);
-		document.getElementById(locx).innerHTML = getImageText(i,true);
+		document.getElementById(locx).innerHTML = getImageText(imageNumber,true);
 	}
 	locdiv.innerHTML = getImageText(imageNum, true);
 }

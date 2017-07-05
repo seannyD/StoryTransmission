@@ -133,7 +133,7 @@ function finishSpeechEvaluationSurvey(survey){
 	sd['evaluationPrestige'] = evaluationPrestigeType;
 	sd['evaluationPresentationNumber'] = currentEvaluationNumber;
 
-	sd["_MT_assignmentId"] = MTMTWorkerData["MT_assignmentId"];
+	sd["_MT_assignmentId"] = MTWorkerData["MT_assignmentId"];
   	sd["_MT_hitID"] = MTWorkerData["MT_hitId"];
   	sd["_MT_workerId"] = MTWorkerData["MT_workerId"];
 

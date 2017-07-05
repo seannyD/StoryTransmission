@@ -80,7 +80,7 @@ function finishDemographySurvey(survey){
 	sd['startTime'] = startTime;
 	sd['endTime'] = getCurrentTime();
 
-	sd["_MT_assignmentId"] = MTMTWorkerData["MT_assignmentId"];
+	sd["_MT_assignmentId"] = MTWorkerData["MT_assignmentId"];
   	sd["_MT_hitID"] = MTWorkerData["MT_hitId"];
   	sd["_MT_workerId"] = MTWorkerData["MT_workerId"];
 

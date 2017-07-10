@@ -114,9 +114,7 @@ var recordingInstructionText =
 "<h1>Tell us the story!</h1>\
 <p>Using your microphone, please tell us the story that you just heard. It is okay if you cannot remember everything, but please try to recall as many details as possible. \
 <p>Press <strong>Start Recording</strong> to start recording.  Press <strong>Stop Recording</strong> to finish recording. \
-<p>After your recording has been stopped, pressing record again will add to your previous recording, if you have anything to add.\
-<p>Once you have finished, before submitting your recording, press play and skip around using the progress bar to ensure it is audible, understandable, and of good quality. You can press record to say again any parts of the recording that were not clear.\
-<p>After you have finished your recall and checked your recording, press the button below to continue.";
+<p>After you have finished and are sure you have nothing more to add, press the button below to continue.";
 
 
 

@@ -96,12 +96,14 @@ function nextStage(){
 	switch (stages[stageCounter]) {
 
       case "consent":
-        setInstruction("<h1>The effects of social transmission biases on human cultural evolution</h1>");
-        launchSurvey(consentSurvey);
+        //setInstruction("<h1>The effects of social transmission biases on human cultural evolution</h1>");
+        //launchSurvey(consentSurvey);
+        setInstruction(consentText);
         break;
       case "qualifyingConsent":
-        setInstruction("<h1>Qualifying Task</h1>");
-        launchSurvey(qualifyingConsentSurvey);
+        //setInstruction("<h1>Qualifying Task</h1>");
+        //launchSurvey(qualifyingConsentSurvey);
+        setInstruction(qualifyingConsentText);
         break;
       case "speakerTest":
         doSpeakerTest();
@@ -230,6 +232,11 @@ function clearScreen(){
 // START THE EXPERIMENT
 $( document ).ready(function() {
   clearScreen();
+  preloadGridImages();
+  makeProgressBar();
+
+  setBrowserSpecificSettings();
+
   $.getScript("../survey/SURVEY_speechEvaluation.js");
   $.getScript("../survey/SURVEY_consent.js");
   $.getScript("../survey/SURVEY_localisation.js");
@@ -239,10 +246,7 @@ $( document ).ready(function() {
   // the last survey to be loaded should call surveysLoaded() to start the experiment
   $.getScript("../survey/SURVEY_demography_UK.js",surveysLoaded());
 
-  preloadGridImages();
-  makeProgressBar();
 
-  setBrowserSpecificSettings();
 
 });
 

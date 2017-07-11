@@ -23,7 +23,7 @@ function launchSurvey(surveyJSON, endFunction){
         matrix: {root: "table table-striped"}  
    	};
 
-
+   	showMe("surveyContainer");
 	var survey = new Survey.Model(surveyJSON);
 	$("#surveyContainer").Survey({
 	    model: survey,
@@ -33,7 +33,7 @@ function launchSurvey(surveyJSON, endFunction){
 	});
 	survey.locale = "my";
 
-	showMe("surveyContainer");
+	
 }
 
 function launchLocalisationSurvey(){

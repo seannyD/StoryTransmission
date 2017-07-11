@@ -169,7 +169,7 @@ var currOutputSampleRate;
 						var mp3Blob = null;
 						if(useID3Tags){
 							console.log("converting to ID3:" + e.data.fileName);
-						// TODO: change id3 tags of blob.
+						// TODO: Check that ID3Writer is available.
 
 						const writer = new ID3Writer(e.data.buf);
 						writer.setFrame('TIT2', e.data.fileName);

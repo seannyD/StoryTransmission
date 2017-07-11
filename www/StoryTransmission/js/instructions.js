@@ -6,6 +6,30 @@
 // You can specify a title using <h1>Title Text</h1>
 // You can split the string over more than one line as long as you put a forward slash at the end of the line (otherwise it thinks that the string has stopped).
 
+var consentText = '<h1>The effects of social transmission biases on human cultural evolution</h1>\
+<p>The purpose of this research is to investigate cultural transmission processes–in other words, what factors influence the information we remember and share with other people.\
+<p>This work is a collaboration between Dr. Michael Gavin and Richard Berl in the Department of Human Dimensions of Natural Resources at Colorado State University and Dr. Fiona Jordan and Alarna Samarasinghe in the Department of Archaeology and Anthropology at the University of Bristol. The research is funded by the Max Planck Institute for the Science of Human History in Jena, Germany.\
+<p>You will be asked to listen to 2 stories, each about 5 minutes long. You will then be given a short memory test and asked to recall the stories in as much detail as possible. Your response will be recorded using your microphone (no video). We then ask you to evaluate a few short recordings of speech by rating them on a number of characteristics. At the end of the survey, we also ask that you answer a brief set of questions about yourself and your background.\
+<p><img src=\"../resources/images/TimeIcon.png\" align=\"left\">\
+Participation should take approximately 45 minutes. There will be sections of the survey that are time- sensitive, during which you will not be able to walk away from your computer. You will be notified before beginning these sections.\
+<p>Your participation in this research is voluntary. If you decide to participate in the study, you may withdraw your consent and stop participation at any time without penalty. We will not collect your name or any personal identifiers. When we report and share the data with others, we will combine the data from all participants. There are no known risks to you in taking part in this study. If you have any questions, contact information for the researchers, the CSU Institutional Review Board, and the UB Human Research Ethics Committee are available at the end of the questionnaire.\
+<p>If you agree to participate, please press the button below.\
+<br />\
+<button onclick="nextStage()" class="btn btn-success">I agree</button>';
+
+var qualifyingConsentText = "<h1>Qualifying Task</h1>\
+<p><h2>Purpose</h2>The purpose of this research is to investigate cultural transmission processes–in other words, what factors influence the information we remember and share with other people.\
+<p>This work is a collaboration between Dr. Michael Gavin and Richard Berl in the Department of Human Dimensions of Natural Resources at Colorado State University and Dr. Fiona Jordan and Alarna Samarasinghe in the Department of Archaeology and Anthropology at the University of Bristol. The research is funded by the Max Planck Institute for the Science of Human History in Jena, Germany.\
+<p><div><img src=\"../resources/images/TimeIcon_5min.png\" align=\"left\"><br />\
+<h2>Instructions</h2>\
+<p>This qualifying task will test your audio and microphone and ask you some questions about yourself and your background.\
+<p>This task should take approximately 5 minutes.<br /><br /><br /><br /><br />\
+<h2>Consent</h2>\
+<p>Your participation in this research is voluntary. If you decide to participate in the study, you may withdraw your consent and stop participation at any time without penalty. We will not collect your name or any personal identifiers. When we report and share the data with others, we will combine the data from all participants. There are no known risks to you in taking part in this study. If you have any questions, contact information for the researchers, the CSU Institutional Review Board, and the UB Human Research Ethics Committee are available at the end of the questionnaire.\
+<p>If you agree to participate, please press the button below.<br />\
+<button onclick=\"nextStage()\" class=\"btn btn-success\">I agree</button>";
+
+
 var speakerTestText = 
 '<h1>Audio test</h1>\
 <p>Play the music clip below to make sure your audio is working.  Please adjust your speakers or headphones to a comfortable volume.\

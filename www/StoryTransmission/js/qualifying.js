@@ -10,6 +10,8 @@ function startQualifyingExperiment(){
       "qualifyingSurvey",
       "qualifyingWorkerCode"];
 
+      makeProgressBar();
+
 
       // TODO: change workerCode
       participantID = "Q_"+new Date().getTime();

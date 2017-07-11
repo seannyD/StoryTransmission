@@ -434,14 +434,17 @@ $(window).focus(function(e) {
 
 window.onbeforeunload = function (e) {
 
-   var askBeforeLoading = false;
-   if(stageCounter>=0){
-     if(stages[stageCounter]!="workerCode"){
-       askBeforeLoading = true;
-     }
-   } else{
-     askBeforeLoading = true;
+   var askBeforeLoading = true;
+   if(stageCounter==0){
+    askBeforeLoading = false;
    }
+   if(stages[stageCounter]=="workerCode"){
+       askBeforeLoading = false;
+   }
+   if(stages[stageCounter]=="qualifyingWorkerCode"){
+       askBeforeLoading = false;
+   }
+   
 
    if(askBeforeLoading){
         e = e || window.event;

@@ -1,5 +1,6 @@
 <html>
 <head>
+  <title>Survey Testing Memory and Evaluating Speech</title>
   <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
   <meta content="utf-8" http-equiv="encoding">
   <link rel="stylesheet" href="../css/style.css">
@@ -63,7 +64,7 @@
      <img id="recordingLight" src="../resources/images/RecordingLight_off.png">
      <br /><br />
      <div id="multipleRecordingsDiv">
-      <button id="finishedStory" onclick="finishedMultipleRecording(this);" class="btn btn-success active">I have finished telling my story</button>
+      <button id="finishedStory" onclick="finishedMultipleRecording(this);" class="btn btn-success active">I have finished telling the story</button>
      </div>
   </div>
     <div id="testRecorder" style="display:none">
@@ -73,7 +74,7 @@
      </div>
 
    <div id="SpeakerTest">
-    <audio id="TestAudio" onplay="speakerTestStarted()" controls>
+    <audio id="TestAudio" onplay="speakerTestStarted()" controls controlsList="nodownload">
       <source src="../resources/audio/SpeakerTestAudio.mp3" type="audio/mpeg">
     </audio><br /><br />
     <button id="finishedTestAudioButton" onclick="finishedTestAudio()" class="btn btn-success">Yes, my audio is working!</button><br />

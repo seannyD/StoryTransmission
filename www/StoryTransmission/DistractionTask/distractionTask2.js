@@ -28,9 +28,9 @@ var cellSize2 = "80px";
 
 
 
-var distractionTaskInstructionTime = 10 * 1000;
+var distractionTaskInstructionTime = 30 * 1000;
 var distractionTaskDisplayTime = 30 * 1000;
-var distractionTaskSelectTime = 30 * 1000;
+var distractionTaskSelectTime = 20 * 1000;
 var distractionTaskFeedbackTime = 2 * 1000;
 
 var useTrashcan = false;
@@ -54,6 +54,7 @@ var playerTechnicalPoints = []; // VSLT "P + P&D"
 
 
 var playerPoints = 0;
+var maxPossiblePoints = 0;
 
 var roundResponses = []; // save participant data
 
@@ -83,7 +84,7 @@ var distractionTaskNumber = 0;
 
 function startDistractionTask(taskNumber){
 
-	preloadGridImages();
+	//preloadGridImages(); // preloading should be done before.
 
 	if(selectStimOrder.length ==0){
 		for(var i=0; i<numStimuli;++i){
@@ -117,6 +118,7 @@ function startDistractionTask(taskNumber){
 	setupSave();
 
 	playerPoints = 0;
+	maxPossiblePoints = 0;
 	updatePoints();
 
 	if(typeof document.getElementById("trash")!="undefined" && !useTrashcan){
@@ -334,7 +336,7 @@ function doFeedback(){
 				// if it is, increase points, 
 				correctSymbolAndLocationPoints += 1;
 				playerPoints += 1;
-				updatePoints();
+				//updatePoints();
 				// change to tick image
 				imgDiv.src = "../DistractionTask/utilImages/tick.png";
 				//imgDiv.setProperty("draggable",false);
@@ -345,6 +347,9 @@ function doFeedback(){
 		}
 
 	}
+
+	maxPossiblePoints += NumSymbolsObserved;
+	updatePoints();
 
 	// Have they selected the right symbol, at least?
 	var correctSymbolPoints = 0;
@@ -598,7 +603,7 @@ function makeDisplayGrid(){
 
 function updatePoints(){
 	// TODO: update points display;
-	document.getElementById("points").innerHTML = "Points: "+playerPoints;
+	document.getElementById("points").innerHTML = "Points: "+playerPoints +" /" + maxPossiblePoints;
 }
 
 // Drag and Drop

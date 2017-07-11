@@ -23,6 +23,17 @@ var techWarning =
 </ul>\
 <p> <img src="../resources/images/ShareMicInstructions.png">';
 
+var techWarningChrome = 
+'<h1>Permission to record your voice</h1>\
+<p>In this survey, we need to record your voice.  Recording will not begin immediately and you will not be recorded for the full duration of the survey--you will be told when recording starts and stops.\
+<p>Please follow the instructions below to allow us to use your microphone:\
+<ul>\
+<li>Click the <span class="bg-success">"Yes, share my microphone"</span> button below.\
+<li>A pop-up will appear asking if you want to allow this web page to access your microphone.\
+<li>Select "Allow".\
+</ul>\
+<p> <img src="../resources/images/Chrome_ShareMicInstructions.png">';
+
 var participantDeclinedToShareMicrophoneText =
 '<h1>Permission to record your voice</h1>\
 <p>You are required to use your microphone to complete this task.\
@@ -41,6 +52,27 @@ var participantDeclinedToShareMicrophoneText =
 <li>Select "Allow".\
 </ul>\
 <p> <img src="../resources/images/ShareMicInstructions.png">\
+<br /><br />\
+<p>If you do not wish to continue the survey, please close the window.<br />';
+
+var participantDeclinedToShareMicrophoneTextChrome =
+'<h1>Permission to record your voice</h1>\
+<p>You are required to use your microphone to complete this task.\
+<p><span class="text-warning"><strong>You declined to share your microphone.</strong></span>  This survey involves recording your voice, so we need to access the microphone.\
+<p>If you would like to continue with the survey, you can still do so by <strong>Removing the temporary block</strong>:\
+<ul>\
+<li> Click on the <img src="../resources/images/camera_icon.png" style="height: 1em"> icon to the right of the address bar in your browser.\
+<li> A pop-up will appear.\
+<li> Click "Always allow https://transmission.excd.org to access your microphone.\
+</ul>\
+<p> <img src="../resources/images/Chrome_ShareMicInstructions_Fail.png">\
+<ul>\
+<li> Click "Done".\
+<li> Click the <span class="bg-success">"Yes, share my microphone"</span> button below.\
+<li>A pop-up will appear asking if you want to allow this web page to access your microphone.\
+<li>Select "Allow".\
+</ul>\
+<p> <img src="../resources/images/Chrome_ShareMicInstructions.png">\
 <br /><br />\
 <p>If you do not wish to continue the survey, please close the window.<br />';
 
@@ -117,8 +149,6 @@ var recordingInstructionText =
 <p>After you have finished and are sure you have nothing more to add, press the button below to continue.";
 
 
-
-
 var playStoryInstructionText = 
 "<h1>Listen!</h1>\
 <h2><strong>IMPORTANT:</strong> Please read the notices below before playing.</h2>\
@@ -129,8 +159,22 @@ var playStoryInstructionText =
 
 var continueMultipleRecordingText = 
 "<h1>Continue recording?</h1>\
-<p>If you are finished telling your story, click <strong>I have finished telling the story</strong>.\
+<p>If you are finished telling the story, click <strong>I have finished telling the story</strong>.\
 <p>Or you can click <strong>Continue Recording</strong> to record more of the story";
+
+
+// this message is actually a survey so that participants get the "next" button.
+var recordingInstructionTextPreRound2 = "<h1>Story number 2</h1>"
+var recordingInstructionTextPreRound2Survey = {
+    pages: [{
+        name: "page1",
+        questions: [{
+            type: "html",
+            html: "<p>You will now be presented with a new story to listen to and recall. You will not be asked to recall any more details from the first story, so please pay close attention to the new story. <p>Press the button below to continue.",
+            name: "question1"
+        }]
+    }]
+}
 
 
 var speechEvaluationInstructionText1 = 
@@ -166,5 +210,6 @@ function endSurvey(){
 }
 
 function showWorkerCode(){
-	setInstruction(endSurveyText_MechanicalTurk + "<h1>" +workerCode + "</h1>");
+	setInstruction(endSurveyText_MechanicalTurk + "<h1>" +workerCode + "</h1>" +
+		"<br /><br /><p>After you have saved this code, it is now safe to close this tab on your browser. Your data have been saved");
 }

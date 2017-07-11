@@ -19,7 +19,7 @@ var speechEvaluationSurvey ={
       },
       {
        value: "4",
-       text: "Somewhat Agree   "
+       text: "Somewhat   Agree  "
       },
       {
        value: "5",
@@ -27,7 +27,7 @@ var speechEvaluationSurvey ={
       },
       {
        value: "6",
-       text: "Strongly Agree   "
+       text: "Strongly   Agree  "
       }
      ],
      isAllRowRequired: true,

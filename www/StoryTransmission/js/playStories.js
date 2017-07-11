@@ -57,6 +57,14 @@ function playStoryPlayerEnded(){
 }
 
 
+function showPreStory2(){
+	setInstruction(recordingInstructionTextPreRound2);
+	launchSurvey(recordingInstructionTextPreRound2Survey, endPreStory2);
+}
+
+function endPreStory2(){
+	setTimeout("nextStage()",100);
+}
 
 function timeUpdate() {
 	var playhead = document.getElementById('playhead');

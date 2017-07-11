@@ -32,6 +32,7 @@ var stages = [
       "micTest",
       "localisation",  
 			'story1','distraction1','recording1',
+      'prestory2',
 			'story2','distraction2','recording2',
       //'speechEvaluation1.play','speechEvaluation1.eval',
       //'speechEvaluation2.play','speechEvaluation2.eval',
@@ -49,16 +50,17 @@ var stagesLabels = {"consent":"Consent >",
                     'story1': "Story 1 >",
                     'distraction1': "Memory test 1 >",
                     'recording1': "Recording 1 >",
+                    'prestory2':"Story 2 >",
                     'story2':"Story 2 >",
                     'distraction2':"Memory test 2 >",
                     'recording2': "Recording 2 >",
-                    'speechEvaluation1.play':"Survey 1 >",
-                    'speechEvaluation1.eval':"Survey 1 >",
-                    'speechEvaluation2.play':"Survey 2 >",
-                    'speechEvaluation2.eval':"Survey 2 >",
-                    'speechEvaluation1.playAndEval':"Survey 1 >",
-                    'speechEvaluation2.playAndEval':"Survey 2 >",
-                    'demographySurvey':"Survey 3 >",
+                    'speechEvaluation1.play':"Speech evalutation >",
+                    'speechEvaluation1.eval':"Speech evalutation >",
+                    'speechEvaluation2.play':"Speech evalutation >",
+                    'speechEvaluation2.eval':"Speech evalutation >",
+                    'speechEvaluation1.playAndEval':"Speech evalutation >",
+                    'speechEvaluation2.playAndEval':"Speech evalutation >",
+                    'demographySurvey':"About you >",
                     'checkUploaded':"Upload results >",
                     'workerCode':"Worker Code",
                     'qualifyingSurvey':"Survey >",
@@ -114,6 +116,9 @@ function nextStage(){
         break;
       case "story1":
       	showPlayStory(0);
+        break;
+      case "prestory2":
+        showPreStory2();
         break;
       case "story2":
       	showPlayStory(1);
@@ -234,6 +239,8 @@ $( document ).ready(function() {
 
   preloadGridImages();
   makeProgressBar();
+
+  setBrowserSpecificSettings();
 
 });
 
@@ -443,3 +450,45 @@ window.onbeforeunload = function (e) {
      }
    
 };
+
+
+// ------
+// Chrome/ Firefox differences
+
+function setBrowserSpecificSettings(){
+  var browser = getBrowser();
+  console.log("Browser: "+browser);
+  if(browser=="Chrome"){
+    participantDeclinedToShareMicrophoneText = participantDeclinedToShareMicrophoneTextChrome;
+    techWarning = techWarningChrome;
+  }
+}
+
+function getBrowser(){
+    // Opera 8.0+
+  var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+
+  // Firefox 1.0+
+  var isFirefox = typeof InstallTrigger !== 'undefined';
+
+  // Safari 3.0+ "[object HTMLElementConstructor]" 
+  var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
+
+  // Internet Explorer 6-11
+  var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+  // Edge 20+
+  var isEdge = !isIE && !!window.StyleMedia;
+
+  // Chrome 1+
+  var isChrome = !!window.chrome && !!window.chrome.webstore;
+
+  // Blink engine detection
+  var isBlink = (isChrome || isOpera) && !!window.CSS;
+
+  var browser = "Firefox";
+  if(isChrome){
+    browser = "Chrome";
+  }
+  return(browser);
+}

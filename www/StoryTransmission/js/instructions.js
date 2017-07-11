@@ -164,7 +164,7 @@ var continueMultipleRecordingText =
 
 
 // this message is actually a survey so that participants get the "next" button.
-var recordingInstructionTextPreRound2 = "<h1>Story number 2</h1>"
+var recordingInstructionTextPreRound2 = "<h1>Next story</h1>"
 var recordingInstructionTextPreRound2Survey = {
     pages: [{
         name: "page1",

@@ -8,6 +8,8 @@ var sample1 = "";
 var sample2 = "";
 var numberOfRecordedSamples = 0; // increased every time a recording is called
 
+var browser = "Firefox";
+
 var startTime = getCurrentTime();
 
 var timeLog = [];
@@ -456,7 +458,7 @@ window.onbeforeunload = function (e) {
 // Chrome/ Firefox differences
 
 function setBrowserSpecificSettings(){
-  var browser = getBrowser();
+  browser = getBrowser();
   console.log("Browser: "+browser);
   if(browser=="Chrome"){
     participantDeclinedToShareMicrophoneText = participantDeclinedToShareMicrophoneTextChrome;

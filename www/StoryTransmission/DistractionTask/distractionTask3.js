@@ -627,46 +627,31 @@ function drag(ev) {
 // TODO: 
 // this event listener + "drop(ev)" are both firing when dragging an item from the display grid to another space on the display grid
 document.addEventListener("dragend", function( ev ) {
-
-	  console.log("Dragend");
-
-	  //if(!noDragEnd){
 	  
 	      if(distractionStages[distractionStageCounter] == "select"){
-	      	var location = ev.target.id;
-	      	var source = ev.dataTransfer.getData("parent");
-	      	var content = ev.dataTransfer.getData("text");
-	      	
-	      	// data transfer doesn't work on chrome
-	      	if(browser=="Chrome"){
-	      		source = dataTransferSource;
-	      		content = dataTransferText;
-	      	}
-	      	//deleting image selGrid_1; display_1_3
-	      	console.log("deleting image " + source + "; "+content + "; location = "+location);
+      			var toLocation = ev.target.id;
+				var content = ev.dataTransfer.getData("text");
+				var fromLocation = ev.dataTransfer.getData("parent");
 
-	      	if(source.substr(0,7)=="display"){
-	      		// TODO: This can fire if we're dragging from display grid back onto display grid?
+		      	if(browser=="Chrome"){
+		      		fromLocation = dataTransferSource;
+		      		content = dataTransferText;
+		      	}
 
-				// Throwing example away
-				document.getElementById(source).innerHTML = "";
-				// Put back in select grid
-				var imageNumber = content.split("_")[1];
-					// the images are not necessarily placed from 1 to 9
-				var imageLocation = 0;
-				for(var i=0; i < selectStimOrder.length;++i){
-					if(selectStimOrder[i]==imageNumber){
-						imageLocation = i;
-					}
-				}
-				var rowNumber = Math.floor(imageLocation / selectGridColumns);
-				var colNumber = imageLocation % selectGridColumns;
-				var locx = "selectDiv_" + rowNumber + "_" + colNumber;
-				console.log("Trash " + locx + " " + content);
-				addImage(locx, content);
-				} 
+		      	var imageNumber = content.split("_")[1];
+		      	var selectGridLocation = getSelectGridLocationID(parseInt(imageNumber));
+	      		//deleting image selGrid_1; display_1_3
+	      		console.log("Dragend Source:" + imageNumber + " fromLocation:"+fromLocation + " toLocation:" + toLocation);
+	      		//Source:6 fromLocation:display_1_2 toLocation:selGrid_6
+	      		if(fromLocation.substr(0,7)=="display"){
+	      			// remove from display
+	      			document.getElementById(fromLocation).innerHTML = "";
+	      			// add back to select grid
+	      			document.getElementById(selectGridLocation).innerHTML = getImageText(imageNumber, true);
+	      		}
+
 	      }
-  		//}
+  		
 }, false);
 
 function drop(ev) {
@@ -674,68 +659,70 @@ function drop(ev) {
 	ev.preventDefault();
 	if(distractionStages[distractionStageCounter] == "select"){
 		
-		var location = ev.target.id;
+		var toLocation = ev.target.id;
 		var content = ev.dataTransfer.getData("text");
-		var source = ev.dataTransfer.getData("parent");
+		var fromLocation = ev.dataTransfer.getData("parent");
 
       	if(browser=="Chrome"){
-      		source = dataTransferSource;
+      		fromLocation = dataTransferSource;
       		content = dataTransferText;
       	}
 
+      	var imageNumber = content.split("_")[1];
+      	var selectGridLocation = getSelectGridLocationID(parseInt(imageNumber));
 
-		console.log("DROP source:"+source + " location:"+location + " content:" + content);
 
 
-		// TODO; Possible bug if source isn't found??
-		if(useTrashcan && (location=="trash" || location=="trashimg")){
-			if(source.substr(0,7)=="display"){
-			// Throwing example away
-			document.getElementById(source).innerHTML = "";
-			// Put back in select grid
-			var i = parseInt(content.split("_")[1]);
-			var rowNumber = Math.floor(i / selectGridColumns);
-			var colNumber = i % selectGridColumns;
-			var locx = "selectDiv_" + rowNumber + "_" + colNumber;
-			console.log("Trash " + locx + " " + content);
-			addImage(locx, content);
-			} 
+      	if(toLocation.substr(0,7)=="selGrid"){
+      		// dragged into image div, get parent.
+      		toLocation = document.getElementById(toLocation).parentNode.id;
+      	}
 
-		} else{	
-				
-				// add image to destination
-				addImage(location,content);
-				noDragEnd = true;
-				// remove image from source
-				// (replace with blank card)
-				var imageNumber = content.split("_")[1];
-				// the images are not necessarily placed from 1 to 9
-				var imageLocation = 0;
-				for(var i=0; i < selectStimOrder.length;++i){
-					if(selectStimOrder[i]==imageNumber){
-						imageLocation = i;
-					}
-				}
-				
-				var rowNumber = Math.floor(imageLocation / selectGridColumns);
-				var colNumber = imageLocation % selectGridColumns;
-				var locx = "selectDiv_" + rowNumber + "_" + colNumber;
-				document.getElementById(locx).innerHTML = 
-					'<img id="' + 'selGrid_' + imageNumber +'" draggable="false" src="../DistractionTask/images/blank.png" class="card">';
-				
+		console.log("DROP imageNumber:"+imageNumber + " fromLocation:"+fromLocation + " toLocation:" + toLocation);
 
+		if(fromLocation.substr(0,6)=="select" && toLocation.substr(0,7)=="display"){
+			// from select to display
+			// replace select grid location with blank card
+			document.getElementById(selectGridLocation).innerHTML = '<img id="' + 'selGrid_' + imageNumber +'" draggable="false" src="../DistractionTask/images/blank.png" class="card">';
+			// Add to display
+			addImage(toLocation,imageNumber);
 		}
+		if(fromLocation.substr(0,7)=="display" && toLocation.substr(0,7)=="display"){
+			console.log("Display to Display");
+			// from display to display
+			// Add to display
+			addImage(toLocation,imageNumber);
+			// remove from source
+			document.getElementById(fromLocation).innerHTML = "";
+		}
+
+		
+
+
 	}
 
+}
+
+function getSelectGridLocationID(imageNumber){
+	var imageLocation = 0;
+	for(var i=0; i < selectStimOrder.length;++i){
+		if(selectStimOrder[i]==imageNumber){
+			imageLocation = i;
+		}
+	}
+	
+	var rowNumber = Math.floor(imageLocation / selectGridColumns);
+	var colNumber = imageLocation % selectGridColumns;
+	var locx = "selectDiv_" + rowNumber + "_" + colNumber;
+	return(locx);
 }
 
 function preventDefault(ev){
 	ev.preventDefault();
 }
 
-function addImage(location, content){
-	console.log("AI"+" "+location+" "+content);
-	var imageNumX = content.split("_")[1];
+function addImage(location, imageNumber){
+	console.log("AI"+" location: "+location+", Image number:"+imageNumber);
 	var locdiv = document.getElementById(location);
 
 	if(locdiv.id.substring(0,7)=="selGrid"){
@@ -748,22 +735,15 @@ function addImage(location, content){
 		// if it's dragged into the img node, get the parent div
 
 		var ximg = locdiv.getElementsByTagName('img')[0].id;
-		var imageNumber = parseInt(ximg.split("_")[1]);
+		var replacedImageNumber = parseInt(ximg.split("_")[1]);
 		// select div is not necessarily placed 1 to 9
 		// so find position from selectStimOrder 
-		var imageLocation = 0;
-		for(var i=0; i < selectStimOrder.length;++i){
-			if(selectStimOrder[i]==imageNumber){
-				imageLocation = i;
-			}
-		}
-		var rowNumber = Math.floor(imageLocation / selectGridColumns);
-		var colNumber = imageLocation % selectGridColumns;
-		var locx = "selectDiv_" + rowNumber + "_" + colNumber;
-		console.log("Put back " + ximg + ":"+locx + ";" + imageNumber);
-		document.getElementById(locx).innerHTML = getImageText(imageNumber,true);
+		var selectGridLoc = getSelectGridLocationID(replacedImageNumber);
+		
+		console.log("Put back " + ximg + ":"+selectGridLoc + ";" + replacedImageNumber);
+		document.getElementById(selectGridLoc).innerHTML = getImageText(replacedImageNumber,true);
 	}
-	locdiv.innerHTML = getImageText(imageNumX, true);
+	locdiv.innerHTML = getImageText(imageNumber, true);
 }
 
 

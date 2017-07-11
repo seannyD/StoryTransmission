@@ -7,6 +7,8 @@ var encoderWorker = new Worker('../Recordmp3js-master/js/mp3Worker.js');
 
 var audioSaveType = 'mp3';
 
+var useID3Tags = true;
+
 var currOutputSampleRate;
   
 (function(window){
@@ -164,8 +166,19 @@ var currOutputSampleRate;
 						audio.play();*/
 
 						//console.log ("The Mp3 data " + e.data.buf);
+						var mp3Blob = null;
+						if(useID3Tags){
+							console.log("converting to ID3:" + e.data.fileName);
+						// TODO: change id3 tags of blob.
 
-						var mp3Blob = new Blob([new Uint8Array(e.data.buf)], {type: 'audio/mp3'});
+						const writer = new ID3Writer(e.data.buf);
+						writer.setFrame('TIT2', e.data.fileName);
+						writer.addTag();
+						var mp3Blob = writer.getBlob();
+
+						} else{
+							mp3Blob = new Blob([new Uint8Array(e.data.buf)], {type: 'audio/mp3'});
+						}
 						uploadAudio(mp3Blob,'mp3',e.data.fileName);
 
 						// var url = 'data:audio/mp3;base64,'+encode64(e.data.buf);

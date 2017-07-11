@@ -394,7 +394,7 @@ function doFeedback(){
 function preloadGridImages(){
 	if(gridImages.length==0){
 		for(var i=0; i < numStimuli; ++i){
-			var symbolName = '../DistractionTask/images/stim-'+ i;
+			var symbolName = '../DistractionTask/images/stim-'+ i+".png";
 			gridImages[i] = new Image();
 			gridImages[i].src = symbolName;
 		}

@@ -156,8 +156,10 @@ function finishSpeechEvaluationSurvey(survey){
 function uploadSpeechEvaluationSurvey(surveyText, filename){
 	var fd = new FormData();
 	
-	fd.append('fname', filename);
+	//fd.append('fname', filename);
 	fd.append('data', surveyText);
+	fd.append("filetype","survey");
+	fd.append('id', participantID+"_Survey_0");
 	$.ajax({
 		type: 'POST',
 		url: uploadSurveyPHPLocation,

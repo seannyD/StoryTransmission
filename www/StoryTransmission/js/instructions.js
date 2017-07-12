@@ -117,7 +117,7 @@ var micFailMessage =
 
 var failTechTest = "Sorry, we could not access a microphone on your device.";
 
-var browserFailText = "<h1>Browser not supported</h1><p>The browser you are using is not supported for this experiment. <p>You can open this webpage using <strong>Firefox</strong> or <strong>Chrome</strong>."
+var browserFailText = "<h1>Browser not supported</h1><p>The browser you are using is not supported for this experiment, or you are using a mobile devide. <p>You can open this webpage using <strong>Firefox</strong> or <strong>Chrome</strong> on a laptop/desktop."
 
 var failUploadText = 
 "<h1>Warning</h1>\

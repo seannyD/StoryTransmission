@@ -28,6 +28,7 @@ var storyType    = ["Muki","Taka"];
 var speechEvaluationOrder = ["HighP","LowP"];
 
 var stages = [
+      "browserTest",
       "consent",
       "speakerTest",
       "techTest",
@@ -67,7 +68,8 @@ var stagesLabels = {"consent":"Consent >",
                     'workerCode':"Worker Code",
                     'qualifyingSurvey':"Survey >",
                     'qualifyingWorkerCode':"Worker Code",
-                    'qualifyingConsent':"Consent >"
+                    'qualifyingConsent':"Consent >",
+                    'browserTest':"Consent >"
                     }
 
 //stages = ["localisation", 'demographySurvey','workerCode'];
@@ -177,6 +179,9 @@ function nextStage(){
         break;
       case "qualifyingWorkerCode":
         showQualifyingWorkerCode();
+        break;
+      case "browserTest":
+        testBrowser();
         break;
       default:
         showWorkerCode(); // by default, end the experiment nicely!
@@ -495,9 +500,22 @@ function getBrowser(){
   // Blink engine detection
   var isBlink = (isChrome || isOpera) && !!window.CSS;
 
-  var browser = "Firefox";
+  var browser = "Other";
+  if(isFirefox){
+    browser = "Firefox";
+  }
   if(isChrome){
     browser = "Chrome";
   }
   return(browser);
+}
+
+function testBrowser(){
+  var br = getBrowser();
+  console.log("Detected Browser"+br);
+  if(br=="Other"){
+    setInstruction(browserFailText);
+  } else{
+    setTimeout("nextStage()",100);
+  }
 }

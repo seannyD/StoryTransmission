@@ -3,6 +3,7 @@ uploadQualSurveyPHPLocation= '../survey/uploadQualSurvey.php';
 
 function startQualifyingExperiment(){
 	stages = [
+	  "browserTest",
       "qualifyingConsent",
       "speakerTest",
       "techTest",

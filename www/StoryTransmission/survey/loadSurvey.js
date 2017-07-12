@@ -133,17 +133,17 @@ function finishLocalisation(survey) {
 	    	setExperimentParameters("UK");
 	    }
 	    else{
-		    if(survey.data['localisation']=="Other" & survey.data['localisation2']=="USA"){
+		    if(survey.data['localisation']=="other" & survey.data['localisation2']=="USA"){
 				setExperimentParameters("USA");
 		    } 
 		    else{
-		    if(survey.data['localisation']=="Other" & survey.data['localisation2']=="UK"){
+		    if(survey.data['localisation']=="other" & survey.data['localisation2']=="UK"){
 				setExperimentParameters("UK");
 		    } 	
 		    }
 		}
 	}
-
+	console.log("Set Localisation to "+ experimentLocation);
 	setTimeout("nextStage()",100);
 }
 

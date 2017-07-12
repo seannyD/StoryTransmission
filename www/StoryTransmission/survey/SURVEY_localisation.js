@@ -11,13 +11,12 @@ var localisationSurvey = {
             }, {
                 value: "UK",
                 text: "United Kingdom of Great Britain and Northern Ireland"
-            }, {
-                value: "Other",
-                text: "Other (please specify)"
             }],
             isRequired: true,
             name: "localisation",
-            title: "In what country do you currently live?"
+            title: "In what country do you currently live?",
+            hasOther: true,
+            otherText: "Other (please specify)"
         }, {
             type: "radiogroup",
             choices: [{
@@ -31,7 +30,7 @@ var localisationSurvey = {
             name: "localisation2",
             title: "Which version of the questionnaire would have questions most appropriate for your personal history (e.g. education system, English dialect)?",
             visible: false,
-            visibleIf: "{localisation} = 'Other'"
+            visibleIf: "{localisation} = 'other'"
         }]
     }]
 }

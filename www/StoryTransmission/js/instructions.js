@@ -14,7 +14,7 @@ var consentText = '<h1>The effects of social transmission biases on human cultur
 Participation should take approximately 45 minutes. There will be sections of the survey that are time- sensitive, during which you will not be able to walk away from your computer. You will be notified before beginning these sections.\
 <p>Your participation in this research is voluntary. If you decide to participate in the study, you may withdraw your consent and stop participation at any time without penalty. We will not collect your name or any personal identifiers. When we report and share the data with others, we will combine the data from all participants. There are no known risks to you in taking part in this study. If you have any questions, contact information for the researchers, the CSU Institutional Review Board, and the UB Human Research Ethics Committee are available at the end of the questionnaire.\
 <p>If you agree to participate, please press the button below.\
-<br />\
+<br /><br />\
 <button onclick="nextStage()" class="btn btn-success">I agree</button>';
 
 var qualifyingConsentText = "<h1>Qualifying Task</h1>\
@@ -26,7 +26,7 @@ var qualifyingConsentText = "<h1>Qualifying Task</h1>\
 <p>This task should take approximately 5 minutes.<br /><br /><br /><br /><br />\
 <h2>Consent</h2>\
 <p>Your participation in this research is voluntary. If you decide to participate in the study, you may withdraw your consent and stop participation at any time without penalty. We will not collect your name or any personal identifiers. When we report and share the data with others, we will combine the data from all participants. There are no known risks to you in taking part in this study. If you have any questions, contact information for the researchers, the CSU Institutional Review Board, and the UB Human Research Ethics Committee are available at the end of the questionnaire.\
-<p>If you agree to participate, please press the button below.<br />\
+<p>If you agree to participate, please press the button below.<br /><br />\
 <button onclick=\"nextStage()\" class=\"btn btn-success\">I agree</button>";
 
 

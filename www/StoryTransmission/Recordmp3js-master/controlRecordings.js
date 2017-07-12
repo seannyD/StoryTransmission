@@ -113,6 +113,8 @@ function __log(e, data) {
       testRecording = false;
       console.log("starting test recording");
       createDownloadLink();
+      recorder.clear();
+
       setInstruction(micTestText2);
       showMe('testRecorder');
       hideMe('micWorkedButton'); // shown when playing starts
@@ -202,7 +204,9 @@ function __log(e, data) {
       //li.appendChild(au);
       //li.appendChild(hf);
       showMe("testRecorder");
-    }, "NONE", "audio/wav");
+
+      //recorder.clear();
+    }, "TestRecording", "audio/wav");
   }
 
   function controlRecorderFinishedUploading(){

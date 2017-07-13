@@ -100,6 +100,13 @@
     <div id="timer">
       <progress id="timerProgress" value="0" max="100"></progress>
     </div>
+    <br />
+    <div style="border:3px solid black;box-shadow: 10px 10px 5px #888888;">
+    <video id="DistractionTaskVideo" onended="DistractionTaskVideoEnded()" poster="../resources/images/DistractionTaskInstructionsBackup.png">
+      <source id="DistractionTaskVideoSource" src="../resources/video/InstructionVideo2.mp4" type="video/mp4">
+      <img src="../resources/images/DistractionTaskInstructionsBackup.png">
+    </video> 
+    </div>
   </div>
 
 </div>
@@ -126,9 +133,9 @@
     displayGridColumns <input id="displayGridColumns" value="4" /><br />
     displayGridRows <input id="displayGridRows" value="4" /><br />
 
-    distractionTaskInstructionTime <input id="distractionTaskInstructionTime" value="5000" /><br />
+    distractionTaskInstructionTime <input id="distractionTaskInstructionTime" value="115000" /><br />
     distractionTaskDisplayTime (ms) <input id="distractionTaskDisplayTime" value="30000" /><br />
-    distractionTaskSelectTime (ms) <input id="distractionTaskSelectTime" value="30000" /><br />
+    distractionTaskSelectTime (ms) <input id="distractionTaskSelectTime" value="20000" /><br />
     distractionTaskFeedbackTime (ms) <input id="distractionTaskFeedbackTime" value="2000" /><br />
 
     

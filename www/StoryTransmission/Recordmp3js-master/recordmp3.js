@@ -167,7 +167,9 @@ var currOutputSampleRate;
 
 						//console.log ("The Mp3 data " + e.data.buf);
 						var mp3Blob = null;
-						if(useID3Tags){
+						// check if we want to use ID3 tags
+						// and if ID3Writer is actually available
+						if(useID3Tags && typeof ID3Writer === "function"){
 							console.log("converting to ID3:" + e.data.fileName);
 						// TODO: Check that ID3Writer is available.
 

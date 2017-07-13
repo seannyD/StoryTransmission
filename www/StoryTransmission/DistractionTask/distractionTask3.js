@@ -28,7 +28,8 @@ var cellSize2 = "80px";
 
 
 
-var distractionTaskInstructionTime = 30 * 1000;
+var distractionTaskInstructionTime = 115 * 1000; // video is 1:46
+var timeoutDistractionTaskInstruction = 0; // for keeping track of timeout
 var distractionTaskDisplayTime = 30 * 1000;
 var distractionTaskSelectTime = 20 * 1000;
 var distractionTaskFeedbackTime = 2 * 1000;
@@ -148,14 +149,25 @@ function nextDistractionStage(){
 	} else{
 		switch (distractionStages[distractionStageCounter]) {
 	                case "Instructions":
-	                  setInstruction(distractionTaskInstructions);
+	                  // hide things we don't need
 	                  hideMe("displayGrid");
 	                  hideMe("selectGrid");
 	                  if(useTrashcan){
 	                  	hideMe("trash");
 	                  }
+	                  // set instruction
+	                  setInstruction("<h1>Instructions</h1>");
+	                  var introVideo = document.getElementById("DistractionTaskVideo");
+	                  // reset the video to the start
+  					  introVideo.currentTime = 0;
+	                  showMe("DistractionTaskVideoDiv");
+	                  // play the video
+	                  introVideo.play();
+
+	                  // Start the countdown timer
 	                  startTimer(distractionTaskInstructionTime);
-	                  setTimeout("nextDistractionStage();",distractionTaskInstructionTime);
+	                  // Have a backup timer, in case the video doesn't work or has trouble loading
+	                  timeoutDistractionTaskInstruction = setTimeout("nextDistractionStage();",distractionTaskInstructionTime);
 	                  break;
 	                case "display":
 	                  displayImages();
@@ -187,6 +199,7 @@ function distractionTaskClearScreen(){
 	hideMe('selectGrid');
 	hideMe("instructions")
 	hideMe("DragArrow");
+	hideMe("DistractionTaskVideoDiv");
 }
 
 function startTimer(t){
@@ -216,6 +229,12 @@ function incTimer(){
 		}
 		document.getElementById("timerProgress").value = (timerCurrent/ timerTotal)*100;
 	}
+}
+
+function DistractionTaskVideoEnded(){
+	// we don't need the distraction task backup action anymore
+	clearTimeout(timeoutDistractionTaskInstruction);
+	nextDistractionStage();
 }
 
 function displayImages(){

@@ -10,7 +10,7 @@
 
   var waitingForUploadIntervalTime = 1000;
   var waitingForUploadTimeWaiting = 0;
-  var waitingForUploadTimeout = 120000;
+  var waitingForUploadTimeout = 300000; // 5 minutes
   var asynchronousUploading = true;  
   var allowMultipleRecordingSessions = true; // per story  
 
@@ -288,7 +288,7 @@ function __log(e, data) {
     } else{
       waitingForUploadTimeWaiting += waitingForUploadIntervalTime;
       if(waitingForUploadTimeWaiting>=waitingForUploadTimeout){
-        setTimeout("nextStage()",200);
+        setInstruction(uploadTimeoutText);
       }
     }
   }

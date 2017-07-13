@@ -1,9 +1,7 @@
 
-// TODO: work out proper score, symbol + location + location&symbol.
-// Check that the symbols stay in same place in select grid
-// TODO: scale images? Or leave all same size?
-// TODO: move to pure css to avoid grid problems?
 // TOOD: record screen size?
+
+
 
 
 var numStimuli = 9;//15;
@@ -152,15 +150,17 @@ function nextDistractionStage(){
 	                  // hide things we don't need
 	                  hideMe("displayGrid");
 	                  hideMe("selectGrid");
+	                  hideMe("DragArrow");
 	                  if(useTrashcan){
 	                  	hideMe("trash");
 	                  }
 	                  // set instruction
-	                  setInstruction("<h1>Instructions</h1>");
+	                  setInstruction("<h1>Memory Test Instructions</h1>");
 	                  var introVideo = document.getElementById("DistractionTaskVideo");
 	                  // reset the video to the start
   					  introVideo.currentTime = 0;
-	                  showMe("DistractionTaskVideoDiv");
+  					  // need to use block display to make video border size correct
+	                  document.getElementById("DistractionTaskVideoDiv").style.display="block";
 	                  // play the video
 	                  introVideo.play();
 
@@ -234,6 +234,7 @@ function incTimer(){
 function DistractionTaskVideoEnded(){
 	// we don't need the distraction task backup action anymore
 	clearTimeout(timeoutDistractionTaskInstruction);
+	hideMe("DistractionTaskVideoDiv");
 	nextDistractionStage();
 }
 

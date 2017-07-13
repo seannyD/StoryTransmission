@@ -78,7 +78,7 @@
     <audio id="TestAudio" onplay="speakerTestStarted()" controls controlsList="nodownload">
       <source src="../resources/audio/SpeakerTestAudio.mp3" type="audio/mpeg">
     </audio><br /><br />
-    <button id="finishedTestAudioButton" onclick="finishedTestAudio()" class="btn btn-success">Yes, my audio is working!</button><br />
+    <button id="finishedTestAudioButton" onclick="finishedTestAudio();" class="btn btn-success">Yes, my audio is working!</button><br />
    </div>
 
    <div id="techTest">
@@ -143,6 +143,18 @@
   <br /><br />
   <button onclick="startTestRun()">START</button><br />
   </div>
+</div>
+
+<!--Fallback if there is an error-->
+<div id="HelpButton" style="position:absolute;top:93%;left:90%;width:9%;height:6%;background:#810101;box-shadow: 5px 5px 2px #888888;text-align: center;color: white;" onclick="document.getElementById('HelpText').style.display='inline'">
+  Help
+</div>
+<div id="HelpText" style="display:none; position:absolute; top:50%;left:50%;height:45%;width:45%;background:#810101;font-size:20px;z-index:100;box-shadow: 5px 5px 2px #888888;color: white;padding:10px">
+  If you are experiencing an error or cannot complete the experiment for technical reasons, Please contact the researchers to make them aware of the problem and ensure you receive payment. Include your Mechanical Turk Worker ID.
+  <br />
+  Contact: Richard E.W. Berl at rewberl@colostate.edu.
+  <br /><br />
+  <button onclick="document.getElementById('HelpText').style.display='none'" style="background:black;border:black">Click here to close this message</button>
 </div>
 
 </html>

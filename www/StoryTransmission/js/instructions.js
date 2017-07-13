@@ -129,7 +129,7 @@ var failUploadText =
 var uploadTimeoutText = 
 "<h1>Your recording is taking longer than expected to upload.<h1>\
 <p>You can leave this window open in the background and check back in a few minutes. If the upload takes more than 10-15 minutes or you have run out of the time allotted for the task, please contact the researchers to make them aware of the problem and ensure you receive payment.\
-<p>Please include your Mechanical Turk Worker ID in any correspondence.\
+<p>Please include your Mechanical Turk Worker ID in any correspondence, and the error code: \"UPLOADTIMEOUT\".\
 <p>Contact: Richard E.W. Berl at rewberl@colostate.edu";
 
 var generalErrorText = 

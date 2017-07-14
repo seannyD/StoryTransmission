@@ -112,8 +112,9 @@ var currOutputSampleRate;
 
 	
     worker.onmessage = function(e){
-      var blob = e.data;
-      var fileName = blob.type;  // passing filname by the type string - not good!
+      var blob = e.data.blob;
+      var fileName = e.data.fileName;  // passing filname by the type string - not good!
+      var resampledRate = e.data.resampledRate;
 
       //var filename = blob.filename;
 	  console.log("the blob " +  blob.size + " " + blob.type + " " + fileName);
@@ -139,9 +140,11 @@ var currOutputSampleRate;
 	  var arrayBuffer;
 	  var fileReader = new FileReader();
 	  fileReader.fileName = fileName;
+	  fileReader.resampledRate = resampledRate;
 
 	  fileReader.onload = (function(readerEvt){
 		  	var fileName = readerEvt.target.fileName;
+		  	var resampledRate = readerEvt.target.resampledRate;
 		  	console.log("FileReader "+fileName);
 			arrayBuffer = this.result;
 

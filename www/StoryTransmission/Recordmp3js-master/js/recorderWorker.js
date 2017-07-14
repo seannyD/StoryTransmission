@@ -6,7 +6,7 @@ var numChannels;
 
 
 //var maxRecordingBufferLength = 11600000;
-var maxRecordingBufferLength = 1160000;
+var maxRecordingBufferLength =   116000;
 
 this.onmessage = function(e){
   switch(e.data.command){
@@ -103,12 +103,18 @@ function exportWAV(type, filename){
 
     // TODO: Currently passing filename as blob type - should move to passing array
     var audioBlob = new Blob([dataview], { type: filename });
-    this.postMessage(audioBlob);
+    this.postMessage({
+      blob:audioBlob,
+      fileName:filename,
+      resampledRate:thisResampleRate});
   } else{
     // no resampling
       var dataview = encodeWAV(interleaved);
       var audioBlob = new Blob([dataview], { type: filename});
-      this.postMessage(audioBlob);
+      this.postMessage({
+      blob:audioBlob,
+      fileName:filename,
+      resampledRate:outputSampleRate});
   }
 
 }
@@ -172,7 +178,7 @@ function writeString(view, offset, string){
   }
 }
 
-function encodeWAV(samples){
+function encodeWAV(samples, resampledRateX){
   //console.log("Recorder worker samples");
   //console.log(samples);
   var buffer = new ArrayBuffer(44 + samples.length * 2);

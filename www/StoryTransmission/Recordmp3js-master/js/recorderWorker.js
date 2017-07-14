@@ -133,6 +133,8 @@ function writeString(view, offset, string){
 }
 
 function encodeWAV(samples){
+  //console.log("Recorder worker samples");
+  //console.log(samples);
   var buffer = new ArrayBuffer(44 + samples.length * 2);
   var view = new DataView(buffer);
 

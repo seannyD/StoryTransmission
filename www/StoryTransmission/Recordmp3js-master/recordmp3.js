@@ -3,11 +3,16 @@ var uploadPHPLocation = '../Recordmp3js-master/upload.php';
   //var WORKER_PATH = 'js/recorderWorker.js';
 var WORKER_PATH = '../Recordmp3js-master/js/recorderWorker.js';
   //var encoderWorker = new Worker('js/mp3Worker.js');
-var encoderWorker = new Worker('../Recordmp3js-master/js/mp3Worker.js');
+//var encoderWorker = new Worker('../Recordmp3js-master/js/mp3Worker.js');
+var encoderWorker = new Worker('../Recordmp3js-master/js/mp3Worker_2.js');
+
+//encoderWorker.onerror = function (err) {
+//    console.log('worker has an error!', err);
+//}
 
 var audioSaveType = 'mp3';
 
-var useID3Tags = true;
+var useID3Tags = false;
 
 var currOutputSampleRate;
   
@@ -153,7 +158,13 @@ var currOutputSampleRate;
 					bitrate: data.bitsPerSample
 		        }});
 
-		        encoderWorker.postMessage({ cmd: 'encode', buf: Uint8ArrayToFloat32Array(data.samples), fileName: fileName });
+
+		        // mp3Worker.js must convert to Uint8ArryToFloat32Array first
+		        //encoderWorker.postMessage({ cmd: 'encode', buf: Uint8ArrayToFloat32Array(data.samples), fileName: fileName });
+
+
+		        // mp3Worker_2.js does not need converstion
+		        encoderWorker.postMessage({ cmd: 'encode', buf: arrayBuffer, fileName: fileName });
 		        encoderWorker.postMessage({ cmd: 'finish', fileName: fileName});
 		        encoderWorker.onmessage = function(e) {
 		            if (e.data.cmd == 'data') {
@@ -171,15 +182,17 @@ var currOutputSampleRate;
 						// and if ID3Writer is actually available
 						if(useID3Tags && typeof ID3Writer === "function"){
 							console.log("converting to ID3:" + e.data.fileName);
-						// TODO: Check that ID3Writer is available.
-
-						const writer = new ID3Writer(e.data.buf);
-						writer.setFrame('TIT2', e.data.fileName);
-						writer.addTag();
-						var mp3Blob = writer.getBlob();
+							// TODO: Check that ID3Writer is available.
+							console.log(typeof e.data.buf);
+							console.log(e.data.buf.length);
+							const writer = new ID3Writer(e.data.buf);
+							writer.setFrame('TIT2', e.data.fileName);
+							writer.addTag();
+							var mp3Blob = writer.getBlob();
 
 						} else{
-							mp3Blob = new Blob([new Uint8Array(e.data.buf)], {type: 'audio/mp3'});
+							//mp3Blob = new Blob([new Uint8Array(e.data.buf)], {type: 'audio/mp3'});
+							mp3Blob = new Blob(e.data.buf, {type: 'audio/mp3'});
 						}
 						uploadAudio(mp3Blob,'mp3',e.data.fileName);
 

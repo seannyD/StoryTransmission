@@ -11,7 +11,11 @@ self.onmessage = function(e) {
 		if (!e.data.config) {
 			e.data.config = { };
 		}
+		//Module = {};
+		//Module.TOTAL_MEMORY = 16777216;
 		mp3codec = Lame.init();
+		console.log("LAME");
+
 
 		Lame.set_mode(mp3codec, e.data.config.mode || Lame.JOINT_STEREO);
 		Lame.set_num_channels(mp3codec, e.data.config.channels || 2);
@@ -34,8 +38,7 @@ self.onmessage = function(e) {
 			'Channels: '+Lame.get_num_channels(mp3codec) + ' / ',
 			'Input Samplate: '+ Lame.get_in_samplerate(mp3codec) + ' / ',
 			'Output Samplate: '+ Lame.get_out_samplerate(mp3codec) + ' / ',
-			'Bitlate :' +Lame.get_bitrate(mp3codec) + ' / ',
-			'VBR :' + Lame.get_VBR(mp3codec));
+			'Bitlate :' +Lame.get_bitrate(mp3codec) + ' / ');
 		break;
 	case 'encode':
 		console.log("MP3 Worker " + e.data.fileName);

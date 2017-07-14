@@ -1,0 +1,33 @@
+TODO
+currently looking at how this project handles the mp3 encoder:
+
+https://github.com/zzarcon/microm/blob/728ade6789fe110c8419adfc9b1b209f0a261992/lib/converter.js
+
+----
+    var left = samples[0]
+    var right = samples[1]
+    var maxSamples = opts.maxSamples;
+    var remaining = left.length;
+    var mp3enc = new this.lame.Mp3Encoder(opts.channels, opts.sampleRate, opts.kbps);
+    var buffer = [], i = 0, mp3buf, ld, rd, data, blob, url;
+
+    while (remaining >= maxSamples) {
+      i += maxSamples;
+      ld = left.splice(i, i + maxSamples);
+      rd = right ? right.splice(i, i + maxSamples) : null;
+      mp3buf = mp3enc.encodeBuffer(ld, rd);
+
+      mp3buf.length > 0 && buffer.push(new Int8Array(mp3buf));
+
+      remaining -= maxSamples;
+    } 
+      
+    data = mp3enc.flush();
+
+    data.length > 0 && buffer.push(new Int8Array(data));
+    
+blob = new Blob(buffer, {type: 'audio/mp3'});
+---
+
+However, this code didn't like my e.data.buf in the splice command.
+I just updated the bitrate call to mp3Worker_2.js, so maybe that will work with one of the other attempts?

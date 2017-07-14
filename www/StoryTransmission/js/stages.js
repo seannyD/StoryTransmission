@@ -167,11 +167,11 @@ function nextStage(){
         launchDemographySurvey();
         break;
       case "checkUploaded":
+        saveTimeLog();
+        saveFileLog();
         checkRecordingsHaveUploaded();
         break;
       case "workerCode":
-        saveTimeLog();
-        saveFileLog();
         showWorkerCode();
         break;
       case "qualifyingSurvey":

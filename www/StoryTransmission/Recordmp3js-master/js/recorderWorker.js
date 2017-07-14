@@ -5,7 +5,7 @@ var outputSampleRate;
 var numChannels;
 
 
-var maxRecordingBufferLength = 11600000;
+var maxRecordingBufferLength = 11600000; // about 
 //var maxRecordingBufferLength =   116000;
 
 this.onmessage = function(e){
@@ -89,7 +89,8 @@ function exportWAV(type, filename){
       // So let's adjust the sample rate so that the recording fits
 
       // work out new sample rate so that the final length is maxRecordingBufferLength
-       thisResampleRate = Math.floor(sampleRate * (maxRecordingBufferLength/interleaved.length))
+       var rsr = Math.floor(sampleRate * (maxRecordingBufferLength/interleaved.length));
+       thisResampleRate = Math.min(rsr,thisResampleRate);
     }
     //addToFileLog("Resampled to "+thisResampleRate,filename);
     console.log("Resampling to "+thisResampleRate+"Hz");

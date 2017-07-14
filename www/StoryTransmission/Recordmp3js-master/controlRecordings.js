@@ -159,6 +159,8 @@ function __log(e, data) {
     }
   }
 
+
+
   function startBlinkLight(){
     if(blinkLightIntervalID != null){
       clearInterval(blinkLightIntervalID);

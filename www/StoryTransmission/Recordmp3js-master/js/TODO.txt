@@ -31,3 +31,19 @@ blob = new Blob(buffer, {type: 'audio/mp3'});
 
 However, this code didn't like my e.data.buf in the splice command.
 I just updated the bitrate call to mp3Worker_2.js, so maybe that will work with one of the other attempts?
+
+
+
+
+This line in recordmp3.js:
+encoderWorker.postMessage({ cmd: 'encode', buf: Uint8ArrayToFloat32Array(data.samples), fileName: fileName });
+Converts the samples to a float array, which we don't want.
+
+
+(I edited recordingOutputSampleRate in controlRecording to very high so it's not converted)
+
+
+
+TODO:
+lower resampler?
+Reinstate ID3 tag - trouble with multiple array buffer?

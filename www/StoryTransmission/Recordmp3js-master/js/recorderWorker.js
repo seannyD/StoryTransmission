@@ -4,6 +4,10 @@ var sampleRate;
 var outputSampleRate;
 var numChannels;
 
+
+//var maxRecordingBufferLength = 11600000;
+var maxRecordingBufferLength = 1160000;
+
 this.onmessage = function(e){
   switch(e.data.command){
     case 'init':
@@ -37,25 +41,60 @@ function record(inputBuffer){
     recBuffers[channel].push(inputBuffer[channel]);
   }
   recLength += inputBuffer[0].length;
+  // if(multiStageRecordings){
+  //   if(recLength >=multiStageRecordingLength){
+  //     setTimeout("stopAndStart()",1);
+  //   }
+  // }
 }
+
+// function stopAndStart(){
+//     console.log("Stop and start");
+//     var recLengthCopy = recLength;
+//     var recBuffersCopy = [[]];
+//     for(var i=0;i<recBuffers[0].length;++i){
+//       recBuffersCopy[0].push(recBuffers[0][i]);
+//     }
+//     recLength = 0;
+//     recBuffers = [[]];
+    
+//     //addToTimeLog("Stop recording (halfway) "+ currentStorySample + " " + multipleRecordingRound);
+//     //var recordingFilename = participantID + "_" + currentStorySample + "_" + multipleRecordingRound;
+//     var recordingFilename = "tmp" + Math.floor(Math.random() * (10000));
+//     exportWAV2(function(blob) {}, recordingFilename, recBuffersCopy,recLengthCopy);
+// }
 
 function exportWAV(type, filename){
   
-  var buffers = [];
-  for (var channel = 0; channel < numChannels; channel++){
-    buffers.push(mergeBuffers(recBuffers[channel], recLength));
-  }
-  if (numChannels === 2){
-      var interleaved = interleave(buffers[0], buffers[1]);
-  } else {
-      var interleaved = buffers[0];
-  }
+  // var buffers = [];
+  // for (var channel = 0; channel < numChannels; channel++){
+  //   buffers.push(mergeBuffers(recBuffers[channel], recLength));
+  // }
+  // if (numChannels === 2){
+  //     var interleaved = interleave(buffers[0], buffers[1]);
+  // } else {
+  //     var interleaved = buffers[0];
+  // }
 
-  if(outputSampleRate < sampleRate){
+  var interleaved = mergeBuffers(recBuffers[0], recLength);
+
+
+
+  if(outputSampleRate < sampleRate || interleaved.length > maxRecordingBufferLength){
     // Resample at a lower rate
-    console.log("Resampling to "+outputSampleRate+"Hz");
+
+    var thisResampleRate = outputSampleRate;
+    if(interleaved.length > maxRecordingBufferLength){
+      // mp3 encoder can handle about 11 million samples, after that it fails.  
+      // So let's adjust the sample rate so that the recording fits
+
+      // work out new sample rate so that the final length is maxRecordingBufferLength
+       thisResampleRate = Math.floor(sampleRate * (maxRecordingBufferLength/interleaved.length))
+    }
+    //addToFileLog("Resampled to "+thisResampleRate,filename);
+    console.log("Resampling to "+thisResampleRate+"Hz");
     // set up a resampler
-    var resampler = new Resampler(sampleRate, outputSampleRate, numChannels, interleaved);
+    var resampler = new Resampler(sampleRate, thisResampleRate, numChannels, interleaved);
     // do the resampling (output stored in resampler.outputBuffer)
     resampler.resampler(interleaved.length);
 
@@ -73,6 +112,7 @@ function exportWAV(type, filename){
   }
 
 }
+
 
 function getBuffer(){
   var buffers = [];

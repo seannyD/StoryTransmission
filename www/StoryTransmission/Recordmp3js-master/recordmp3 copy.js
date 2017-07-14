@@ -163,6 +163,13 @@ var currOutputSampleRate;
 		        }});
 
 
+		        // mp3Worker.js must convert to Uint8ArryToFloat32Array first
+		        //encoderWorker.postMessage({ cmd: 'encode', buf: Uint8ArrayToFloat32Array(data.samples), fileName: fileName });
+
+
+		        // mp3Worker_2.js does not need converstion
+		        encoderWorker.postMessage({ cmd: 'encode', buf: arrayBuffer, fileName: fileName });
+		        //encoderWorker.postMessage({ cmd: 'finish', fileName: fileName});
 		        encoderWorker.onmessage = function(e) {
 		            if (e.data.cmd == 'data') {
 
@@ -209,13 +216,6 @@ var currOutputSampleRate;
 
 		            }
 		        }
-		        // mp3Worker.js must convert to Uint8ArryToFloat32Array first
-		        //encoderWorker.postMessage({ cmd: 'encode', buf: Uint8ArrayToFloat32Array(data.samples), fileName: fileName });
-
-
-		        // mp3Worker_2.js does not need converstion
-		        encoderWorker.postMessage({ cmd: 'encode', buf: arrayBuffer, fileName: fileName });
-		        //encoderWorker.postMessage({ cmd: 'finish', fileName: fileName});
 		        };
 			  
 		  });

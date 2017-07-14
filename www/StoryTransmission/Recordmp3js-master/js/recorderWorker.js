@@ -5,8 +5,8 @@ var outputSampleRate;
 var numChannels;
 
 
-//var maxRecordingBufferLength = 11600000;
-var maxRecordingBufferLength =   116000;
+var maxRecordingBufferLength = 11600000;
+//var maxRecordingBufferLength =   116000;
 
 this.onmessage = function(e){
   switch(e.data.command){

@@ -95,7 +95,6 @@ Resampler.prototype.compileLinearInterpolationFunction = function () {
 }
 Resampler.prototype.compileMultiTapFunction = function () {
 	var toCompile = "var outputOffset = 0;\
-    console.log('running resample '+bufferLength);\
     if (bufferLength > 0) {\
         var buffer = this.inputBuffer;\
         var weight = 0;";

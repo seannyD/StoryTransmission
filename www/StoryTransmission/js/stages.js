@@ -399,11 +399,12 @@ function saveTimeLog (){
 // ------
 // FileLog
 function addToFileLog(filetype, filename){
-  fileLog.push([filetype,filename]);
+  console.log("File Log "+filetype + ":"+filename);
+  fileLog.push([filetype,filename,getCurrentTime()]);
 }
 
 function saveFileLog(){
-  var out = "participantID,filetype,filename\n";
+  var out = "participantID,filetype,filename,time\n";
   for(var i=0;i<fileLog.length; ++i){
     out += participantID + "," + fileLog[i].join(",")+"\n";
   }

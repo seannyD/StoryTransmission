@@ -5,8 +5,8 @@ var outputSampleRate;
 var numChannels;
 
 
-var maxRecordingBufferLength = 11600000; // about 
-//var maxRecordingBufferLength =   116000;
+var maxRecordingBufferLength = 11600000; // about 6 minutes
+//var maxRecordingBufferLength =   116000; // about 3 seconds, for testing
 
 this.onmessage = function(e){
   switch(e.data.command){
@@ -65,56 +65,43 @@ function record(inputBuffer){
 // }
 
 function exportWAV(type, filename){
-  
-  // var buffers = [];
-  // for (var channel = 0; channel < numChannels; channel++){
-  //   buffers.push(mergeBuffers(recBuffers[channel], recLength));
-  // }
-  // if (numChannels === 2){
-  //     var interleaved = interleave(buffers[0], buffers[1]);
-  // } else {
-  //     var interleaved = buffers[0];
-  // }
 
+   // Convert to series of wav files, then post these.
+
+
+   // resample before merging
+   if(outputSampleRate < sampleRate){
+    console.log("Resampling to "+outputSampleRate+"Hz");
+    for(var i=0; i<recBuffers[0].length;++i){
+      // set up a resampler
+      var resampler = new Resampler(sampleRate, outputSampleRate, numChannels, recBuffers[0][i]);
+      // do the resampling (output stored in resampler.outputBuffer)
+      resampler.resampler(recBuffers[0][i].length);
+      // buffer now in resampler.outputBuffer
+      recBuffers[0][i] = resampler.outputBuffer;
+    }
+   }
+
+
+  // combine buffers and, if there are 2 channels, interleave the samples
   var interleaved = mergeBuffers(recBuffers[0], recLength);
 
 
+  // If the resampled buffer is longer than the maxRecordingBufferLength, 
+  // then split into several equal-sized recordings
+  var numberOfSamples = interleaved.length;
+  var numberOfFiles = Math.ceil(numberOfSamples/maxRecordingBufferLength);
+  var subSampleLength = Math.ceil(numberOfSamples/numberOfFiles);
 
-  if(outputSampleRate < sampleRate || interleaved.length > maxRecordingBufferLength){
-    // Resample at a lower rate
-
-    var thisResampleRate = outputSampleRate;
-    if(interleaved.length > maxRecordingBufferLength){
-      // mp3 encoder can handle about 11 million samples, after that it fails.  
-      // So let's adjust the sample rate so that the recording fits
-
-      // work out new sample rate so that the final length is maxRecordingBufferLength
-       var rsr = Math.floor(sampleRate * (maxRecordingBufferLength/interleaved.length));
-       thisResampleRate = Math.min(rsr,thisResampleRate);
-    }
-    //addToFileLog("Resampled to "+thisResampleRate,filename);
-    console.log("Resampling to "+thisResampleRate+"Hz");
-    // set up a resampler
-    var resampler = new Resampler(sampleRate, thisResampleRate, numChannels, interleaved);
-    // do the resampling (output stored in resampler.outputBuffer)
-    resampler.resampler(interleaved.length);
-
-    console.log("Resampled from "+ interleaved.length + "samples to "+ resampler.outputBuffer.length+ "samples");
-    var dataview = encodeWAV(resampler.outputBuffer);
-
-    // TODO: Currently passing filename as blob type - should move to passing array
+  for(var i=0; i<numberOfFiles; ++i){
+    var sampleFrom = i * subSampleLength;
+    var sampleTo = (i+1)* subSampleLength;
+    var dataview = encodeWAV(interleaved.slice(sampleFrom,sampleTo));
     var audioBlob = new Blob([dataview], { type: filename });
+    var filename_part = filename + "_p" + i;
     this.postMessage({
       blob:audioBlob,
-      fileName:filename,
-      resampledRate:thisResampleRate});
-  } else{
-    // no resampling
-      var dataview = encodeWAV(interleaved);
-      var audioBlob = new Blob([dataview], { type: filename});
-      this.postMessage({
-      blob:audioBlob,
-      fileName:filename,
+      fileName:filename_part,
       resampledRate:outputSampleRate});
   }
 

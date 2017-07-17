@@ -12,7 +12,7 @@ var encoderWorker = new Worker('../Recordmp3js-master/js/mp3Worker_2.js');
 
 var audioSaveType = 'mp3';
 
-var useID3Tags = false;
+var useID3Tags = true;
 
 var currOutputSampleRate;
   
@@ -183,9 +183,23 @@ var currOutputSampleRate;
 						if(useID3Tags && typeof ID3Writer === "function"){
 							console.log("converting to ID3:" + e.data.fileName);
 							// TODO: Check that ID3Writer is available.
-							console.log(typeof e.data.buf);
+							console.log(typeof e.data.buf[0]);
 							console.log(e.data.buf.length);
-							const writer = new ID3Writer(e.data.buf);
+
+							var recL = 0;
+							for(var i=0;i<e.data.buf.length;++i){
+								recL += e.data.buf[i].length;
+							}
+
+							// The id3 writer expects a single array, not a list of arrays
+							// so merge them here
+							var bufferx = new Int8Array(recL);
+							var offset = 0;
+							  for (var i = 0; i < e.data.buf.length; i++){
+							    bufferx.set(e.data.buf[i], offset);
+							    offset += e.data.buf[i].length;
+							  }
+							const writer = new ID3Writer(bufferx);
 							writer.setFrame('TIT2', e.data.fileName);
 							writer.addTag();
 							var mp3Blob = writer.getBlob();

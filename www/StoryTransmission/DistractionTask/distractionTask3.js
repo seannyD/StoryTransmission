@@ -26,7 +26,7 @@ var cellSize2 = "80px";
 
 
 
-var distractionTaskInstructionTime = 115 * 1000; // video is 1:46
+var distractionTaskInstructionTime = 85 * 1000; // video is 1:24
 var timeoutDistractionTaskInstruction = 0; // for keeping track of timeout
 var distractionTaskDisplayTime = 30 * 1000;
 var distractionTaskSelectTime = 20 * 1000;
@@ -68,7 +68,7 @@ var dataTransferText = "";
 var dataTransferSource = "";
 
 
-var distractionTaskSaveFields = ['participantID','playerDisplayLocations','playerDisplaySymbols','playerDisplaySymbols.alpha',
+var distractionTaskSaveFields = ['participantID','playerDisplayLocations','distractionTaskNumber','playerDisplaySymbols','playerDisplaySymbols.alpha',
 				'playerDisplayCorrect', 'playerTechnicalPoints','currentDisplaySymbols','currentDisplaySymbols.alpha',
 				'currentDisplayLocations', 'playerSymbolsCorrect','playerLocationsCorrect','playerSymbolsAndLocationsCorrect', "time",
 				"distractionTaskchosenLetters","distractionTaskselectStimOrder","distractionTaskNumSymbolsObserved",
@@ -479,6 +479,7 @@ function recordResponses(correctSymbolPoints,correctLocationPoints,correctSymbol
 	//var res= [];
 	roundResponses["participantID"].push(participantID);
 	roundResponses["currentDisplayLocations"].push(displayLocationsText);
+	roundResponses["distractionTaskNumber"].push(distractionTaskNumber);
 	roundResponses["currentDisplaySymbols"].push(displaySymbolsText);
 	roundResponses["currentDisplaySymbols.alpha"].push(displaySymbolsLettersText);
 	roundResponses["playerDisplaySymbols"].push(playerSymbolsText);

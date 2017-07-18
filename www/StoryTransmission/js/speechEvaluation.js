@@ -13,6 +13,7 @@ var currentEvaluationNumber = 0;
 var originalSpeechEvaluationQuestionOrder = [];
 
 function speechEvaluation(sampleNum){
+	// note that this might be called from playAndEvaluation() if participant can answer survey while listening
     
 	if(sampleNum==0){
 		setInstruction(speechEvaluationInstructionText1);

@@ -11,16 +11,22 @@ This version includes:
 -  Recording audio 
 -  Resampling to lower sample rates
 -  Converting and saving audio to mp3 (this happens asynchronously, so you may be asked to wait at the end of the experiment)
+-  (swiched to [lamejs](https://github.com/zhuker/lamejs) library which seems faster than liblame)
+-  Writing metadata to ID3 tags of the mp3 files
+-  Ability to make multiple recordings per story
+-  Long recordings are now converted to multiple wav files before encoding
 -  Playing evaluation story
 -  Voice evaluation survey
 -  Returning worker code
 -  Started using Bootstrap styling
 -  General instructions
-
-It does not include:
-
 -  Instructions for the distraction task
--  Ability to make multiple recordings per story
+-  Server side php now dictates filenames on server
+-  Logs of times and files created to be able to link data together
+-  Works on localhost, correlation-machine and UoB servers
+-  Qualifying mode is with a url variable "qualify=T"
+
+## Testing
 
 If you add a url variable "test=T" to the url, then you get some configuration options (Some of this works, other bits I haven't tested):
 

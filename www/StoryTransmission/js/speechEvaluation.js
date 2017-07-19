@@ -12,6 +12,8 @@ var currentEvaluationNumber = 0;
 
 var originalSpeechEvaluationQuestionOrder = [];
 
+var evalAudioToPlay; // stores which audio was played most recently
+
 function speechEvaluation(sampleNum){
 	// note that this might be called from playAndEvaluation() if participant can answer survey while listening
     
@@ -24,7 +26,7 @@ function speechEvaluation(sampleNum){
 	
 	currentEvaluationNumber = sampleNum;
 	evaluationPrestigeType = speechEvaluationOrder[sampleNum];
-	var evalAudioToPlay = audioFolder+experimentLocation + "_" + evaluationPrestigeType+"_Comma.mp3";
+	evalAudioToPlay = audioFolder+experimentLocation + "_" + evaluationPrestigeType+"_Comma.mp3";
 
 	var audio = document.getElementById('playEvalPlayer');
     var source = document.getElementById('playEvalSource');
@@ -130,7 +132,7 @@ function finishSpeechEvaluationSurvey(survey){
 	sd['Recording2File'] = participantID + "_" + sample2;
 	sd['startTime'] = speechEvaluationStartTime;
 	sd['endTime'] = getCurrentTime();
-	sd['evaluationFile'] = audioToPlay;
+	sd['evaluationFile'] = evalAudioToPlay;
 	sd['evaluationPrestige'] = evaluationPrestigeType;
 	sd['evaluationPresentationNumber'] = currentEvaluationNumber;
 
@@ -160,7 +162,7 @@ function uploadSpeechEvaluationSurvey(surveyText, filename){
 	//fd.append('fname', filename);
 	fd.append('data', surveyText);
 	fd.append("filetype","survey");
-	fd.append('id', participantID+"_Survey_0");
+	fd.append('id', participantID+"_SpEval_"+currentEvaluationNumber);
 	$.ajax({
 		type: 'POST',
 		url: uploadSurveyPHPLocation,
@@ -169,6 +171,10 @@ function uploadSpeechEvaluationSurvey(surveyText, filename){
 		contentType: false
 	}).done(function(data) {
 		console.log(data);
+		var bits = data.split(";");
+		if(bits.length==2){
+			addToFileLog(bits[0],bits[1]);
+		}
 		setTimeout("nextStage()",500);
 	});
 }

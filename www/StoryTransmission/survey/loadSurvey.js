@@ -121,7 +121,9 @@ function uploadSurvey(surveyText){
 	});
 }
 
-function finishLocalisation(survey) {
+function finishLocalisation(survey) { 
+
+	// these survey results are saved as part of the main survey, see (finishDemographySurvey)
     
     localisationSurveyResults = survey.data;
     
@@ -145,6 +147,7 @@ function finishLocalisation(survey) {
 	}
 	console.log("Set Localisation to "+ experimentLocation);
 	setTimeout("nextStage()",100);
+
 }
 
 // $( document ).ready(function() {

@@ -146,8 +146,8 @@ processFileLog = function(filename){
     )
     pData = cbind(pData,
                   distractionTaskResults,
-                  surveyResults,
-                  speechEvaluationResults)
+                  speechEvaluationResults,
+                  surveyResults)
     return(pData)
   }
   return(NULL)

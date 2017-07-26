@@ -13,7 +13,7 @@ var chosenLetters = ["A", "B", "C", "D", "I", "K", "O", "U", "V"];
 var selectStimOrder = []; // set in startDistractionTask();
 
 var NumSymbolsObserved = 5 //7;
-var NumberOfRounds = 3;
+var NumberOfRounds = 4;
 
 var gridImages = [];
 
@@ -28,7 +28,7 @@ var cellSize2 = "80px";
 
 var distractionTaskInstructionTime = 85 * 1000; // video is 1:24
 var timeoutDistractionTaskInstruction = 0; // for keeping track of timeout
-var distractionTaskDisplayTime = 30 * 1000;
+var distractionTaskDisplayTime = 20 * 1000;
 var distractionTaskSelectTime = 20 * 1000;
 var distractionTaskFeedbackTime = 2 * 1000;
 

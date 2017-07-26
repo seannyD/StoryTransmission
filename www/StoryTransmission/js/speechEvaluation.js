@@ -14,9 +14,13 @@ var originalSpeechEvaluationQuestionOrder = [];
 
 var evalAudioToPlay; // stores which audio was played most recently
 
+var canPlayAgain = false;
+
 function speechEvaluation(sampleNum){
 	// note that this might be called from playAndEvaluation() if participant can answer survey while listening
     
+	canPlayAgain = false;
+
 	if(sampleNum==0){
 		setInstruction(speechEvaluationInstructionText1);
 	}
@@ -37,6 +41,9 @@ function speechEvaluation(sampleNum){
 	speechEvaluationStartTime = getCurrentTime();
 	readyToPlay = true;
 	showMe("playEvalContainer");
+	var peb = document.getElementById("playEvalButton");
+	peb.disabled=false;
+	peb.innerHTML = "Listen";
 	showMe("playEvalButton");
 
 }
@@ -45,7 +52,13 @@ function playEvalButtonPress(){
 	var audio = document.getElementById('playEvalPlayer');
     var source = document.getElementById('playEvalSource');
 	audio.oncanplaythrough = audio.play();
-	hideMe("playEvalButton");
+	if(canPlayAgain){
+		var peb = document.getElementById("playEvalButton");
+		peb.disabled=true;
+		peb.innerHTML = "Playing (you can fill out the survey below while listening) ...";
+	} else{
+		hideMe("playEvalButton");
+	}
 	showMe("surveyContainer");
 
 }
@@ -72,8 +85,20 @@ function launchSpeechEvaluationSurvey(sampleNum){
 
 function playAndEvaluation(sampleNum){
 	speechEvaluation(sampleNum);
+	canPlayAgain = true;
 	launchSpeechEvaluationSurvey(sampleNum);
 	hideMe("surveyContainer"); // hide until participant starts playing the voice
+}
+
+function playEvalEnded(){
+	if(canPlayAgain){
+		var audio = document.getElementById('playEvalPlayer');
+		audio.currentTime = 0;
+		var peb = document.getElementById("playEvalButton");
+		peb.disabled=false;
+		peb.innerHTML = "Listen again";
+		showMe("playEvalButton");
+	}
 }
 
 function finishSpeechEvaluationSurvey(survey){

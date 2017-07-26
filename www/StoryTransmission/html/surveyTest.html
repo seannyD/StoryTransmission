@@ -52,7 +52,7 @@
    </div>
 
    <div id="playEvalContainer">
-       <audio id="playEvalPlayer" onended="">
+       <audio id="playEvalPlayer" onended="playEvalEnded()">
           <source id="playEvalSource" src="" type="audio/mpeg">
        </audio>
        <button type="button" id="playEvalButton" onclick="playEvalButtonPress()" class="btn btn-success">Listen</button>        

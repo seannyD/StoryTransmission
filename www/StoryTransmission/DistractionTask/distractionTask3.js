@@ -477,7 +477,7 @@ function recordResponses(correctSymbolPoints,correctLocationPoints,correctSymbol
 	
 
 	//var res= [];
-	roundResponses["ParticipantId"].push(participantID);
+	roundResponses["participantID"].push(participantID);
 	roundResponses["currentDisplayLocations"].push(displayLocationsText);
 	roundResponses["distractionTaskNumber"].push(distractionTaskNumber);
 	roundResponses["currentDisplaySymbols"].push(displaySymbolsText);

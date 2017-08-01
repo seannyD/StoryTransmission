@@ -1,0 +1,22 @@
+participantId,Message,Time
+UK_1501579353459,Page Load,2017-8-1 10:21:51
+UK_1501579353459,Participant focus window undefined,2017-8-1 10:21:52
+UK_1501579353459,browserTest,2017-8-1 10:21:55
+UK_1501579353459,consent,2017-8-1 10:21:55
+UK_1501579353459,browserTest,2017-8-1 10:22:24
+UK_1501579353459,consent,2017-8-1 10:22:24
+UK_1501579353459,techTest,2017-8-1 10:22:27
+UK_1501579353459,Participant blur window techTest,2017-8-1 10:22:30
+UK_1501579353459,Participant focus window techTest,2017-8-1 10:22:30
+UK_1501579353459,localisation,2017-8-1 10:22:31
+UK_1501579353459,distraction1,2017-8-1 10:22:33
+UK_1501579353459,speechEvaluation1.playAndEval,2017-8-1 10:22:57
+UK_1501579353459,Participant blur window speechEvaluation1.playAndEval,2017-8-1 10:23:16
+UK_1501579353459,Participant focus window speechEvaluation1.playAndEval,2017-8-1 10:23:43
+UK_1501579353459,Participant blur window speechEvaluation1.playAndEval,2017-8-1 10:24:16
+UK_1501579353459,speechEvaluation2.playAndEval,2017-8-1 10:24:22
+UK_1501579353459,Participant focus window speechEvaluation2.playAndEval,2017-8-1 10:24:42
+UK_1501579353459,Participant blur window speechEvaluation2.playAndEval,2017-8-1 10:24:57
+UK_1501579353459,demographySurvey,2017-8-1 10:25:47
+UK_1501579353459,Participant focus window demographySurvey,2017-8-1 10:26:55
+UK_1501579353459,checkUploaded,2017-8-1 10:27:12

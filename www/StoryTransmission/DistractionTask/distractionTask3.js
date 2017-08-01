@@ -28,6 +28,8 @@ var cellSize2 = "80px";
 
 var distractionTaskInstructionTime = 85 * 1000; // video is 1:24
 var timeoutDistractionTaskInstruction = 0; // for keeping track of timeout
+var timeoutNextDistractionStage = 0;
+var timeoutSelectionStage = 0;
 var distractionTaskDisplayTime = 20 * 1000;
 var distractionTaskSelectTime = 20 * 1000;
 var distractionTaskFeedbackTime = 2 * 1000;
@@ -68,7 +70,7 @@ var dataTransferText = "";
 var dataTransferSource = "";
 
 
-var distractionTaskSaveFields = ['participantID','playerDisplayLocations','distractionTaskNumber','playerDisplaySymbols','playerDisplaySymbols.alpha',
+var distractionTaskSaveFields = ['ParticipantID','playerDisplayLocations','distractionTaskNumber','playerDisplaySymbols','playerDisplaySymbols.alpha',
 				'playerDisplayCorrect', 'playerTechnicalPoints','currentDisplaySymbols','currentDisplaySymbols.alpha',
 				'currentDisplayLocations', 'playerSymbolsCorrect','playerLocationsCorrect','playerSymbolsAndLocationsCorrect', "time",
 				"distractionTaskchosenLetters","distractionTaskselectStimOrder","distractionTaskNumSymbolsObserved",
@@ -140,11 +142,16 @@ function startDistractionTask(taskNumber){
 function nextDistractionStage(){
 	distractionStageCounter += 1;
 	console.log(distractionStages[distractionStageCounter]);
-	if(distractionStageCounter >= distractionStages.length){
+
+	// this can cause weird effects later on if there's a stray timeout still running.
+	// so we just call it once when the distractionStageCounter is equal to the distractionStages.length
+
+	if(distractionStageCounter == distractionStages.length){
 		// Distraction task is done, move to next part of the experiment
 		distractionTaskClearScreen();
 		setTimeout("nextStage();",100);
 	} else{
+		if(distractionStages[distractionStageCounter]){
 		switch (distractionStages[distractionStageCounter]) {
 	                case "Instructions":
 	                  // hide things we don't need
@@ -167,7 +174,8 @@ function nextDistractionStage(){
 	                  // Start the countdown timer
 	                  startTimer(distractionTaskInstructionTime);
 	                  // Have a backup timer, in case the video doesn't work or has trouble loading
-	                  timeoutDistractionTaskInstruction = setTimeout("nextDistractionStage();",distractionTaskInstructionTime);
+	                  clearTimeout(timeoutDistractionTaskInstruction);
+	                  timeoutDistractionTaskInstruction = setTimeout("DistractionTaskVideoEnded();",distractionTaskInstructionTime);
 	                  break;
 	                case "display":
 	                  displayImages();
@@ -185,6 +193,7 @@ function nextDistractionStage(){
 	                default:
 	                	break;
 	     }
+	 }
 	 }
 }
 
@@ -232,7 +241,14 @@ function incTimer(){
 }
 
 function DistractionTaskVideoEnded(){
-	// we don't need the distraction task backup action anymore
+	// this is triggered either by either the video stopping
+	// or the backup timeout firing
+
+	// stop the video, just in case
+	var introVideo = document.getElementById("DistractionTaskVideo");
+	introVideo.pause();
+
+	// clear distraction task backup timeout action
 	clearTimeout(timeoutDistractionTaskInstruction);
 	hideMe("DistractionTaskVideoDiv");
 	nextDistractionStage();
@@ -287,7 +303,8 @@ function displayImages(){
 	}
 
 	// start the countdown
-	setTimeout("nextDistractionStage();",distractionTaskDisplayTime);
+	clearTimeout(timeoutNextDistractionStage);
+	timeoutNextDistractionStage = setTimeout("nextDistractionStage();",distractionTaskDisplayTime);
 	startTimer(distractionTaskDisplayTime);
 }
 
@@ -306,7 +323,8 @@ function startSelectionStage(){
 	}
 	showMe("DragArrow");
 
-	setTimeout("nextDistractionStage();",distractionTaskSelectTime);
+	clearTimeout(timeoutSelectionStage);
+	timeoutSelectionStage = setTimeout("nextDistractionStage();",distractionTaskSelectTime);
 	startTimer(distractionTaskSelectTime);
 }
 
@@ -477,7 +495,7 @@ function recordResponses(correctSymbolPoints,correctLocationPoints,correctSymbol
 	
 
 	//var res= [];
-	roundResponses["participantID"].push(participantID);
+	roundResponses["ParticipantID"].push(participantID);
 	roundResponses["currentDisplayLocations"].push(displayLocationsText);
 	roundResponses["distractionTaskNumber"].push(distractionTaskNumber);
 	roundResponses["currentDisplaySymbols"].push(displaySymbolsText);
@@ -521,7 +539,7 @@ function uploadDistractionTaskData(){
 	// headers
 	var csvText = distractionTaskSaveFields.join(",");
 	// data
-	for(var r =0;r < roundResponses["participantID"].length; ++r){
+	for(var r =0;r < roundResponses["ParticipantID"].length; ++r){
 		csvText += "\n";
 		for(var i=0; i< distractionTaskSaveFields.length; ++i){
 			csvText+=roundResponses[distractionTaskSaveFields[i]][r] + ",";

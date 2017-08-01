@@ -142,7 +142,7 @@ function finishSpeechEvaluationSurvey(survey){
 	for(var i=0; i<originalSpeechEvaluationQuestionOrder.length;++i){
 		for(var j=0; j<originalSpeechEvaluationQuestionOrder[i].length;++j){
 			var key = originalSpeechEvaluationQuestionOrder[i][j];
-			console.log(key);
+			//console.log(key);
 			sd[Object.keys(sdx)[i] + "_" + key] = sdx[Object.keys(sdx)[i]][key];
 		}
 	}

@@ -1,0 +1,54 @@
+participantId,Message,Time
+UK_1501581846736,Page Load,2017-8-1 11:3:51
+UK_1501581846736,Participant focus window undefined,2017-8-1 11:3:52
+UK_1501581846736,browserTest,2017-8-1 11:3:54
+UK_1501581846736,consent,2017-8-1 11:3:54
+UK_1501581846736,speakerTest,2017-8-1 11:3:56
+UK_1501581846736,techTest,2017-8-1 11:3:59
+UK_1501581846736,Participant blur window techTest,2017-8-1 11:4:1
+UK_1501581846736,Participant focus window techTest,2017-8-1 11:4:1
+UK_1501581846736,micTest,2017-8-1 11:4:1
+UK_1501581846736,Start recording  1,2017-8-1 11:4:2
+UK_1501581846736,Stop recording  1,2017-8-1 11:4:3
+UK_1501581846736,localisation,2017-8-1 11:4:5
+UK_1501581846736,story1,2017-8-1 11:4:6
+UK_1501581846736,Participant blur window story1,2017-8-1 11:4:16
+UK_1501581846736,Participant focus window story1,2017-8-1 11:4:26
+UK_1501581846736,Participant blur window story1,2017-8-1 11:4:27
+UK_1501581846736,Participant focus window story1,2017-8-1 11:4:28
+UK_1501581846736,Participant blur window story1,2017-8-1 11:4:29
+UK_1501581846736,distraction1,2017-8-1 11:9:26
+UK_1501581846736,Participant focus window distraction1,2017-8-1 11:12:14
+UK_1501581846736,Participant blur window distraction1,2017-8-1 11:12:16
+UK_1501581846736,recording1,2017-8-1 11:13:40
+UK_1501581846736,Participant focus window recording1,2017-8-1 11:14:59
+UK_1501581846736,Start recording UK_HighP_Muki 1,2017-8-1 11:15:0
+UK_1501581846736,Stop recording UK_HighP_Muki 1,2017-8-1 11:15:2
+UK_1501581846736,prestory2,2017-8-1 11:15:3
+UK_1501581846736,story2,2017-8-1 11:15:5
+UK_1501581846736,Participant blur window story2,2017-8-1 11:15:23
+UK_1501581846736,Participant focus window story2,2017-8-1 11:21:56
+UK_1501581846736,Participant blur window story2,2017-8-1 11:21:58
+UK_1501581846736,Participant focus window story2,2017-8-1 11:27:6
+UK_1501581846736,distraction2,2017-8-1 11:27:15
+UK_1501581846736,Participant blur window distraction2,2017-8-1 11:27:31
+UK_1501581846736,Participant focus window distraction2,2017-8-1 11:27:53
+UK_1501581846736,Participant blur window distraction2,2017-8-1 11:27:58
+UK_1501581846736,recording2,2017-8-1 11:31:29
+UK_1501581846736,Participant focus window recording2,2017-8-1 11:33:9
+UK_1501581846736,Start recording UK_LowP_Taka 1,2017-8-1 11:33:10
+UK_1501581846736,Stop recording UK_LowP_Taka 1,2017-8-1 11:33:12
+UK_1501581846736,speechEvaluation1.playAndEval,2017-8-1 11:33:13
+UK_1501581846736,Participant blur window speechEvaluation1.playAndEval,2017-8-1 11:33:19
+UK_1501581846736,Participant focus window speechEvaluation1.playAndEval,2017-8-1 11:54:20
+UK_1501581846736,Participant blur window speechEvaluation1.playAndEval,2017-8-1 11:54:21
+UK_1501581846736,Participant focus window speechEvaluation1.playAndEval,2017-8-1 11:54:26
+UK_1501581846736,Participant blur window speechEvaluation1.playAndEval,2017-8-1 11:54:27
+UK_1501581846736,Participant focus window speechEvaluation1.playAndEval,2017-8-1 11:54:33
+UK_1501581846736,speechEvaluation2.playAndEval,2017-8-1 11:55:5
+UK_1501581846736,Participant blur window speechEvaluation2.playAndEval,2017-8-1 11:55:15
+UK_1501581846736,Participant focus window speechEvaluation2.playAndEval,2017-8-1 11:56:10
+UK_1501581846736,Participant blur window speechEvaluation2.playAndEval,2017-8-1 11:56:18
+UK_1501581846736,Participant focus window speechEvaluation2.playAndEval,2017-8-1 11:57:30
+UK_1501581846736,demographySurvey,2017-8-1 11:58:1
+UK_1501581846736,checkUploaded,2017-8-1 11:58:34

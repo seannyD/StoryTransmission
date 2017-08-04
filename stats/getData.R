@@ -4,7 +4,7 @@ setwd("~/Documents/Bristol/Transmission/stats/")
 # distractionTask, logs, qualifyingSurvey, recordings, survey
 
 # should include final backslash
-backupfolder = "../OnlineBackups/11July/"
+backupfolder = "../OnlineBackups/4Aug/"
 
 fileList = list.files(paste(backupfolder,"logs/",sep=''),"Files*")
 
@@ -24,8 +24,12 @@ findMissingFiles = function(participantId, folder, key){
     dx = read.csv(paste(backupfolder,folder,'/',f,sep=''), stringsAsFactors = F)
     origNames = names(dx)
     names(dx) = tolower(names(dx))
+    if(sum(!is.na(dx$participantid))>0){
     if(dx$participantid[1]==participantId && key %in% origNames){
       candidates = c(candidates, f)
+    }
+    } else{
+      print(paste("WARNING: no participant id:",f))
     }
   }
   return(candidates)
@@ -61,10 +65,12 @@ getDistractionTaskData = function(distractionTasks, participantId, fl){
     VSLT.d = mean(dx$playerSymbolsCorrect, na.rm=T)
     VSLT.pnd = mean(dx$playerSymbolsAndLocationsCorrect, na.rm=T)
     
+    names(dx)[names(dx)=="distractionTaskNum"] = "distractionTaskNumber"
+    
     # Add to data frame
     dxx =   data.frame(
       distractionTaskFile = df_filename,
-      distractionTaskNum = dx$distractionTaskNum[1],
+      distractionTaskNum = dx$distractionTaskNumber[1],
       VSLT.p=VSLT.p,
       VSLT.d=VSLT.d,
       VSLT.pnd=VSLT.pnd,
@@ -74,7 +80,7 @@ getDistractionTaskData = function(distractionTasks, participantId, fl){
       distractionTask.playerDisplaySymbols.alpha,
       distractionTask.playerDisplayLocations
     )
-    names(dxx) = paste("Dist_Round_",dx$distractionTaskNum[1],"_",names(dxx),sep='')
+    names(dxx) = paste("Dist_Round_",dx$distractionTaskNumber[1],"_",names(dxx),sep='')
     distractionTaskResults = cbind(distractionTaskResults, dxx)
   }
   distractionTaskResults = distractionTaskResults[,2:ncol(distractionTaskResults)]
@@ -83,23 +89,27 @@ getDistractionTaskData = function(distractionTasks, participantId, fl){
 
 
 processFileLog = function(filename){
+  print(filename)
   fl = read.csv(
     paste(backupfolder,
           "logs/",
           filename,
           sep=''), stringsAsFactors = F)
   
-  if(nrow(fl)>0){
-    highPFiles = paste(fl[grepl("highp",fl$filetype),]$filename, collapse = ",")
-    lowPFiles = paste(fl[grepl("lowp",fl$filetype),]$filename, collapse = ",")
+  if(nrow(fl)>2){
+    highPFiles = paste(fl[grepl("highp",tolower(fl$filetype)),]$filename, collapse = ",")
+    lowPFiles = paste(fl[grepl("lowp",tolower(fl$filetype)),]$filename, collapse = ",")
     
     storyOrder = "HighP,LowP"
-    if(min(which(grepl("highp",fl$filetype))) > min(which(grepl("lowp",fl$filetype)))){
+    # TODO: check if uppercase is correct?
+    highp.pos = min(which(grepl("highp",tolower(fl$filetype))))
+    lowp.pos = min(which(grepl("lowp",tolower(fl$filetype))))
+    if(highp.pos > lowp.pos){
       storyOrder = "LowP,HighP"
     }
     
-    highPStory = c("Muki","Taka")[1+grepl("taka",fl[grepl("highp",fl$filetype),]$filetype[1])]
-    lowPStory = c("Muki","Taka")[1+grepl("taka",fl[grepl("lowp",fl$filetype),]$filetype[1])]
+    highPStory = c("Muki","Taka")[1+grepl("taka",tolower(fl[grepl("highp",tolower(fl$filetype)),]$filetype[1]))]
+    lowPStory = c("Muki","Taka")[1+grepl("taka",tolower(fl[grepl("lowp",tolower(fl$filetype)),]$filetype[1]))]
     
     location = "USA"
     if(sum(grepl("UK",fl$participantID))>0){
@@ -112,7 +122,9 @@ processFileLog = function(filename){
                                                    fl)
     
     # Survey
+    
     surveyFilename = justFilename(fl[grepl("Survey",fl$filetype),]$filename[1])
+    
     surveyResults = read.csv(paste(backupfolder,
                                    "survey/",
                                    surveyFilename,

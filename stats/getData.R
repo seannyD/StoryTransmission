@@ -4,14 +4,14 @@ setwd("~/Documents/Bristol/Transmission/stats/")
 # distractionTask, logs, qualifyingSurvey, recordings, survey
 
 # should include final backslash
-backupfolder = "../OnlineBackups/4Aug/"
+backupfolder = "../OnlineBackups/7Aug/"
 
 fileList = list.files(paste(backupfolder,"logs/",sep=''),"Files*")
 
 
 justFilename = function(X){
   sapply(X, function(x){
-  x = strsplit(X,"/")[[1]]
+  x = strsplit(x,"/")[[1]]
   return(x[length(x)])
   })
 }
@@ -144,7 +144,7 @@ processFileLog = function(filename){
       names(dx) = paste("SpEval_",names(dx),"_",dx$evaluationPrestige[1],sep='')
       speechEvaluationResults = cbind(speechEvaluationResults, dx)
     }
-    # remove initial column
+    # remove initial columns
     speechEvaluationResults = speechEvaluationResults[,2:ncol(speechEvaluationResults)]
     
     pData = data.frame(
@@ -154,7 +154,9 @@ processFileLog = function(filename){
       highPRecordings = highPFiles,
       lowPStory = lowPStory,
       lowPRecordings = lowPFiles,
-      storyOrder = storyOrder
+      storyOrder = storyOrder,
+      surveyFilename = surveyFilename,
+      speechEvaluationFiles = paste(speechEvaluationFiles, collapse=',')
     )
     pData = cbind(pData,
                   distractionTaskResults,
@@ -168,7 +170,7 @@ processFileLog = function(filename){
 
 combineDatasets = function(a,b){
   if(nrow(a)==0){
-    return(rbind(a,b))
+    return(b)
   }
   # in a but not b
   sda = setdiff(names(a),names(b))
@@ -184,15 +186,82 @@ combineDatasets = function(a,b){
   }
 }
 
+createNiceResultsFolders = function(dataset, folder){
+  
+  # TODO: delete existing files
+  
+  for(i in 1:nrow(dataset)){
+    
+    # make folder
+    partFolder = paste(folder,
+                       strsplit(as.character(dataset[i,]$startTime)," ")[[1]][1],
+                       "_",
+                       as.character(dataset$participantID[i]),
+                       sep='')
+    dir.create(partFolder)
+    
+    # Copy recordings
+    hp = justFilename(strsplit(as.character(dataset$highPRecordings[i]),",")[[1]])
+    highpFilesFrom = paste(backupfolder,"recordings/",hp,sep='')
+    highpFilesTo = rep(paste(
+        partFolder,
+        "/",
+        "HighP_",hp,
+        sep=''),
+      length(highpFilesFrom))
+    file.copy(highpFilesFrom,highpFilesTo)
+    
+    lp = justFilename(strsplit(as.character(dataset$lowPRecordings[i]),",")[[1]])
+    lowpFilesFrom = paste(backupfolder,"recordings/",lp,sep='')
+    lowpFilesTo = rep(paste(
+      partFolder,
+      "/",
+      "LowP_",lp,
+      sep=''),
+      length(lowpFilesFrom))
+    file.copy(lowpFilesFrom,lowpFilesTo)
+    
+    # Copy distraction tasks
+    distractionTask1 = as.character(dataset[i,]$Dist_Round_0_distractionTaskFile)
+    dt1FileFrom = paste(backupfolder,"distractionTask/",distractionTask1,sep='')
+    dt1FileTo = paste(partFolder, "/DistractionTask1_",distractionTask1, sep='')
+    file.copy(dt1FileFrom,dt1FileTo)
+    
+    distractionTask2 = as.character(dataset[i,]$Dist_Round_1_distractionTaskFile)
+    dt2FileFrom = paste(backupfolder,"distractionTask/",distractionTask2,sep='')
+    dt2FileTo = paste(partFolder, "/DistractionTask1_",distractionTask2, sep='')
+    file.copy(dt2FileFrom,dt2FileTo)
+    
+    # Copy survey
+    surveyName = dataset[i,]$surveyFilename
+    surveyFileFrom = paste(backupfolder,"survey/",surveyName,sep='')
+    surveyFileTo= paste(partFolder,"/Survey_",surveyName,sep='')
+    file.copy(surveyFileFrom, surveyFileTo)
+    
+    # Copy evaluation files
+    evaluationFiles = strsplit(as.character(dataset[i,]$speechEvaluationFiles),",")[[1]]
+    evaluationFilesFrom = paste0(backupfolder,'survey/',evaluationFiles)
+    evaluationFilesTo = rep(paste0(partFolder,"/Eval_",evaluationFiles))
+    file.copy(evaluationFilesFrom,evaluationFilesTo)
+  }
+  
+}
+
+####################
+
 results.UK = data.frame()
 results.USA = data.frame()
 
 for(f in fileList){
   dx = processFileLog(f)
+  dx = dx[,!duplicated(names(dx))]
   if(!is.null(dx)){
+    
     if(dx$location=="USA"){
       results.USA = combineDatasets(results.USA,dx)
     } else{
+      print("--")
+      print(f)
       results.UK = combineDatasets(results.UK,dx)
     }
   }
@@ -200,3 +269,9 @@ for(f in fileList){
 
 write.csv(results.UK, file = '../results/Results_UK.csv')
 write.csv(results.USA, file = '../results/Results_USA.csv')
+
+results.UK = read.csv("../results/Results_UK.csv", stringsAsFactors = F)
+results.USA = read.csv("../results/Results_USA.csv", stringsAsFactors = F)
+
+createNiceResultsFolders(results.UK,"../results/UK/")
+createNiceResultsFolders(results.USA,"../results/USA/")

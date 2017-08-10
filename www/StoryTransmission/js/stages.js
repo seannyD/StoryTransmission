@@ -9,6 +9,7 @@ var sample2 = "";
 var numberOfRecordedSamples = 0; // increased every time a recording is called
 
 var browser = "Firefox";
+var os = "MacIntel";
 
 var startTime = getCurrentTime();
 
@@ -513,6 +514,12 @@ function getBrowser(){
 
 function testBrowser(){
   var br = getBrowser();
+  try{
+    os = navigator["platform"];
+  } catch(err){
+    os = "NA";
+  }
+
   console.log("Detected Browser"+br);
   if(br=="Other"){
     setInstruction(browserFailText);

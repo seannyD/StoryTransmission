@@ -84,6 +84,9 @@ function finishDemographySurvey(survey){
   	sd["_MT_hitID"] = MTWorkerData["MT_hitId"];
   	sd["_MT_workerId"] = MTWorkerData["MT_workerId"];
 
+  	sd["browser"] = browser;
+  	sd["os"] = os;
+
 	for (var key in localisationSurveyResults) {
 	  if (localisationSurveyResults.hasOwnProperty(key)) {
 	    //console.log(key + " -> " + p[key]);

@@ -160,6 +160,7 @@ findTimeFile = function(pid){
     if(dx$participantId[1]==pid){
       numberBlurTimes = sum(grepl("blur window",dx$Message))
       totalTD = 0
+      totalTD.distraction = 0
       if(numberBlurTimes>0){
         totalTD = sum(sapply(which(grepl("blur window", dx$Message)), function(i){
           t1 = dx[i,]$Time
@@ -170,8 +171,21 @@ findTimeFile = function(pid){
             return(NA)
           }
         }), na.rm=T)
+        
+        # total Blur time in distraction task
+        try(totalTD.distraction <- sum(sapply(which(grepl("blur window distraction", dx$Message)), function(i){
+          t1 = dx[i,]$Time
+          if(nrow(dx)>=(i+1)){
+            t2 = dx[i+1,]$Time
+            return(as.numeric(difftime(strptime(t2, format="%Y-%m-%d %H:%M:%S"), strptime(t1, format="%Y-%m-%d %H:%M:%S"), units = 'secs')))
+          } else{
+            return(NA)
+          }
+        }), na.rm=T))
+        
+        
       }
-      return(c(f,numberBlurTimes,totalTD))
+      return(c(f,numberBlurTimes,totalTD,totalTD.distraction))
     }
   }
   return(c(NA,NA,NA))
@@ -255,6 +269,7 @@ processFileLog = function(filename){
       lowPRecording.size = lowPFiles.size,
       numSwitchWindows = timeFiles[2],
       secondsUnfocussedWindow = timeFiles[3],
+      secondsUnfocussedWindow.distraction = timeFiles[4],
       highPStory = highPStory,
       highPRecordings = highPFiles,
       lowPStory = lowPStory,

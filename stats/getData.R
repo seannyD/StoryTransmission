@@ -181,7 +181,7 @@ findTimeFile = function(pid){
           } else{
             return(NA)
           }
-        }), na.rm=T))
+        }), na.rm=T), silent=T)
         
         
       }
@@ -369,6 +369,15 @@ createNiceResultsFolders = function(dataset, folder){
     evaluationFilesTo = rep(paste0(partFolder,"/Eval_",evaluationFiles))
     file.copy(evaluationFilesFrom,evaluationFilesTo)
     
+    # Copy time and log files
+    tfFrom =  paste0(backupfolder,'logs/',dataset[i,]$timeFile)
+    tfTo = paste0(partFolder,'/',dataset[i,]$timeFile)
+    file.copy(tfFrom,tfTo)
+    
+    lfFrom =  paste0(backupfolder,'logs/',dataset[i,]$logFile)
+    lfTo = paste0(partFolder,'/',dataset[i,]$logFile)
+    file.copy(lfFrom,lfTo)
+    
     
   }
   
@@ -394,8 +403,8 @@ for(f in fileList){
   }
 }
 
-results.UK = results.UK[order(results.UK$startTime),]
-results.USA = results.USA[order(results.USA$startTime),]
+results.UK = results.UK[order(strftime(results.UK$startTime)),]
+results.USA = results.USA[order(strftime(results.USA$startTime)),]
 
 
 results.UK$totalTime = timeDifference(results.UK$startTime, results.UK$endTime)
@@ -404,7 +413,7 @@ results.USA$totalTime = timeDifference(results.USA$startTime, results.USA$endTim
 results.USA$spEvalEnt = round(getSpEvalEntropy(results.USA),2)
 results.UK$spEvalEnt = round(getSpEvalEntropy(results.UK),2)
 
-colOrder = c("participantID",'location','highPRecording.size','lowPRecording.size','totalTime','spEvalEnt','Dist_Round_0_VSLT.p_plus_pnd','Dist_Round_1_VSLT.p_plus_pnd','numSwitchWindows','secondsUnfocussedWindow')
+colOrder = c("participantID",'location','startTime','highPRecording.size','lowPRecording.size','totalTime','spEvalEnt','Dist_Round_0_VSLT.p_plus_pnd','Dist_Round_1_VSLT.p_plus_pnd','numSwitchWindows','secondsUnfocussedWindow','secondsUnfocussedWindow.distraction')
 
 results.USA = prioritiseOrder(results.USA,colOrder)
 results.UK = prioritiseOrder(results.UK,colOrder)
@@ -414,8 +423,8 @@ results.UK = prioritiseOrder(results.UK,colOrder)
 write.csv(results.UK, file = '../results/Results_UK.csv')
 write.csv(results.USA, file = '../results/Results_USA.csv')
 
-write.csv(results.UK[,colOrder], file = '../results/Results_UK_short.csv')
-write.csv(results.USA[,colOrder], file = '../results/Results_USA_short.csv')
+write.csv(results.UK[,colOrder], file = '../results/Results_UK_short.csv', row.names = F)
+write.csv(results.USA[,colOrder], file = '../results/Results_USA_short.csv', row.names = F)
 
 ### 
 # Copy files to nice folders

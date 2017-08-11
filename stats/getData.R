@@ -22,7 +22,16 @@ setwd("~/Documents/Bristol/Transmission/stats/")
 
 # Set 'backupfolder' to the location of the folder you downloaded things to.
 # should include final backslash
+
 backupfolder = "../OnlineBackups/7Aug/"
+
+args = commandArgs(trailingOnly = TRUE)
+if(length(args)>0){
+  backupfolder = args[1]
+}
+
+print(backupfolder)
+print(askdbka)
 
 
 
@@ -403,8 +412,8 @@ for(f in fileList){
   }
 }
 
-results.UK = results.UK[order(strftime(results.UK$startTime)),]
-results.USA = results.USA[order(strftime(results.USA$startTime)),]
+results.UK = results.UK[order(strftime(as.character(results.UK$startTime))),]
+results.USA = results.USA[order(strftime(as.character(results.USA$startTime))),]
 
 
 results.UK$totalTime = timeDifference(results.UK$startTime, results.UK$endTime)

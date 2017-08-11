@@ -28,6 +28,9 @@ backupfolder = "../OnlineBackups/7Aug/"
 args = commandArgs(trailingOnly = TRUE)
 if(length(args)>0){
   backupfolder = args[1]
+  if(!grepl("/$",backupfolder)){
+    backupfolder = paste0(backupfolder,"/")
+  }
 }
 
 print(backupfolder)

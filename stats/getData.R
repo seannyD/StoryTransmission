@@ -34,7 +34,6 @@ if(length(args)>0){
 }
 
 print(backupfolder)
-print(askdbka)
 
 
 

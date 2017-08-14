@@ -21,6 +21,10 @@ var participantID = "";
 
 var workerCode = "";
 var MTWorkerData = {};
+var prolificParticipant = false;
+var prolific_pid = "";
+var prolific_session_id = "";
+
 var progressBar = true;
 
 // these are shuffled below
@@ -270,6 +274,12 @@ function surveysLoaded(){
   MTWorkerData["MT_hitId"] = urlvars["hitId"] || "";
   MTWorkerData["MT_workerId"] = urlvars["workerId"] || "";
   console.log(MTWorkerData);
+
+  if(urlvars["prolific_pid"]){
+    prolificParticipant = true;
+    prolific_pid = urlvars["prolific_pid"];
+    prolific_session_id = urlvars["session_id"] || "";
+  }
 
   if(urlvars["test"]){
     showMe("testDiv");

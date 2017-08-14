@@ -24,7 +24,7 @@ var qualifyingConsentText = "<h1>Qualifying Task</h1>\
 <p><div><img src=\"../resources/images/TimeIcon_5min.png\" align=\"left\"><br />\
 <h2>Instructions</h2>\
 <p>This qualifying task will test your audio and microphone and ask you some questions about yourself and your background.\
-<p>This task should take approximately 5 minutes.<br /><br /><br /><br /><br />\
+<p>This task should take approximately 2-3 minutes.<br /><br /><br /><br /><br />\
 <h2>Consent</h2>\
 <p>Your participation in this research is voluntary. If you decide to participate in the study, you may withdraw your consent and stop participation at any time without penalty. We will not collect your name or any personal identifiers. When we report and share the data with others, we will combine the data from all participants. There are no known risks to you in taking part in this study. If you have any questions, contact information for the researchers, the CSU Institutional Review Board, and the UB Human Research Ethics Committee are available at the end of the questionnaire.\
 <p>If you agree to participate, please press the button below.<br /><br />\
@@ -125,22 +125,30 @@ var failUploadText =
 <p><span class=\"text-warning\">There was a problem uploading your data</span>\
 <p>Your recording failed to upload to the server. Please contact the researchers to make them aware of the problem and ensure you receive payment.\
 <p>Please include your Mechanical Turk Worker ID in any correspondence.\
-<p>Contact: Richard E.W. Berl at rewberl@colostate.edu";
+<p>Contact: Richard E.W. Berl at rewberl@colostate.edu (Mechanical Turk) or Alarna Samarasinghe (through the Prolific website)";
 
 var uploadTimeoutText = 
 "<h1>Your recording is taking longer than expected to upload.<h1>\
 <p>You can leave this window open in the background and check back in a few minutes. If the upload takes more than 10-15 minutes or you have run out of the time allotted for the task, please contact the researchers to make them aware of the problem and ensure you receive payment.\
 <p>Please include your Mechanical Turk Worker ID in any correspondence, and the error code: \"UPLOADTIMEOUT\".\
-<p>Contact: Richard E.W. Berl at rewberl@colostate.edu";
+<p>Contact: Richard E.W. Berl at rewberl@colostate.edu (Mechanical Turk) or Alarna Samarasinghe (through the Prolific website)";
 
 var generalErrorText = 
 "<h1>An error has occurred</h1>\
 <p>Please contact the researchers to make them aware of the problem and ensure you receive payment.\
 <p>Please include your Mechanical Turk Worker ID in any correspondence.\
-<p>Contact: Richard E.W. Berl at rewberl@colostate.edu";
+<p>Contact: Richard E.W. Berl at rewberl@colostate.edu (Mechanical Turk) or Alarna Samarasinghe (through the Prolific website)";
 
-// No longer using prolific
-//var endSurveyText = "Thank you for completing the survey, follow the link below to get your completion code. <br /><br />" ;
+var endSurveyText_Prolific = 
+'<h1>Thank you for participating!</h1>\
+<p>If you have any comments, questions, or concerns, or would like to be informed of future developments in this study, please contact Alarna Samarasinghe through the Prolific Academic site.\
+<p>Please click on the link below to complete the survey and return to Prolific.\
+<p><a href="https://prolific.ac/submissions/complete?cc=NP1BNGF7">https://prolific.ac/submissions/complete?cc=NP1BNGF7</a>\
+<p>Or copy this completion code and use it in the Prolific completion page:\
+<h1>Completion code</h1>\
+<br />\
+<h1><span class="bg-success">NP1BNGF7</span></h1>\
+'
 
 var endSurveyText_MechanicalTurk = 
 "<h1>Thank you for participating!</h1>\
@@ -164,7 +172,16 @@ var endQualifyingSurveyText_MechanicalTurk =
 <br><h1>To qualify for the main task:</h1>\
 <p>Below you will find your completion code. Save your code in a secure location for entry on Mechanical Turk. You can also write it down to make sure you do not lose it. Your completion code must match the one entered here in order to move on to the full survey. <p> <h2>COMPLETION CODE:</h2> ";
 
-//var endSurveyText.Prolific = "Please follow the link below to complete the survey on Prolific Academic. <br /><br />";
+var endQualifyingSurveyText_Prolific =
+'<h1>Thank you for participating!</h1>\
+<p>If you have any comments, questions, or concerns, or would like to be informed of future developments in this study, please contact Alarna Samarasinghe through the Prolific Academic site.\
+<p>Please click on the link below to complete the survey and return to Prolific.\
+<p><a href="https://prolific.ac/submissions/complete?cc=H7L09VUP">https://prolific.ac/submissions/complete?cc=H7L09VUP</a>\
+<p>Or copy this completion code and use it in the Prolific completion page:\
+<h1>Completion code</h1>\
+<br />\
+<h1><span class="bg-success">NP1BNGF7</span></h1>\
+'
 
 var uploadingText = "<h1>Uploading</h1><p>Uploading your story, please wait...";
 
@@ -236,6 +253,10 @@ function endSurvey(){
 }
 
 function showWorkerCode(){
-	setInstruction(endSurveyText_MechanicalTurk + "<h1>" +workerCode + "</h1>" +
+	if(prolificParticipant){
+		setInstruction(endSurveyText_Prolific);
+	} else{
+		setInstruction(endSurveyText_MechanicalTurk + "<h1>" +workerCode + "</h1>" +
 		"<br /><br /><p>After you have saved this code, it is now safe to close this tab on your browser. Your data have been saved");
+	}
 }

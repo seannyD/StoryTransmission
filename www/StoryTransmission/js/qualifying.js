@@ -119,5 +119,9 @@ function finishQualifyingSurvey(survey){
 }
 
 function showQualifyingWorkerCode(){
-	setInstruction(endQualifyingSurveyText_MechanicalTurk + "<h1>" +workerCode + "</h1>");
+	if(prolificParticipant){
+		setInstruction(endQualifyingSurveyText_Prolific);
+	} else{
+		setInstruction(endQualifyingSurveyText_MechanicalTurk + "<h1>" +workerCode + "</h1>");
+	}
 }

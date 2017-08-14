@@ -461,6 +461,9 @@ window.onbeforeunload = function (e) {
    if(stages[stageCounter]=="qualifyingWorkerCode"){
        askBeforeLoading = false;
    }
+   if(stageCounter>=stages.length){
+       askBeforeLoading = false;
+   }
    
 
    if(askBeforeLoading){

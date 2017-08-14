@@ -82,6 +82,12 @@ function finishQualifyingSurvey(survey){
   	sd["_MT_hitID"] = MTWorkerData["MT_hitId"];
   	sd["_MT_workerId"] = MTWorkerData["MT_workerId"];
 
+  	// Prolific users
+
+	sd["prolificParticipant"] = prolificParticipant.toString();
+  	sd["prolific_pid"] = prolific_pid;
+  	sd["prolific_session_id"] = prolific_session_id;
+
 	// for (var key in localisationSurveyResults) {
 	//   if (localisationSurveyResults.hasOwnProperty(key)) {
 	//     //console.log(key + " -> " + p[key]);

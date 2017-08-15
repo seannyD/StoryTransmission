@@ -1,4 +1,6 @@
 library(entropy)
+library(tuneR)
+library(seewave)
 
 # There should be the following file structure:
 # Transmission (top folder)
@@ -23,7 +25,7 @@ setwd("~/Documents/Bristol/Transmission/stats/")
 # Set 'backupfolder' to the location of the folder you downloaded things to.
 # should include final backslash
 
-backupfolder = "../OnlineBackups/7Aug/"
+backupfolder = "../OnlineBackups/14Aug/"
 
 args = commandArgs(trailingOnly = TRUE)
 if(length(args)>0){
@@ -74,18 +76,18 @@ getSpEvalEntropy = function(dx){
   }
   
   sapply(1:nrow(dx), function(i){
-  freqs = table(as.vector(unlist(dx[i,sp])))
-  ps = freqs/sum(freqs)
-  # H = -sum(ifelse(ps > 0, ps * log(ps), 0))
-  # table will never return zero count
-  return(-sum( ps * log(ps)) / log(sum(freqs)))
+    freqs = table(as.vector(unlist(dx[i,sp])))
+    ps = freqs/sum(freqs)
+    # H = -sum(ifelse(ps > 0, ps * log(ps), 0))
+    # table will never return zero count
+    return(-sum( ps * log(ps)) / log(sum(freqs)))
   })
 }
 
 justFilename = function(X){
   sapply(X, function(x){
-  x = strsplit(x,"/")[[1]]
-  return(x[length(x)])
+    x = strsplit(x,"/")[[1]]
+    return(x[length(x)])
   })
 }
 
@@ -98,9 +100,9 @@ findMissingFiles = function(participantId, folder, key){
     origNames = names(dx)
     names(dx) = tolower(names(dx))
     if(sum(!is.na(dx$participantid))>0){
-    if(dx$participantid[1]==participantId && key %in% origNames){
-      candidates = c(candidates, f)
-    }
+      if(dx$participantid[1]==participantId && key %in% origNames){
+        candidates = c(candidates, f)
+      }
     } else{
       print(paste("WARNING: no participant id:",f))
     }
@@ -213,9 +215,21 @@ processFileLog = function(filename){
           filename,
           sep=''), stringsAsFactors = F)
   
+  
   if(nrow(fl)>2){
-    highPFiles = paste(fl[grepl("highp",tolower(fl$filetype)),]$filename, collapse = ",")
-    lowPFiles = paste(fl[grepl("lowp",tolower(fl$filetype)),]$filename, collapse = ",")
+    
+    # recording files appear in order of finished uploading to  the server
+    #  not necessarily in recording order
+    highPFiles = fl[grepl("highp",tolower(fl$filetype)),]$filename
+    highPTags =  fl[grepl("highp",tolower(fl$filetype)),]$filetype
+    highPFiles = highPFiles[order(highPTags)]
+    highPFiles = paste(highPFiles, collapse = ",")
+    
+    lowPFiles = fl[grepl("lowp",tolower(fl$filetype)),]$filename
+    lowPTags =  fl[grepl("lowp",tolower(fl$filetype)),]$filetype
+    lowPFiles = lowPFiles[order(lowPTags)]
+    lowPFiles = paste(lowPFiles, collapse = ",")
+    lowPFiles = paste(lowPFiles, collapse = ",")
     
     highPFiles.size = recordingFileSize(highPFiles)
     lowPFiles.size = recordingFileSize(lowPFiles)
@@ -235,7 +249,7 @@ processFileLog = function(filename){
     if(sum(grepl("UK",fl$participantID))>0){
       location = "UK"
     }
-  
+    
     # Distraction task data
     distractionTaskResults= getDistractionTaskData(fl[grepl("distraction",fl$filetype),]$filename,
                                                    fl$participantID[1],
@@ -340,10 +354,10 @@ createNiceResultsFolders = function(dataset, folder){
     hp = justFilename(strsplit(as.character(dataset$highPRecordings[i]),",")[[1]])
     highpFilesFrom = paste(backupfolder,"recordings/",hp,sep='')
     highpFilesTo = rep(paste(
-        partFolder,
-        "/",
-        "HighP_",hp,
-        sep=''),
+      partFolder,
+      "/",
+      "HighP_",hp,
+      sep=''),
       length(highpFilesFrom))
     file.copy(highpFilesFrom,highpFilesTo)
     
@@ -445,3 +459,84 @@ results.USA = read.csv("../results/Results_USA.csv", stringsAsFactors = F)
 
 createNiceResultsFolders(results.UK,"../results/UK/")
 createNiceResultsFolders(results.USA,"../results/USA/")
+
+##
+# Create script for the joining of samples
+#
+#  recordings split accross multiple files are doubled,
+#  or at least the header information makes it appear this way
+#  so need to take half the file
+
+
+
+wav2mp3 = function(infile,outfile){
+  system(paste("ffmpeg -y -i",infile, outfile))
+}
+
+combineRecordings = function(recFiles, participantID, condition, outputFolder, longFilesRepeat=T){
+  recFiles = paste0(backupfolder,'recordings/', justFilename(strsplit(recFiles,",")[[1]]))
+  
+  outFileName = paste0(outputFolder,"/",condition,"_Full")
+  
+  if(length(recFiles)>1 & longFilesRepeat){
+    outWav = NA
+    # paste files together
+    for(j in 1:length(recFiles)){
+      rx = readMP3(recFiles[j])
+      rx.length = length(rx)
+      rx.freq = rx@samp.rate
+      rx.length.seconds=  rx.length/rx.freq
+      # recording should be divided by the number of files
+      # rx.half = cutw(rx,from=0,to=rx.length.seconds/length(recFiles), output='Wave')
+      rx.half = rx
+      if(j==1){
+        outWav = rx.half
+      }else{
+        outWav = pastew(rx.half,outWav, rx.freq, output='Wave')
+      }
+    }
+    ofn = paste0(outFileName,".wav")
+    writeWave(outWav, filename = ofn)
+    # convert to mp3
+    wav2mp3(ofn, paste0(outFileName,".mp3"))
+    # remove wav file
+    file.remove(ofn)
+  } else{
+    # just copy the file
+    file.copy(recFiles[1], paste0(outFileName,".mp3"))
+  }
+}
+
+
+processAudioFiles = function(dataset, resultsFolder){
+  pstartTimes= sapply(strftime(dataset$startTime), function(X){strsplit(X," ")[[1]][1]})
+  partFolders = paste(resultsFolder,
+                      pstartTimes,
+                      "_",
+                      as.character(dataset$participantID),
+                      sep='')
+  
+  for(i in 1:nrow(dataset)){
+    
+    # High p
+    combineRecordings(
+      recFiles = dataset[i,]$highPRecordings,
+      participantID = dataset[i,]$participantID,
+      condition = "HighP",
+      outputFolder = partFolders[i])
+    # Low p
+    combineRecordings(
+      recFiles = dataset[i,]$lowPRecordings,
+      participantID = dataset[i,]$participantID,
+      condition = "LowP",
+      outputFolder = partFolders[i])
+  }
+}
+
+processAudioFiles(results.UK,"../results/UK/")
+processAudioFiles(results.USA,"../results/USA/")
+
+
+
+
+

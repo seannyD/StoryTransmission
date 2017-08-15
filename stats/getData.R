@@ -476,7 +476,7 @@ wav2mp3 = function(infile,outfile){
 combineRecordings = function(recFiles, participantID, condition, outputFolder, longFilesRepeat=T){
   recFiles = paste0(backupfolder,'recordings/', justFilename(strsplit(recFiles,",")[[1]]))
   
-  outFileName = paste0(outputFolder,"/",condition,"_Full")
+  outFileName = paste0(outputFolder,"/",condition,"_",participantID,"_Full")
   
   if(length(recFiles)>1 & longFilesRepeat){
     outWav = NA
@@ -505,6 +505,9 @@ combineRecordings = function(recFiles, participantID, condition, outputFolder, l
     # just copy the file
     file.copy(recFiles[1], paste0(outFileName,".mp3"))
   }
+  
+  # remove the original mp3 files now that we have the combined files
+  file.remove(paste0(outputFolder,"/",list.files(outputFolder,"*_REC_")))
 }
 
 

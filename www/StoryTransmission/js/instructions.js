@@ -174,8 +174,13 @@ var endQualifyingSurveyText_MechanicalTurk =
 
 var endQualifyingSurveyText_Prolific =
 '<h1>Thank you for participating!</h1>\
-<p>If you have any comments, questions, or concerns, or would like to be informed of future developments in this study, please contact Alarna Samarasinghe through the Prolific Academic site.\
-<p>Please click on the link below to complete the survey and return to Prolific.\
+<p>If you have any comments, questions, or concerns, or would like to be informed of future developments in this study, the researchers can be reached at: \
+<p>Richard E.W. Berl, Department of Human Dimensions of Natural Resources, Colorado State University, rewberl@colostate.edu\
+<p>Alarna Samarasinghe, Department of Archaeology and Anthropology, University of Bristol, as15936@bristol.ac.uk\
+<br><p>If you have questions about your rights as a volunteer in this research, you may contact:\
+<p>Colorado State University Institutional Review Board, RICRO_IRB@mail.colostate.edu, 970-491-1553\
+<p>University of Bristol Faculty of Arts Human Research Ethics Committee, Liam McKervey, Research Ethics Co-ordinator, Liam.McKervey@bristol.ac.uk, 0117 331 7472\
+<br><p>Please click on the link below to complete the survey and return to Prolific.\
 <p><a href="https://prolific.ac/submissions/complete?cc=H7L09VUP">https://prolific.ac/submissions/complete?cc=H7L09VUP</a>\
 <p>Or copy this completion code and use it in the Prolific completion page:\
 <h1>Completion code</h1>\

@@ -732,7 +732,7 @@ var demographyUSA = {
     {
      type: "comment",
      name: "finalcomments",
-     title: "Final comments:  Do you have any comments about the experiment that you would like to send to the experimentors? Did you experience any problems or difficulties?"
+     title: "Final comments:  Do you have any comments about the experiment that you would like to send to the experimenters? Did you experience any problems or difficulties?"
     }
    ],
    name: "Final comments"

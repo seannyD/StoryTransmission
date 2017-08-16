@@ -20,7 +20,8 @@ library(seewave)
 
 # Set this folder to the 'stats' folder
 #
-setwd("~/Documents/Bristol/Transmission/stats/")
+try(setwd("~/Documents/Bristol/Transmission/stats/"))
+try(setwd("~/Desktop/Transmission/stats/"))
 
 # Set 'backupfolder' to the location of the folder you downloaded things to.
 # should include final backslash

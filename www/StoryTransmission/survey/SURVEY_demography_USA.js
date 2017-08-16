@@ -726,6 +726,16 @@ var demographyUSA = {
    ],
    name: "demo4",
    title: "About You (4/4)"
+  },
+  {
+   elements: [
+    {
+     type: "comment",
+     name: "finalcomments",
+     title: "Final comments:  Do you have any comments about the experiment that you would like to send to the experimentors? Did you experience any problems or difficulties?"
+    }
+   ],
+   name: "Final comments"
   }
  ]
 }

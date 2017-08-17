@@ -130,3 +130,16 @@
 	border:3px solid black;
 	box-shadow: 10px 10px 5px #888888;
 }
+
+
+
+
+/* to handle compression of long survey tables: table columns are equal width, apart from first column which is wider; */
+
+thead tr th:first-child,
+tbody tr td:first-child {
+  width: 16em;
+  min-width: 16em;
+  max-width: 16em;
+  word-break: normal;
+}

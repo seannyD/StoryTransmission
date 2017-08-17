@@ -1,5 +1,3 @@
-//TODO: record browser type
-
 
 // Define and keep track of order of stages
 

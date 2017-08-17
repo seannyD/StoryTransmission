@@ -31,6 +31,20 @@ var qualifyingConsentText = "<h1>Qualifying Task</h1>\
 <button onclick=\"nextStage()\" class=\"btn btn-success\">I agree</button>";
 
 
+var addonWarningText = '<h1>Warning: Turn video blockers off</h1>\
+<p>This experiment uses video content, and some ad blockers and video blockers will prevent the program from working properly.\
+<p>The following add-ons can stop videos playing properly:\
+<ul>\
+<li>Firefox add-on: "FlashStopper"</li>\
+<li>Chrome Extension: "Disable HTML5 Autoplay"</li>\
+</ul><br />\
+<p>Please disable these add-ons for this website.\
+<p>For example, for Firefox\'s "FlashStopper", click on the FlashStopper icon and click "Allow autoplay for https://transmission.excd.org"\
+<p>Or for Chrome\s "Disable HTML5 Autoplay", click on the icon and click "Disable nothing"\
+<p>And then refresh this page.\
+<p>If you see this message again, try turning off ad blockers or other addons.  If the problem persists, please contact: Richard E.W. Berl at rewberl@colostate.edu (Mechanical Turk) or Alarna Samarasinghe (through the Prolific website)\
+';
+
 var speakerTestText = 
 '<h1>Audio test</h1>\
 <p>Play the music clip below to make sure your audio is working.  Please adjust your speakers or headphones to a comfortable volume.\

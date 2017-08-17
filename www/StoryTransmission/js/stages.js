@@ -247,7 +247,8 @@ $( document ).ready(function() {
   setBrowserSpecificSettings();
 
   // test if we can play videos
-  detect_autoplay(300);
+  //detect_autoplay(300);
+  browserCanAutoplay = false; // instruction will display
 
   $.getScript("../survey/SURVEY_speechEvaluation.js");
   $.getScript("../survey/SURVEY_consent.js");

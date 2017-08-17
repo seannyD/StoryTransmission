@@ -20,7 +20,9 @@ function launchSurvey(surveyJSON, endFunction){
 	}
 
 	var myCss = {
-        matrix: {root: "table table-striped"}  
+        matrix: {root: "table table-striped"} ,
+        matrixdropdown: {root: "table table-striped"}  ,
+        matrixdynamic: {root: "table table-striped"}  
    	};
 
    	showMe("surveyContainer");

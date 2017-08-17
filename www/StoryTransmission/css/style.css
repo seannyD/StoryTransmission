@@ -135,14 +135,14 @@
 
 
 /* to handle compression of long survey tables: table columns are equal width, apart from first column which is wider; */
-/*
+
 thead tr th:first-child,
 tbody tr td:first-child {
-  width: 16em;
-  min-width: 16em;
-  max-width: 16em;
+  width: 8em;
+  min-width: 8em;
+  max-width: 8em;
   word-break: normal;
-}*/
+}
 
 /*
 thead.clone {

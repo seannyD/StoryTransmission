@@ -42,7 +42,8 @@ var addonWarningText = '<h1>Warning: Turn video blockers off</h1>\
 <p>For example, for Firefox\'s "FlashStopper", click on the FlashStopper icon and click "Allow autoplay for https://transmission.excd.org"\
 <p>Or for Chrome\s "Disable HTML5 Autoplay", click on the icon and click "Disable nothing"\
 <p>And then refresh this page.\
-<p>If you see this message again, try turning off ad blockers or other addons.  If the problem persists, please contact: Richard E.W. Berl at rewberl@colostate.edu (Mechanical Turk) or Alarna Samarasinghe (through the Prolific website)\
+<p>If you see this message again, try turning off ad blockers or other addons.  If the problem persists, please contact: Richard E.W. Berl at rewberl@colostate.edu (Mechanical Turk) or Alarna Samarasinghe (through the Prolific website).<br /><br />\
+<button onclick=\"nextStage()\" class=\"btn btn-success\">I have turned off my video blockers</button>\
 ';
 
 var speakerTestText = 

@@ -12,7 +12,7 @@ var encoderWorker = new Worker('../Recordmp3js-master/js/mp3Worker_2.js');
 
 var audioSaveType = 'mp3';
 
-var useID3Tags = true;
+var useID3Tags = false; 
 
 var currOutputSampleRate;
   

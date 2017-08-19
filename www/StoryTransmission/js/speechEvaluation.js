@@ -172,7 +172,8 @@ function finishSpeechEvaluationSurvey(survey){
 	  }
 	}
 	console.log(JSON.stringify(sd));
-	var outString = ConvertToCSV(sd);
+	// Using ConvertToCSV2 because new matrix object is weird
+	var outString = ConvertToCSV2(sd);
 	console.log(outString);
 
 	var filename = participantID  + '_SpeechEvaluation_' +evaluationPrestigeType +'.csv';

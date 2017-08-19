@@ -32,7 +32,7 @@ var speechEvaluationSurvey ={
       }
      ],
      columns: [
-      {}
+      {name:"Q",title:"Q"}
      ],
      isRequired: true,
      name: "prestigeScale",
@@ -87,7 +87,7 @@ var speechEvaluationSurvey ={
       }
      ],
      columns: [
-      {}
+      {name:"Q",title:"Q"}
      ],
      isRequired: true,
      name: "chengScale",

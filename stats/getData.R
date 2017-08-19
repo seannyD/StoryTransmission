@@ -26,7 +26,7 @@ try(setwd("~/Desktop/Transmission/stats/"))
 # Set 'backupfolder' to the location of the folder you downloaded things to.
 # should include final backslash
 
-backupfolder = "../OnlineBackups/14Aug/"
+backupfolder = "../OnlineBackups/19Aug/"
 
 args = commandArgs(trailingOnly = TRUE)
 if(length(args)>0){

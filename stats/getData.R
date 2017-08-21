@@ -59,7 +59,9 @@ timeDifference = function(t1,t2){
 recordingFileSize = function(fs){
   fs = strsplit(fs,",")[[1]]
   s = sum(file.size(paste0(backupfolder,"recordings/",justFilename(fs))))
-  return(utils:::format.object_size(s, "auto"))
+  fileSize = -1
+  try(fileSize<-utils:::format.object_size(s, "auto"))
+  return(fileSize)
 }
 
 prioritiseOrder = function(dx,o){

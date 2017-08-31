@@ -26,7 +26,7 @@ try(setwd("~/Desktop/Transmission/stats/"))
 # Set 'backupfolder' to the location of the folder you downloaded things to.
 # should include final backslash
 
-backupfolder = "../OnlineBackups/19Aug/"
+backupfolder = "../OnlineBackups/31Aug/"
 
 args = commandArgs(trailingOnly = TRUE)
 if(length(args)>0){
@@ -173,6 +173,7 @@ findTimeFile = function(pid){
   tfL = list.files(paste0(backupfolder,"logs/"),"Time*")
   for(f in tfL){
     dx = read.csv(paste0(backupfolder,"logs/",f), stringsAsFactors = F)
+    if(!is.na(dx$participantId[1])){
     if(dx$participantId[1]==pid){
       numberBlurTimes = sum(grepl("blur window",dx$Message))
       totalTD = 0
@@ -203,7 +204,7 @@ findTimeFile = function(pid){
       }
       return(c(f,numberBlurTimes,totalTD,totalTD.distraction))
     }
-  }
+  }}
   return(c(NA,NA,NA))
 }
 

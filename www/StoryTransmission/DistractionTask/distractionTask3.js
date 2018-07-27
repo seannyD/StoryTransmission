@@ -666,30 +666,31 @@ function drag(ev) {
 // TODO: 
 // this event listener + "drop(ev)" are both firing when dragging an item from the display grid to another space on the display grid
 document.addEventListener("dragend", function( ev ) {
-	  
-	      if(distractionStages[distractionStageCounter] == "select"){
-      			var toLocation = ev.target.id;
-				var content = ev.dataTransfer.getData("text");
-				var fromLocation = ev.dataTransfer.getData("parent");
+	  	  if(stages[stageCounter]=="distraction1" || stages[stageCounter]=="distraction2"){
+		      if(distractionStages[distractionStageCounter] == "select"){
+	      			var toLocation = ev.target.id;
+					var content = ev.dataTransfer.getData("text");
+					var fromLocation = ev.dataTransfer.getData("parent");
 
-		      	if(browser=="Chrome"){
-		      		fromLocation = dataTransferSource;
-		      		content = dataTransferText;
-		      	}
+			      	if(browser=="Chrome"){
+			      		fromLocation = dataTransferSource;
+			      		content = dataTransferText;
+			      	}
 
-		      	var imageNumber = content.split("_")[1];
-		      	var selectGridLocation = getSelectGridLocationID(parseInt(imageNumber));
-	      		//deleting image selGrid_1; display_1_3
-	      		console.log("Dragend Source:" + imageNumber + " fromLocation:"+fromLocation + " toLocation:" + toLocation);
-	      		//Source:6 fromLocation:display_1_2 toLocation:selGrid_6
-	      		if(fromLocation.substr(0,7)=="display"){
-	      			// remove from display
-	      			document.getElementById(fromLocation).innerHTML = "";
-	      			// add back to select grid
-	      			document.getElementById(selectGridLocation).innerHTML = getImageText(imageNumber, true);
-	      		}
+			      	var imageNumber = content.split("_")[1];
+			      	var selectGridLocation = getSelectGridLocationID(parseInt(imageNumber));
+		      		//deleting image selGrid_1; display_1_3
+		      		console.log("Dragend Source:" + imageNumber + " fromLocation:"+fromLocation + " toLocation:" + toLocation);
+		      		//Source:6 fromLocation:display_1_2 toLocation:selGrid_6
+		      		if(fromLocation.substr(0,7)=="display"){
+		      			// remove from display
+		      			document.getElementById(fromLocation).innerHTML = "";
+		      			// add back to select grid
+		      			document.getElementById(selectGridLocation).innerHTML = getImageText(imageNumber, true);
+		      		}
 
-	      }
+		      }
+	  	  }
   		
 }, false);
 

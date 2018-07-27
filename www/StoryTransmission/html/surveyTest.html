@@ -23,6 +23,8 @@
 <script src="../js/techTest.js"></script>
 <script src="../js/speechEvaluation.js"></script>
 <script src="../DistractionTask/distractionTask3.js"></script>
+<script src="../js/sortable.min.js"></script>
+<script src="../js/storyOrder.js"></script>
 
 
 <script src="../Recordmp3js-master/recordmp3.js"></script>
@@ -112,7 +114,22 @@
   <br /><br /><br />
 </div>
 
-
+<div class="container" id="StoryOrder">
+  <div id="bigStoryCard">
+    <img id="bigStoryCardImage" src=""/>
+  </div>
+  <div class="layer tile" data-force="30">
+    <div class="tile__list" id="StoryCards">
+      <img class="storyCard" src="../resources/images/storyImages/S1.png"/>
+      <img class="storyCard" src="../resources/images/storyImages/S2.png"/>
+      <img class="storyCard" src="../resources/images/storyImages/S3.png"/>
+      <img class="storyCard" src="../resources/images/storyImages/S4.png"/>
+      <img class="storyCard" src="../resources/images/storyImages/S5.png"/>
+      <img class="storyCard" src="../resources/images/storyImages/S6.png"/>
+    </div>
+  </div>
+  <button id="storyOrderFinish" onclick="finishStoryOrder()" class="btn btn-success">Finished</button>
+</div>
 
 <div class="container">
   <div id="testDiv" style="display:none">

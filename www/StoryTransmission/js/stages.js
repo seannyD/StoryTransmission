@@ -73,7 +73,8 @@ var stagesLabels = {"consent":"Consent >",
                     'qualifyingSurvey':"Survey >",
                     'qualifyingWorkerCode':"Worker Code",
                     'qualifyingConsent':"Consent >",
-                    'browserTest':"Consent >"
+                    'browserTest':"Consent >",
+                    'storyOrder':"Story Cards >"
                     }
 
 //stages = ["localisation", 'demographySurvey','workerCode'];
@@ -187,6 +188,9 @@ function nextStage(){
       case "browserTest":
         testBrowser();
         break;
+      case "storyOrder":
+        startStoryOrder();
+        break;
       default:
         showWorkerCode(); // by default, end the experiment nicely!
         break;
@@ -235,7 +239,7 @@ function clearScreen(){
   hideMe("testRecorder");
   hideMe("SpeakerTest");
   hideMe("playEvalContainer");
-
+  hideMe("StoryOrder");
 }
 
 // START THE EXPERIMENT
@@ -245,6 +249,9 @@ $( document ).ready(function() {
   makeProgressBar();
 
   setBrowserSpecificSettings();
+
+  // For sortable story cards (safe to call if none in html)
+  initialiseStoryOrder();
 
   // test if we can play videos
   //detect_autoplay(300);

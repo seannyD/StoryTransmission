@@ -36,6 +36,9 @@ if($filetype === "distraction"){
 if($filetype === "qualify"){
 	$base = $base."qualifyingSurvey/";	
 }
+if($filetype === "storyOrder"){
+	$base = $base."storyOrder/";	
+}
 
 $filename = $base.$fn;
 

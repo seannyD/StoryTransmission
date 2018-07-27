@@ -132,7 +132,25 @@
 }
 
 
+.storyCard{
+	margin: 10px;
+	max-width: 20%;
+}
 
+#bigStoryCard{
+	margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    height: 33%;
+    border-style: solid;
+
+}
+
+#bigStoryCardImage{
+	display: block;
+	margin: auto;
+	height: 90%;
+}
 
 /* to handle compression of long survey tables: table columns are equal width, apart from first column which is wider; */
 

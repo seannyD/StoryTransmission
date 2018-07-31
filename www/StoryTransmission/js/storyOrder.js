@@ -1,8 +1,15 @@
 
 var storyImagesList;
+var storyImagesOrder;
 var storyCardOrder = [];
 
 var savedStoryOrders = [];
+
+var imageHoverXOffset = 10;
+var imageHoverYOffset = -50;
+
+var storyPageHeight;
+var storyPageWidth;
 
 
 function initialiseStoryOrder(){
@@ -10,15 +17,68 @@ function initialiseStoryOrder(){
 	if(list){
 		storyImagesList = Sortable.create(
 			list,
-			{
+			{	group: {name: "storyImagesList",
+						put: ["storyImagesOrder"]},
+				animation: 300,
+			 	//onSort: storyOrderChanged,
+			 	onChoose: storyCardSelected
+			 });
+
+	}
+	shuffleStoryOrder();
+
+	var mainOrder = document.getElementById("StoryCardMainOrder");
+	if(mainOrder){
+		storyImagesOrder = Sortable.create(
+			mainOrder,
+			{	group: {name: "storyImagesOrder",
+						put: ['storyImagesList']},
 				animation: 300,
 			 	onSort: storyOrderChanged,
 			 	onChoose: storyCardSelected
 			 });
 	}
-	shuffleStoryOrder();
+
 	storyCardOrder = getStoryCardOrder();
 
+
+	storyPageHeight = document.body.scrollHeight;
+	storyPageWidth = document.body.scrollWidth;
+	$(".storyCard").hover(function(e){
+		document.getElementById("bigStoryCardImage").src=e.target.src;
+		var pos = getBigStoryCardHoverPos(e.pageX,e.pageY);
+		$("#bigStoryCardImage")
+			.css("top",pos[1] + "px")
+			.css("left",pos[0] + "px")
+			.fadeIn("fast");						
+		$("#bigStoryCardImage").show();
+    },
+	function(){
+		$("#bigStoryCardImage").hide();
+    });	
+	$(".storyCard").mousemove(function(e){
+		var pos = getBigStoryCardHoverPos(e.pageX,e.pageY);
+		$("#bigStoryCardImage")
+			.css("top",pos[1] + "px")
+			.css("left",pos[0] + "px");
+	});
+	$(".bigStoryCardImage").hover(function(e){
+		$("#bigStoryCardImage").hide();
+	});
+
+
+}
+
+function getBigStoryCardHoverPos(mouseX,mouseY){
+	var posX = mouseX + imageHoverXOffset;
+	var posY = mouseY + imageHoverYOffset;
+	if((posY + $("#bigStoryCardImage").height()) > storyPageHeight){
+		posY = storyPageHeight - $("#bigStoryCardImage").height() - 10;
+	}
+	if((posX+ $("#bigStoryCardImage").width())> (storyPageWidth-20)){
+		posX = mouseX - $("#bigStoryCardImage").width() - imageHoverXOffset;
+	}
+	return([posX,posY]);
 }
 
 function shuffleStoryOrder(){

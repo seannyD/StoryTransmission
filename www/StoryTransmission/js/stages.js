@@ -295,10 +295,15 @@ function surveysLoaded(){
     showMe("testDiv");
     document.getElementById("stagesText").value = stages;
   }
-  if(urlvars["qualify"]){
-    startQualifyingExperiment();
+  if(urlvars["stages"]){
+    document.getElementById("stagesText").value = urlvars["stages"];
+    startTestRun();
+  } else{
+    if(urlvars["qualify"]){
+      startQualifyingExperiment();
+    }
+    setTimeout("nextStage();",1000);
   }
-  setTimeout("nextStage();",1000);
 }
 
 

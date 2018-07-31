@@ -1,3 +1,5 @@
+// TODO: stop blank images from being dragged
+
 
 var storyImagesList;
 var storyImagesOrder;
@@ -20,7 +22,7 @@ function initialiseStoryOrder(){
 			{	group: {name: "storyImagesList",
 						put: ["storyImagesOrder"]},
 				animation: 300,
-			 	//onSort: storyOrderChanged,
+			 	onSort: storyCardsChanged,
 			 	onChoose: storyCardSelected
 			 });
 
@@ -62,9 +64,14 @@ function initialiseStoryOrder(){
 			.css("top",pos[1] + "px")
 			.css("left",pos[0] + "px");
 	});
+	$(".storyCard").mousedown(function(e){
+		$("#bigStoryCardImage").hide();
+	});
 	$(".bigStoryCardImage").hover(function(e){
 		$("#bigStoryCardImage").hide();
 	});
+
+	$("#blankStoryCard2").hide();
 
 
 }
@@ -91,11 +98,24 @@ function storyOrderChanged(e){
 	storyCardOrder = getStoryCardOrder();
 	// Save each change
 	savedStoryOrders.push(storyCardOrder);
+	if(storyCardOrder.length>1){
+		$("#blankStoryCard").hide();
+	} else{
+		$("#blankStoryCard").show();
+	}
+}
+
+function storyCardsChanged(e){
+	if(document.getElementById("StoryCards").children.length>1){
+		$("#blankStoryCard2").hide();
+	} else{
+		$("#blankStoryCard2").show();
+	}
 }
 
 function getStoryCardOrder(){
 
-	var cards = document.getElementById("StoryCards").children;
+	var cards = document.getElementById("StoryCardMainOrder").children;
 	var cardOrder = [];
 	for(var i = 0; i < cards.length; i++){
 		var imageName = cards[i].src;
@@ -105,6 +125,7 @@ function getStoryCardOrder(){
     return(cardOrder);
 }
 
+// TODO: Maybe not necessary?
 function storyCardSelected(e){
 	var chosenCardSRC = e.item.src;
 	console.log(chosenCardSRC);

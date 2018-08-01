@@ -1,4 +1,5 @@
 // TODO: stop blank images from being dragged
+// TODO: Can only continue if all images have been dragged into place
 
 
 var storyImagesList;
@@ -11,7 +12,7 @@ var imageHoverXOffset = 10;
 var imageHoverYOffset = -50;
 
 var storyPageHeight;
-var storyPageWidth;
+var storyPageWidth; // --
 
 
 function initialiseStoryOrder(){

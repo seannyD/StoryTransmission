@@ -1,1 +1,1 @@
-scp -r StoryTransmission/* sr16171@arch-vm-1.arts.bris.ac.uk:/srv/www.excdlab/Site/
+rsync -v -r StoryTransmission/* sr16171@arch-vm-1.arts.bris.ac.uk:/srv/www.excdlab/Site/

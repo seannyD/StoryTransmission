@@ -191,6 +191,9 @@ function nextStage(){
       case "storyOrder":
         startStoryOrder();
         break;
+      case "WriteStoryFromOrder":
+        initialiseStoryOrderTellStory();
+        break;
       default:
         showWorkerCode(); // by default, end the experiment nicely!
         break;
@@ -240,6 +243,7 @@ function clearScreen(){
   hideMe("SpeakerTest");
   hideMe("playEvalContainer");
   hideMe("StoryOrder");
+  hideMe("WriteStoryFromOrder");
 }
 
 // START THE EXPERIMENT

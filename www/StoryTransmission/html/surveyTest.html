@@ -25,6 +25,7 @@
 <script src="../DistractionTask/distractionTask3.js"></script>
 <script src="../js/sortable.min.js"></script>
 <script src="../js/storyOrder.js"></script>
+<script src="../js/tellStoryOrder.js"></script>
 
 
 <script src="../Recordmp3js-master/recordmp3.js"></script>
@@ -141,6 +142,24 @@
     </div>
   </div>
   <button id="storyOrderFinish" onclick="finishStoryOrder()" class="btn btn-success">Finished</button>
+</div>
+
+<div class="container" id="WriteStoryFromOrder">
+  <div id="WriteStoryImageContainer">
+    <div class="storyScenePreview">
+      <h4>Previous Scene</h4>
+      <img class="storyPreviewImage fadeImage" id="previousStoryImage" onclick="clickedPreviousStoryImage()"/>
+    </div>
+    <div class="mainStoryScenePreview">
+      <h4>Current Scene</h4>
+      <img  class="storyPreviewImage" id="currentStoryImage" />
+    </div>
+    <div class="storyScenePreview">
+      <h4>Next Scene</h4>
+      <img  class="storyPreviewImage fadeImage" id="nextStoryImage" onclick="clickedNextStoryImage()" />
+    </div>
+  </div>
+  <div id="storyOrderWritingSpace"></div>
 </div>
 
 <div class="container">

@@ -20,7 +20,7 @@ function appendWritingSpaceTextArea(){
 
 function makeWritingSpaceTextArea(){
 	var writingSpaceTextAreaTemplateA = '<div><h4>Scene ';
-	var writingSpaceTextAreaTemplateB = '</h4><textarea></textarea></div>';
+	var writingSpaceTextAreaTemplateB = '</h4><textarea class="writeTextArea"></textarea></div>';
 	var textArea = jQuery.parseHTML(writingSpaceTextAreaTemplateA+tellStoryCurrentStoryImage+writingSpaceTextAreaTemplateB);
 	return(textArea);
 }

@@ -74,7 +74,8 @@ var stagesLabels = {"consent":"Consent >",
                     'qualifyingWorkerCode':"Worker Code",
                     'qualifyingConsent':"Consent >",
                     'browserTest':"Consent >",
-                    'storyOrder':"Story Cards >"
+                    'storyOrder':"Story Cards >",
+                    'WriteStoryFromOrder':"Write story >"
                     }
 
 //stages = ["localisation", 'demographySurvey','workerCode'];
@@ -250,25 +251,44 @@ function clearScreen(){
 $( document ).ready(function() {
   clearScreen();
   preloadGridImages();
-  makeProgressBar();
 
   setBrowserSpecificSettings();
-
-  // For sortable story cards (safe to call if none in html)
-  initialiseStoryOrder();
 
   // test if we can play videos
   //detect_autoplay(300);
   browserCanAutoplay = false; // instruction will display
 
-  $.getScript("../survey/SURVEY_speechEvaluation.js");
-  $.getScript("../survey/SURVEY_consent.js");
-  $.getScript("../survey/SURVEY_localisation.js");
-  $.getScript("../survey/SURVEY_demography_USA.js");
-  $.getScript("../survey/SURVEY_qualifying.js");
-  $.getScript("../survey/SURVEY_qualifyingConsent.js");
-  // the last survey to be loaded should call surveysLoaded() to start the experiment
-  $.getScript("../survey/SURVEY_demography_UK.js",surveysLoaded());
+  var urlvars = getUrlVars();
+
+  if(urlvars["storyOrder"]){
+    // This is a story order experiment (experiment 2)
+    // For sortable story cards (safe to call if none in html)
+    initialiseStoryOrder();
+    console.log("Loading story order experiment");
+    stages = [
+        "consent",
+        "localisation",
+        "storyOrder",
+        "WriteStoryFromOrder",
+        'demographySurvey','checkUploaded','workerCode'
+    ];
+    $.getScript("../survey/storyOrderSurveys/SURVEY_consent.js");
+    $.getScript("../survey/SURVEY_localisation.js");
+    $.getScript("../survey/storyOrderSurveys/SURVEY_demography_USA.js");
+    $.getScript("../survey/storyOrderSurveys/SURVEY_demography_UK.js",surveysLoaded());
+  } else{
+    // This is the original recorded voice story telling experiment
+    $.getScript("../survey/SURVEY_speechEvaluation.js");
+    $.getScript("../survey/SURVEY_consent.js");
+    $.getScript("../survey/SURVEY_localisation.js");
+    $.getScript("../survey/SURVEY_demography_USA.js");
+    $.getScript("../survey/SURVEY_qualifying.js");
+    $.getScript("../survey/SURVEY_qualifyingConsent.js");
+    // the last survey to be loaded should call surveysLoaded() to start the experiment
+    $.getScript("../survey/SURVEY_demography_UK.js",surveysLoaded());
+  }
+
+  makeProgressBar();
 
 
 

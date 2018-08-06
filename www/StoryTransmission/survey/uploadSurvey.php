@@ -39,6 +39,10 @@ if($filetype === "qualify"){
 if($filetype === "storyOrder"){
 	$base = $base."storyOrder/";	
 }
+if($filetype === "tellStoryFromOrderText"){
+	$base = $base."tellStoryOrder/";	
+}
+
 
 $filename = $base.$fn;
 

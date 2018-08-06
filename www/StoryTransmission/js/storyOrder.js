@@ -12,7 +12,7 @@ var imageHoverXOffset = 10;
 var imageHoverYOffset = -50;
 
 var storyPageHeight;
-var storyPageWidth; // --
+var storyPageWidth; 
 
 
 function initialiseStoryOrder(){
@@ -120,8 +120,10 @@ function getStoryCardOrder(){
 	var cardOrder = [];
 	for(var i = 0; i < cards.length; i++){
 		var imageName = cards[i].src;
-		imageName = imageName.substr(imageName.lastIndexOf("/")+1)
-		cardOrder.push(imageName);
+		imageName = imageName.substr(imageName.lastIndexOf("/")+1);
+		if(imageName!="blank.png"){
+			cardOrder.push(imageName);
+		}
     }
     return(cardOrder);
 }

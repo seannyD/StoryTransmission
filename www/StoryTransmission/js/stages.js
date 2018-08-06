@@ -50,6 +50,7 @@ var stages = [
       // TODO: check country ip address
 
 var stagesLabels = {"consent":"Consent >",
+                    "storyOrderConsent": "Consent >",
                     "speakerTest": "Sound setup >",
                     "techTest": "Sound setup >",
                     "micTest": "Sound setup >",
@@ -104,9 +105,10 @@ function nextStage(){
 	switch (stages[stageCounter]) {
 
       case "consent":
-        //setInstruction("<h1>The effects of social transmission biases on human cultural evolution</h1>");
-        //launchSurvey(consentSurvey);
         setInstruction(consentText);
+        break;
+      case "storyOrderConsent":
+        setInstruction(storyOrderConsentText);
         break;
       case "qualifyingConsent":
         //setInstruction("<h1>Qualifying Task</h1>");
@@ -266,7 +268,7 @@ $( document ).ready(function() {
     initialiseStoryOrder();
     console.log("Loading story order experiment");
     stages = [
-        "consent",
+        "storyOrderConsent",
         "localisation",
         "storyOrder",
         "WriteStoryFromOrder",

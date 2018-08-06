@@ -105,9 +105,9 @@ function uploadTellStoryOrderData(){
 	var csvText = "participantID,sceneNumber,sceneID,storyText\n";
 	for(var i=0;i<tellStoryTextAreas.length;++i){
 		// replace any double-double quotes
-		var storyText = tellStoryTextAreas[i].value.replace(/""/g, '"');
+		var storyText = tellStoryTextAreas[i].value.replace(/"/g, "'");
 		// surround with double-double quotes to contain new lines etc.
-		storyText = '""'+storyText+'""';
+		storyText = '"'+storyText+'"';
 		var cells = [ 
 			participantID,
 			i+1, //scene number

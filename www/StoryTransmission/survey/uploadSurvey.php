@@ -42,6 +42,9 @@ if($filetype === "storyOrder"){
 if($filetype === "tellStoryFromOrderText"){
 	$base = $base."tellStoryOrder/";	
 }
+if($filetype === "storyOrderMostImportant"){
+	$base = $base."storyOrderMostImportant/";	
+}
 
 
 $filename = $base.$fn;

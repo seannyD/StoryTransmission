@@ -77,6 +77,24 @@ function initialiseStoryOrder(){
 
 }
 
+function showStoryOrderInstructions(){
+	setInstruction("<h1>Instructions</h1>");
+	$("#StoryOrderInstructions").show();
+	var introVideo = document.getElementById("StoryOrderInstructionsVideo");
+	// reset the video to the start
+	introVideo.currentTime = 0;
+	// need to use block display to make video border size correct
+	document.getElementById("StoryOrderInstructions").style.display="block";
+	// play the video
+	introVideo.play();
+}
+
+function StoryOrderInstructionsVideoEnded(){
+	var introVideo = document.getElementById("StoryOrderInstructionsVideo");
+	introVideo.pause();
+	setTimeout("nextStage()",500);
+}
+
 function getBigStoryCardHoverPos(mouseX,mouseY){
 	var posX = mouseX + imageHoverXOffset;
 	var posY = mouseY + imageHoverYOffset;
@@ -99,7 +117,7 @@ function storyOrderChanged(e){
 	storyCardOrder = getStoryCardOrder();
 	// Save each change
 	savedStoryOrders.push(storyCardOrder);
-	if(storyCardOrder.length>1){
+	if(storyCardOrder.length>0){
 		$("#blankStoryCard").hide();
 	} else{
 		$("#blankStoryCard").show();

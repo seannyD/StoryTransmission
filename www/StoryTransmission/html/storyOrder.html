@@ -26,6 +26,7 @@
 <script src="../js/sortable.min.js"></script>
 <script src="../js/storyOrder.js"></script>
 <script src="../js/tellStoryOrder.js"></script>
+<script src="../js/selectMostImportantStoryOrder.js"></script>
 
 
 <script src="../Recordmp3js-master/recordmp3.js"></script>
@@ -115,11 +116,18 @@
   <br /><br /><br />
 </div>
 
+<div class="container" id="StoryOrderInstructions">
+  <video id="StoryOrderInstructionsVideo" onended="StoryOrderInstructionsVideoEnded()" poster="../resources/images/StoryOrderInstructionsVideoBackup.png">
+      <source id="StoryOrderInstructionsVideoSource" src="../resources/video/StoryOrderInstructions.mp4" type="video/mp4">
+      <img src="../resources/images/StoryOrderInstructionsVideo.png">
+    </video> 
+</div>
+
 <div class="container" id="StoryOrder">
   <img id="bigStoryCardImage"/>
   <div class="layer tile" data-force="30">
     <div class="tile__list" id="StoryCardMainOrder">
-      <img id="blankStoryCard" class="storyCard" src="../resources/images/storyImages/blank.png"/>
+      <img id="blankStoryCard" class="blankStoryCard" src="../resources/images/storyImages/blank.png"/>
     </div>
     <div class="tile__list" id="StoryCards">
       <img class="storyCard" src="../resources/images/storyImages/S1.jpg"/>
@@ -138,7 +146,7 @@
       <img class="storyCard" src="../resources/images/storyImages/S14.jpg"/>
       <img class="storyCard" src="../resources/images/storyImages/S15.jpg"/>
       <img class="storyCard" src="../resources/images/storyImages/S16.jpg"/>
-      <img id="blankStoryCard2" class="storyCard" src="../resources/images/storyImages/blank.png"/>
+      <img id="blankStoryCard2" class="blankStoryCard" src="../resources/images/storyImages/blank.png"/>
     </div>
   </div>
   <button id="storyOrderFinish" onclick="finishStoryOrder()" class="btn btn-success">Finished</button>
@@ -147,7 +155,7 @@
 <div id="WriteStoryFromOrder">
   <div id="WriteStoryImageContainer">
     <div class="storyScenePreview">
-      <h4 align="center">Previous Scene</h4>
+      <h4 align="center">Click to move to previous Scene</h4>
       <img class="storyPreviewImage fadeImage" id="previousStoryImage" onclick="clickedPreviousStoryImage()"/>
     </div>
     <div class="mainStoryScenePreview">
@@ -155,11 +163,21 @@
       <img  class="mainStoryPreviewImage" id="currentStoryImage" />
     </div>
     <div class="storyScenePreview">
-      <h4 align="center">Next Scene</h4>
+      <h4 align="center">Click to move to next Scene</h4>
       <img  class="storyPreviewImage fadeImage" id="nextStoryImage" onclick="clickedNextStoryImage()" />
     </div>
   </div>
   <div id="storyOrderWritingSpace"></div>
+</div>
+
+<div class="container" id="selectMostImportantStoryOrder">
+  <div id="storyTable"></div>
+  <div id="sceneImportance">
+    <h4>Why is this scene the most important?</h4><br />
+    <textarea id="mostImportantSceneReason" style="width:100%"></textarea><br /><br />
+    <button id="finishSelectMostImportantStoryOrderButton" class="btn btn-success" onclick="finishSelectMostImportantStoryOrder()">Finished</button>
+  </div>
+
 </div>
 
 <div class="container">

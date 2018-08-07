@@ -142,6 +142,13 @@ body {
 	border-width: 1px;
 }
 
+.blankStoryCard{
+	margin: 10px;
+	max-height: 150px;
+	border-style:solid;
+	border-width: 1px;
+}
+
 #StoryCardMainOrder{
 	width: 100%;
 	height: 190px;
@@ -215,6 +222,14 @@ body {
 	width:100%;
 	height:50%;
 	border-style:solid;
+}
+
+#storyTable{
+	overflow-y:scroll;
+}
+
+.selectImportantSceneImage{
+	height: 130px;
 }
 
 /* to handle compression of long survey tables: table columns are equal width, apart from first column which is wider; */

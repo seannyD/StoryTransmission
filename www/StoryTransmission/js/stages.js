@@ -75,8 +75,10 @@ var stagesLabels = {"consent":"Consent >",
                     'qualifyingWorkerCode':"Worker Code",
                     'qualifyingConsent':"Consent >",
                     'browserTest':"Consent >",
+                    'storyOrderInstructions':"Instructions >",
                     'storyOrder':"Story Cards >",
-                    'WriteStoryFromOrder':"Write story >"
+                    'WriteStoryFromOrder':"Write story >",
+                    "selectMostImportantScene":"Importance >"
                     }
 
 //stages = ["localisation", 'demographySurvey','workerCode'];
@@ -191,11 +193,17 @@ function nextStage(){
       case "browserTest":
         testBrowser();
         break;
+      case "storyOrderInstructions":
+        showStoryOrderInstructions();
+        break;
       case "storyOrder":
         startStoryOrder();
         break;
       case "WriteStoryFromOrder":
         initialiseStoryOrderTellStory();
+        break;
+      case "selectMostImportantScene":
+        initialiseSelectMostImportantScene();
         break;
       default:
         showWorkerCode(); // by default, end the experiment nicely!
@@ -245,8 +253,10 @@ function clearScreen(){
   hideMe("testRecorder");
   hideMe("SpeakerTest");
   hideMe("playEvalContainer");
+  hideMe("StoryOrderInstructions");
   hideMe("StoryOrder");
   hideMe("WriteStoryFromOrder");
+  hideMe("selectMostImportantStoryOrder");
 }
 
 // START THE EXPERIMENT
@@ -270,8 +280,10 @@ $( document ).ready(function() {
     stages = [
         "storyOrderConsent",
         "localisation",
+        "storyOrderInstructions",
         "storyOrder",
         "WriteStoryFromOrder",
+        "selectMostImportantScene",
         'demographySurvey','checkUploaded','workerCode'
     ];
     $.getScript("../survey/storyOrderSurveys/SURVEY_consent.js");

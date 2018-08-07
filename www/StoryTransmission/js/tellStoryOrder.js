@@ -4,20 +4,22 @@ var tellStoryCurrentStoryImage = 0;
 var numberOfWritingAreasCreated = 0;
 var addedFinishButton = false;
 
+var storyCardOrderText = [];
+
 var baseStoryImageFolder = "../resources/images/storyImages/"
 
 function initialiseStoryOrderTellStory(){
-	tellStoryCurrentStoryImage = 0;
 	addedFinishButton = false;
 	numberOfWritingAreasCreated = 0;
-	setTellStoryImages();
+	tellStoryCurrentStoryImage = -1;
+	clickedNextStoryImage();
 	$("#WriteStoryFromOrder").show();
 
-	appendWritingSpaceTextArea();
 }
 
 function appendWritingSpaceTextArea(){
 	$("#storyOrderWritingSpace").append(makeWritingSpaceTextArea());
+
 	document.getElementById("writeArea"+(1+tellStoryCurrentStoryImage)).scrollIntoView();
 	numberOfWritingAreasCreated += 1;
 }
@@ -104,8 +106,12 @@ function uploadTellStoryOrderData(){
 
 	var csvText = "participantID,sceneNumber,sceneID,storyText\n";
 	for(var i=0;i<tellStoryTextAreas.length;++i){
+		
+		var storyText = tellStoryTextAreas[i].value;
+		// add to list so we can access later
+		storyCardOrderText.push(storyText);
 		// replace any double-double quotes
-		var storyText = tellStoryTextAreas[i].value.replace(/"/g, "'");
+		storyText = storyText.replace(/"/g, "'");
 		// surround with double-double quotes to contain new lines etc.
 		storyText = '"'+storyText+'"';
 		var cells = [ 
@@ -114,6 +120,7 @@ function uploadTellStoryOrderData(){
 			storyCardOrder[i], // image name
 			storyText
 		];
+
 		csvText +=cells.join(",") + "\n";
 	}
 

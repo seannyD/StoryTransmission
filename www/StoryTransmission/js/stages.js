@@ -79,7 +79,11 @@ var stagesLabels = {"consent":"Consent >",
                     'storyOrderInstructionVideo':"Instructions >",
                     'storyOrder':"Story Cards >",
                     'WriteStoryFromOrder':"Write story >",
-                    "selectMostImportantScene":"Importance >"
+                    "selectMostImportantScene":"Importance >",
+                    "storyOrderPreSecondStageInstructions":"Story task >",
+                    "storyOrderEndSurvey":"Survey >",
+                    "storyOrderFinish":"Survey >"
+
                     }
 
 //stages = ["localisation", 'demographySurvey','workerCode'];
@@ -192,7 +196,7 @@ function nextStage(){
         testBrowser();
         break;
       case "storyOrderConsent":
-        setInstruction(storyOrderConsentText);
+        setInstruction(storyOrderConsentText.replace("PARTICIPANT_ID_HERE",participantID));
         launchStoryOrderConsentSurvey();
         break;
       case "storyOrderConsent":
@@ -216,7 +220,7 @@ function nextStage(){
         break;
       case "storyOrderPreSecondStageInstructions":
         setInstruction(storyOrderPreSecondStageInstructions);
-        setInterval("addNextButtonToInstructions()",20000);  // code in this file below
+        setTimeout("addNextButtonToInstructions()",20000);  // code in this file below
         break;
       case "storyOrderEndSurvey":
         launchSurvey(storyOrderEndSurveyJSON,finishStoryOrderEndSurveyJSON);
@@ -305,8 +309,13 @@ $( document ).ready(function() {
         "WriteStoryFromOrder",
         "selectMostImportantScene",
         "storyOrderPreSecondStageInstructions",
-        'demographySurvey','checkUploaded','workerCode'
+        'storyOrderEndSurvey','checkUploaded','storyOrderFinish'
     ];
+
+
+    experimentLocation = "UK";
+    setStoryOrderParticipantID();
+
     $.getScript("../survey/storyOrderSurveys/SURVEY_consent.js");
     $.getScript("../survey/SURVEY_localisation.js");
     $.getScript("../survey/storyOrderSurveys/SURVEY_demography_USA.js");

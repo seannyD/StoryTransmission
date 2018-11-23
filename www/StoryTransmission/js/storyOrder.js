@@ -20,6 +20,7 @@ var storyOrderTimerID = 0;
 
 
 function initialiseStoryOrder(){
+
 	var list = document.getElementById("StoryCards");
 	if(list){
 		storyImagesList = Sortable.create(
@@ -79,6 +80,16 @@ function initialiseStoryOrder(){
 	$("#blankStoryCard2").hide();
 
 
+}
+
+function setStoryOrderParticipantID(){
+	var d = new Date();
+	var dayNum = d.getDate();
+	if(dayNum<10){
+		dayNum = "0" + dayNum;
+	}
+	var ranNum = Math.floor(Math.random() * 90 + 10);
+	participantID = dayNum.toString() + ranNum.toString();
 }
 
 function showStoryOrderInstructions(){
@@ -327,7 +338,7 @@ function finishStoryOrderEndSurveyJSON(survey){
 	//var filename = participantID  + '.csv';
 	
 	//fd.append('fname', filename);
-	fd.append('data', surveyText);
+	fd.append('data', outString);
 	fd.append('filetype', "storyOrder");
 	fd.append('id', participantID + "_storyOrderEndSurvey");
 	$.ajax({

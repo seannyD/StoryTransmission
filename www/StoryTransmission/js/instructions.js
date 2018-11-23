@@ -266,6 +266,7 @@ var distractionTaskInstructions =
 
 var storyOrderConsentText = '<h1>Social issues picture task</h1>\
 <p>You are invited to take part in study regarding how we construct narratives. \
+<p>ParticipantID = PARTICIPANT_ID_HERE\
 <p>This study is carried out in 3 parts, 2 of which will take place today, and the final part will take place in a week. We will ask you to leave your email address so that we can invite you to the final part of the study.\
 <br />\
 <p>In the first part you will be shown some line drawings and asked to create a narrative. You will then be asked some questions about the narrative you’ve created. This part of the study will be completed online and take approximately 20 minutes.\

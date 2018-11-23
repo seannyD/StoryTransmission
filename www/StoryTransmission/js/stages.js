@@ -311,6 +311,7 @@ $( document ).ready(function() {
     $.getScript("../survey/SURVEY_localisation.js");
     $.getScript("../survey/storyOrderSurveys/SURVEY_demography_USA.js");
     $.getScript("../survey/storyOrderSurveys/SURVEY_demography_UK.js");
+    $.getScript("../survey/storyOrderSurveys/SURVEY_endSurvey.js");
     $.getScript("../survey/storyOrderSurveys/SURVEY_consent.js",surveysLoaded());
   } else{
     // This is the original recorded voice story telling experiment

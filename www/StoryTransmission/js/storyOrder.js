@@ -14,6 +14,10 @@ var imageHoverYOffset = -50;
 var storyPageHeight;
 var storyPageWidth; 
 
+var storyOrderTimerMaxTime = 15 * 60 * 1000; // 15 minutes
+var storyOrderTimerStartTime = 0;
+var storyOrderTimerID = 0;
+
 
 function initialiseStoryOrder(){
 	var list = document.getElementById("StoryCards");
@@ -78,7 +82,10 @@ function initialiseStoryOrder(){
 }
 
 function showStoryOrderInstructions(){
-	setInstruction("<h1>Instructions</h1>");
+	setInstruction(storyOrderParticipantInstructions);
+}
+
+function playStoryOrderVideo(){
 	$("#StoryOrderInstructions").show();
 	var introVideo = document.getElementById("StoryOrderInstructionsVideo");
 	// reset the video to the start
@@ -93,6 +100,113 @@ function StoryOrderInstructionsVideoEnded(){
 	var introVideo = document.getElementById("StoryOrderInstructionsVideo");
 	introVideo.pause();
 	setTimeout("nextStage()",500);
+}
+
+function launchStoryOrderConsentSurvey(){
+	var myCss = {
+        matrix: {root: "table table-striped"} ,
+        matrixdropdown: {root: "table table-striped"}  ,
+        matrixdynamic: {root: "table table-striped"}  
+   	};
+
+   	showMe("surveyContainer");
+	var survey = new Survey.Model(storyOrderConsentSurveyJSON);
+	$("#surveyContainer").Survey({
+	    model: survey,
+	    onComplete: endStoryOrderConsentSurvey,
+	    css: myCss
+
+	});
+	survey.locale = "my";
+}
+
+function endStoryOrderConsentSurvey(survey){
+
+	hideMe("surveyContainer");
+
+	var sd = survey.data;
+	console.log(sd);
+	var consentReceivedInfo =  sd['consentReceivedInfo'];
+	var consentWithdraw = sd['consentWithdraw'];
+	var consentVideo = sd['consentVideo'];
+	var consentFacePixel = sd['consentFacePixel'];
+	var consentTakePartInStudy = sd['consentTakePartInStudy'];
+	
+	var outString = "ID,consentReceivedInfo,consentWithdraw,consentVideo,consentFacePixel,consentTakePartInStudy,timestamp\n";
+	outString += participantID + "," + 
+					[consentReceivedInfo,consentWithdraw,consentVideo,consentFacePixel,consentTakePartInStudy].join(",") +
+					"," + getCurrentTime();
+
+	var fd = new FormData();
+	fd.append('data', outString);
+	fd.append("filetype","storyOrder");
+	fd.append("id",participantID + "_StoryOrderConsent");
+
+	$.ajax({
+		type: 'POST',
+		url: uploadSurveyPHPLocation,
+		data: fd,
+		processData: false,
+		contentType: false
+	}).done(function(data) {
+		console.log(data);
+		var bits = data.split(";");
+		if(bits.length==2){
+			addToFileLog(bits[0],bits[1]);
+		}
+	});
+
+	if(consentReceivedInfo=="Yes" && consentWithdraw=="Yes" && consentFacePixel=="Yes" && consentTakePartInStudy=="Yes"){
+		setTimeout("nextStage()",500);
+	} else{
+		showNoConsentScreen();
+	}
+}
+
+function showNoConsentScreen(){
+	setInstruction(storyOrderNoConsentScreenInstructions);
+	// Experiment effectively ends here.
+}
+
+function startStoryOrderTimer(){
+	var d = new Date();
+	storyOrderTimerStartTime = d.getTime();
+	storyOrderTimerID = setInterval("storyOrderTimerTick()",1000);
+	showMe("StoryOrderTimer");
+}
+
+function storyOrderTimerTick(){
+	var d = new Date();
+	var currentTime = d.getTime();
+	var timePassed = currentTime - storyOrderTimerStartTime;
+	var timeLeft = storyOrderTimerMaxTime - timePassed;
+	if(timeLeft<0){
+		timeLeft = 0;
+	}
+
+	var timeLeftFormatted = storyOrderTimerFormat(timeLeft);
+	$("#StoryOrderTimer").html(timeLeftFormatted);
+
+	if(timeLeft ==0){
+		stopStoryOrderTimer();
+		setTimeout("nextStage()",500);
+	}
+}
+
+function storyOrderTimerFormat(duration){
+	var milliseconds = parseInt((duration % 1000) / 100),
+    seconds = parseInt((duration / 1000) % 60),
+    minutes = parseInt((duration / (1000 * 60)) % 60);
+	
+	minutes = (minutes < 10) ? "0" + minutes : minutes;
+	seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+	return minutes + ":" + seconds;
+}
+
+function stopStoryOrderTimer(){
+	clearInterval(storyOrderTimerID);
+	hideMe("StoryOrderTimer");
 }
 
 function getBigStoryCardHoverPos(mouseX,mouseY){
@@ -156,6 +270,7 @@ function storyCardSelected(e){
 function startStoryOrder(){
 	shuffleStoryOrder();
 	$("#StoryOrder").show();
+	startStoryOrderTimer();
 }
 
 function finishStoryOrder(){
@@ -200,4 +315,33 @@ function uploadStoryOrderData(){
 		setTimeout("nextStage()",500);
 	});
 	//TODO: action on fail?
+}
+
+
+function finishStoryOrderEndSurveyJSON(survey){
+	var sd = survey.data;
+	sd["participantID"] = participantID;
+	sd["time"] = getCurrentTime();
+	var outString = ConvertToCSV(sd);
+	var fd = new FormData();
+	//var filename = participantID  + '.csv';
+	
+	//fd.append('fname', filename);
+	fd.append('data', surveyText);
+	fd.append('filetype', "storyOrder");
+	fd.append('id', participantID + "_storyOrderEndSurvey");
+	$.ajax({
+		type: 'POST',
+		url: uploadSurveyPHPLocation,
+		data: fd,
+		processData: false,
+		contentType: false
+	}).done(function(data) {
+		console.log(data);
+		var bits = data.split(";");
+		if(bits.length==2){
+			addToFileLog(bits[0],bits[1]);
+		}
+		setTimeout("nextStage()",500);
+	});
 }

@@ -26,6 +26,10 @@ This version includes:
 -  Works on localhost, correlation-machine and UoB servers
 -  Qualifying mode is with a url variable "qualify=T"
 
+## Story order experiment
+
+You can run a "story order" experiment using e.g. baseWebsite/html/storyOrder.html?storyOrder=true
+
 ## Testing
 
 If you add a url variable "test=T" to the url, then you get some configuration options (Some of this works, other bits I haven't tested):

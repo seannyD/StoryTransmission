@@ -135,6 +135,10 @@ body {
 }
 
 
+#StoryOrderTimer {
+	display: none;
+}
+
 .storyCard{
 	margin: 10px;
 	max-height: 150px;

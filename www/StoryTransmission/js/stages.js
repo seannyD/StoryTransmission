@@ -76,6 +76,7 @@ var stagesLabels = {"consent":"Consent >",
                     'qualifyingConsent':"Consent >",
                     'browserTest':"Consent >",
                     'storyOrderInstructions':"Instructions >",
+                    'storyOrderInstructionVideo':"Instructions >",
                     'storyOrder':"Story Cards >",
                     'WriteStoryFromOrder':"Write story >",
                     "selectMostImportantScene":"Importance >"
@@ -108,9 +109,6 @@ function nextStage(){
 
       case "consent":
         setInstruction(consentText);
-        break;
-      case "storyOrderConsent":
-        setInstruction(storyOrderConsentText);
         break;
       case "qualifyingConsent":
         //setInstruction("<h1>Qualifying Task</h1>");
@@ -193,8 +191,19 @@ function nextStage(){
       case "browserTest":
         testBrowser();
         break;
+      case "storyOrderConsent":
+        setInstruction(storyOrderConsentText);
+        launchStoryOrderConsentSurvey();
+        break;
+      case "storyOrderConsent":
+        setInstruction(storyOrderConsentText);
+        launchStoryOrderConsentSurvey();
+        break;
       case "storyOrderInstructions":
         showStoryOrderInstructions();
+        break;
+      case "storyOrderInstructionVideo":
+        playStoryOrderVideo();
         break;
       case "storyOrder":
         startStoryOrder();
@@ -204,6 +213,17 @@ function nextStage(){
         break;
       case "selectMostImportantScene":
         initialiseSelectMostImportantScene();
+        break;
+      case "storyOrderPreSecondStageInstructions":
+        setInstruction(storyOrderPreSecondStageInstructions);
+        setInterval("addNextButtonToInstructions()",20000);  // code in this file below
+        break;
+      case "storyOrderEndSurvey":
+        launchSurvey(storyOrderEndSurveyJSON,finishStoryOrderEndSurveyJSON);
+        break;
+      case "storyOrderFinish":
+        storyOrderFinishInstruction.replace("PARTICIPANT_ID_HERE",participantID);
+        setInstruction(storyOrderFinishInstruction);
         break;
       default:
         showWorkerCode(); // by default, end the experiment nicely!
@@ -279,17 +299,19 @@ $( document ).ready(function() {
     console.log("Loading story order experiment");
     stages = [
         "storyOrderConsent",
-        "localisation",
         "storyOrderInstructions",
+        "storyOrderInstructionVideo",
         "storyOrder",
         "WriteStoryFromOrder",
         "selectMostImportantScene",
+        "storyOrderPreSecondStageInstructions",
         'demographySurvey','checkUploaded','workerCode'
     ];
     $.getScript("../survey/storyOrderSurveys/SURVEY_consent.js");
     $.getScript("../survey/SURVEY_localisation.js");
     $.getScript("../survey/storyOrderSurveys/SURVEY_demography_USA.js");
-    $.getScript("../survey/storyOrderSurveys/SURVEY_demography_UK.js",surveysLoaded());
+    $.getScript("../survey/storyOrderSurveys/SURVEY_demography_UK.js");
+    $.getScript("../survey/storyOrderSurveys/SURVEY_consent.js",surveysLoaded());
   } else{
     // This is the original recorded voice story telling experiment
     $.getScript("../survey/SURVEY_speechEvaluation.js");
@@ -340,7 +362,7 @@ function surveysLoaded(){
     if(urlvars["qualify"]){
       startQualifyingExperiment();
     }
-    setTimeout("nextStage();",1000);
+    setTimeout("nextStage();",3000);
   }
 }
 
@@ -364,6 +386,10 @@ function makeProgressBar(){
   }
 }
 
+
+function addNextButtonToInstructions(){
+  document.getElementById("instructions").innerHTML += '<br /><button onclick="nextStage()" class="btn btn-success">Continue</button>';
+}
 
 
 // -------------------

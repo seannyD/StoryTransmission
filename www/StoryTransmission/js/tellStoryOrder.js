@@ -95,6 +95,8 @@ function clickedNextStoryImage(){
 function finishTellStoryOrder(){
 	$("#finishTellStoryOrderButton").hide();
 	uploadTellStoryOrderData();
+	stopStoryOrderTimer();
+	hideMe("StoryOrderTimer");
 }
 
 

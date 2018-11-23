@@ -30,19 +30,6 @@ var qualifyingConsentText = "<h1>Qualifying Task</h1>\
 <p>If you agree to participate, please press the button below.<br /><br />\
 <button onclick=\"nextStage()\" class=\"btn btn-success\">I agree</button>";
 
-var storyOrderConsentText = '<h1>Story Order</h1>\
-<p>The purpose of this research is to ...\
-<p>This work is a collaboration between Dr. Michael Gavin and Richard Berl in the Department of Human Dimensions of Natural Resources at Colorado State University and Dr. Fiona Jordan and Alarna Samarasinghe in the Department of Archaeology and Anthropology at the University of Bristol. The research is funded by the Max Planck Institute for the Science of Human History in Jena, Germany.\
-<p>You will be asked to ...\
-<p><img src=\"../resources/images/TimeIcon.png\" align=\"left\">\
-Participation should take approximately X minutes. There will be sections of the survey that are time- sensitive, during which you will not be able to walk away from your computer. You will be notified before beginning these sections.\
-<p>Your participation in this research is voluntary. If you decide to participate in the study, you may withdraw your consent and stop participation at any time without penalty. We will not collect your name or any personal identifiers. When we report and share the data with others, we will combine the data from all participants. There are no known risks to you in taking part in this study. If you have any questions, contact information for the researchers, the CSU Institutional Review Board, and the UoB Human Research Ethics Committee are available at the end of the questionnaire.\
-<p>All data will be stored securely on University of Bristol secure servers and will be handled in accordance with the Data Protection Act.\
-<p>If you agree to participate, please press the button below.\
-<br /><br />\
-<button onclick="nextStage()" class="btn btn-success">I agree</button>';
-
-
 var addonWarningText = '<h1>Warning: Turn video blockers off</h1>\
 <p>This experiment uses video content, and some ad blockers and video blockers will prevent the program from working properly.\
 <p>The following add-ons can stop videos playing properly:\
@@ -271,6 +258,63 @@ var distractionTaskInstructions =
 '<h1>Memory test</h1>\
 <p>You will now be asked to complete a memory test. You will be shown a rectangular grid with a set of 5 "cards" with different symbols on them placed in a specific arrangement on the grid. You will have 20 seconds to memorize the symbols on the cards and their placement on the grid. You will then have 20 seconds to choose the cards with the correct symbols and place them in the correct arrangement. This task will be repeated a total of 4 times.\
 <p>Press the button below when you are ready.';
+
+
+//---------------------
+//    STORY ORDER
+//---------------------
+
+var storyOrderConsentText = '<h1>Social issues picture task</h1>\
+<p>You are invited to take part in study regarding how we construct narratives. \
+<p>This study is carried out in 3 parts, 2 of which will take place today, and the final part will take place in a week. We will ask you to leave your email address so that we can invite you to the final part of the study.\
+<br />\
+<p>In the first part you will be shown some line drawings and asked to create a narrative. You will then be asked some questions about the narrative you’ve created. This part of the study will be completed online and take approximately 20 minutes.\
+<p>You will then be asked to take part in a face-to-face study where you will create a narrative with another participant. This part of the study will be video recorded. We will then ask you to answer some questions on the online platform. This part of the study should take no longer than 40 minutes. \
+<p>In one week’s time you will be invited to participate in the final part of the study via email. This part of the study will be carried out online and you can complete at home from any desktop or laptop computer. In this part you will be shown some line drawings and asked to create a narrative. This should take approximately 20 minutes. After submitting this part of the study, your email address will be removed from our records.\
+<br />\
+<p>Apart from your email address in the intial parts of the study and your voice and image in the video recording, no identifying information will be recorded. Your email address will be deleted on completion of the study and you can opt to have your face pixelated in any dissemination of recordings. Your data will be stored on encrypted, password-protected hard drives. \
+<br />\
+<p>There are no physical risk in taking part in this study, other than those associated with everyday life. Some of the line drawings depict moderate violence and may cause mild distress.  \
+<br />\
+<p>You can withdraw from the study at any point without giving any reason. Should you wish to withdraw from the study, please contact Alarna Samarasinghe (details above). You will be provided with a 4-digit ID number that you can quote and all associated files will be deleted.\
+<br />\
+<p>The research is carried out by Alarna Samarasinghe, a Postgraduate Researcher in the Department of Anthropology & Archaeology at the University of Bristol, and overseen by  Professor Fiona Jordan and Dr Sean Roberts in the same department. If you have any questions, please contact Alarna Samarasinghe (details above). \
+<br />\
+<p>The Faculty of Arts Research Ethics Committee at the University of Bristol has reviewed this study. \
+<p>If you have any concerns related to your participation in this study please direct them to the Faculty of Arts  Research Ethics Committee, via Liam McKervey, Research Governance and Ethics Officer (Tel: 0117 331 7472 email: Liam.McKervey@bristol.ac.uk)';
+
+var storyOrderNoConsentScreenInstructions = 
+"<p>Thank you for your interest in the Social Issues Picture Task.\
+<br />\
+<p>As you have not given consent, you will not be required to take part in this task.";
+
+
+var storyOrderParticipantInstructions = 
+'<h1>Social issues picture task</h1>\
+<p>Thank you for your interest in the Social Issues Picture Task. \
+<br />\
+<p>You will now be shown 16 images and asked to rearrange them to make a story. These images can go in any order. \
+<br />\
+<p>You will be shown a short instructional video explaining how to do this.\
+ <br />\
+<p>After watching the video you will have 15 minutes to complete this task and write your story.\
+<br />\
+<button onclick="nextStage()" class="btn btn-success">Continue</button>';
+
+var storyOrderPreSecondStageInstructions = 
+'<h1>Social issues picture task</h1>\
+<p>Thank you for submitting your final story.\
+<p>You are now ready to move on to the second part of the study which will continue offline.';
+
+var storyOrderFinishInstruction = 
+'<h1>Social issues picture task</h1>\
+<p>Thank you for taking part.\
+<br />\
+<p>You will be invited to take part in the final stage in a week. You will be sent a link via the email address you have provided.\
+<br />\
+<p>Please make note of your ID below as you will need this to take part in the final stage.' +
+'<p><span stlye="color:red;font-size: 20pt">PARTICIPANT_ID_HERE</span>' +
+'<br /><p>Should you wish for your data to be removed at any stage, please contact Alarna Samarasinghe at as15936@bristol.ac.uk / alarna.samarasinghe@gmail.com and provide the ID number above.';
 
 
 var distractionTaskWatchInstructions = "<h1>Remember the symbols!</h1>"

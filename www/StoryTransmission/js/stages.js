@@ -82,8 +82,8 @@ var stagesLabels = {"consent":"Consent >",
                     "selectMostImportantScene":"Importance >",
                     "storyOrderPreSecondStageInstructions":"Story task >",
                     "storyOrderEndSurvey":"Survey >",
-                    "storyOrderFinish":"Survey >"
-
+                    "storyOrderFinish":"Survey >",
+                    "storyOrderEnterParticipantID":"Consent >"
                     }
 
 //stages = ["localisation", 'demographySurvey','workerCode'];
@@ -199,9 +199,8 @@ function nextStage(){
         setInstruction(storyOrderConsentText.replace("PARTICIPANT_ID_HERE",participantID));
         launchStoryOrderConsentSurvey();
         break;
-      case "storyOrderConsent":
-        setInstruction(storyOrderConsentText);
-        launchStoryOrderConsentSurvey();
+      case "storyOrderEnterParticipantID":
+        storyOrderAskForParticipantID();
         break;
       case "storyOrderInstructions":
         showStoryOrderInstructions();
@@ -296,25 +295,40 @@ $( document ).ready(function() {
 
   var urlvars = getUrlVars();
 
-  if(urlvars["storyOrder"]){
+  if(urlvars["storyOrder"] || urlvars["storyOrderPhase3"]){
     // This is a story order experiment (experiment 2)
     // For sortable story cards (safe to call if none in html)
     initialiseStoryOrder();
     console.log("Loading story order experiment");
-    stages = [
-        "storyOrderConsent",
-        "storyOrderInstructions",
-        "storyOrderInstructionVideo",
-        "storyOrder",
-        "WriteStoryFromOrder",
-        "selectMostImportantScene",
-        "storyOrderPreSecondStageInstructions",
-        'storyOrderEndSurvey','checkUploaded','storyOrderFinish'
-    ];
 
+    if(urlvars["storyOrder"]){
+      stages = [
+          "storyOrderConsent",
+          "storyOrderInstructions",
+          "storyOrderInstructionVideo",
+          "storyOrder",
+          "WriteStoryFromOrder",
+          "selectMostImportantScene",
+          "storyOrderPreSecondStageInstructions",
+          'storyOrderEndSurvey','checkUploaded','storyOrderFinish'
+      ];
+    }
 
-    experimentLocation = "UK";
+    if(urlvars["storyOrderPhase3"]){
+      stages = [
+          "storyOrderEnterParticipantID",
+          "storyOrderConsent",
+          "storyOrderInstructions",
+          "storyOrderInstructionVideo",
+          "storyOrder",
+          "WriteStoryFromOrder",
+          "selectMostImportantScene",
+          'storyOrderEndSurvey','checkUploaded','storyOrderFinish'
+      ];
+    }
+
     setStoryOrderParticipantID();
+    experimentLocation = "UK";
 
     $.getScript("../survey/storyOrderSurveys/SURVEY_consent.js");
     $.getScript("../survey/SURVEY_localisation.js");
@@ -323,15 +337,15 @@ $( document ).ready(function() {
     $.getScript("../survey/storyOrderSurveys/SURVEY_endSurvey.js");
     $.getScript("../survey/storyOrderSurveys/SURVEY_consent.js",surveysLoaded());
   } else{
-    // This is the original recorded voice story telling experiment
-    $.getScript("../survey/SURVEY_speechEvaluation.js");
-    $.getScript("../survey/SURVEY_consent.js");
-    $.getScript("../survey/SURVEY_localisation.js");
-    $.getScript("../survey/SURVEY_demography_USA.js");
-    $.getScript("../survey/SURVEY_qualifying.js");
-    $.getScript("../survey/SURVEY_qualifyingConsent.js");
-    // the last survey to be loaded should call surveysLoaded() to start the experiment
-    $.getScript("../survey/SURVEY_demography_UK.js",surveysLoaded());
+      // This is the original recorded voice story telling experiment
+      $.getScript("../survey/SURVEY_speechEvaluation.js");
+      $.getScript("../survey/SURVEY_consent.js");
+      $.getScript("../survey/SURVEY_localisation.js");
+      $.getScript("../survey/SURVEY_demography_USA.js");
+      $.getScript("../survey/SURVEY_qualifying.js");
+      $.getScript("../survey/SURVEY_qualifyingConsent.js");
+      // the last survey to be loaded should call surveysLoaded() to start the experiment
+      $.getScript("../survey/SURVEY_demography_UK.js",surveysLoaded());
   }
 
   makeProgressBar();

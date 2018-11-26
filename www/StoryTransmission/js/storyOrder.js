@@ -113,6 +113,37 @@ function StoryOrderInstructionsVideoEnded(){
 	setTimeout("nextStage()",500);
 }
 
+function storyOrderAskForParticipantID(){
+	setInstruction(storyOrderAskForParticipantIDInstructions);
+	var input = document.createElement('input'); 
+	input.type = "text";
+	input.setAttribute('id', 'participantIDInput');
+	
+	var gobutton = document.createElement('button');
+	gobutton.classList.add('btn');
+	gobutton.classList.add('btn-success');
+	gobutton.innerHTML = 'Continue';
+	gobutton.onclick = function(){
+		var txt = $("#participantIDInput").val();
+		if(validateIDNumber(txt)){
+			participantID = txt;
+			setTimeout("nextStage()",500);
+		} else{
+			var para = document.createElement("p");
+			var node = document.createTextNode("There was an error with your ID. Please try again");
+			para.appendChild(node);
+			$("#instructions").after(para);
+		}
+	};
+
+	document.getElementById("instructions").appendChild(input);
+	document.getElementById("instructions").appendChild(gobutton);
+}
+
+function validateIDNumber(txt){
+	return(true);
+}
+
 function launchStoryOrderConsentSurvey(){
 	var myCss = {
         matrix: {root: "table table-striped"} ,

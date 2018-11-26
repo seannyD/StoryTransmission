@@ -290,6 +290,11 @@ var storyOrderNoConsentScreenInstructions =
 <p>As you have not given consent, you will not be required to take part in this task.";
 
 
+var storyOrderAskForParticipantIDInstructions = 
+"<h1>Social issues picture task</h1>\
+<p>Thank you for your continued interest in the Social Issues Picture Task.\
+<p>Please enter the participant ID code you were given below:<br />";
+
 var storyOrderParticipantInstructions = 
 '<h1>Social issues picture task</h1>\
 <p>Thank you for your interest in the Social Issues Picture Task. \

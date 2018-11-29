@@ -82,7 +82,7 @@ var stagesLabels = {"consent":"Consent >",
                     "selectMostImportantScene":"Importance >",
                     "storyOrderPreSecondStageInstructions":"Story task >",
                     "storyOrderEndSurvey":"Survey >",
-                    "storyOrderFinish":"Survey >",
+                    "storyOrderFinish":"Upload results >",
                     "storyOrderEnterParticipantID":"Consent >"
                     }
 
@@ -225,8 +225,8 @@ function nextStage(){
         launchSurvey(storyOrderEndSurveyJSON,finishStoryOrderEndSurveyJSON);
         break;
       case "storyOrderFinish":
-        storyOrderFinishInstruction.replace("PARTICIPANT_ID_HERE",participantID);
-        setInstruction(storyOrderFinishInstruction);
+        var sofi = storyOrderFinishInstruction.replace("PARTICIPANT_ID_HERE",participantID);
+        setInstruction(sofi);
         break;
       default:
         showWorkerCode(); // by default, end the experiment nicely!

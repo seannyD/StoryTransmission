@@ -93,10 +93,27 @@ function clickedNextStoryImage(){
 }
 
 function finishTellStoryOrder(){
-	$("#finishTellStoryOrderButton").hide();
-	uploadTellStoryOrderData();
-	stopStoryOrderTimer();
-	hideMe("StoryOrderTimer");
+	if(testAllBoxesHaveText()){
+		$("#finishTellStoryOrderButton").hide();
+		uploadTellStoryOrderData();
+		stopStoryOrderTimer();
+		hideMe("StoryOrderTimer");
+	} else{
+		alert("Warning: Make sure you have described each picture before continuing.");
+	}
+}
+
+function testAllBoxesHaveText(){
+	var tellStoryTextAreas = $('#storyOrderWritingSpace textarea');
+	var allBoxesHaveText = true;
+	for(var i=0;i<tellStoryTextAreas.length;++i){
+		var storyText = tellStoryTextAreas[i].value;
+		allBoxesHaveText = storyText!="";
+	}
+
+	var allTextBoxesHaveAppeared = storyCardOrder.length == tellStoryTextAreas.length;
+
+	return(allTextBoxesHaveAppeared && allBoxesHaveText);
 }
 
 

@@ -279,7 +279,7 @@ var storyOrderConsentText = '<h1>Social issues picture task</h1>\
 <br />\
 <p>You can withdraw from the study at any point without giving any reason. Should you wish to withdraw from the study, please contact Alarna Samarasinghe (details above). You will be provided with a 4-digit ID number that you can quote and all associated files will be deleted.\
 <br />\
-<p>The research is carried out by Alarna Samarasinghe, a Postgraduate Researcher in the Department of Anthropology & Archaeology at the University of Bristol, and overseen by  Professor Fiona Jordan and Dr Sean Roberts in the same department. If you have any questions, please contact Alarna Samarasinghe (details above). \
+<p>The research is carried out by Alarna Samarasinghe, a Postgraduate Researcher in the Department of Anthropology & Archaeology at the University of Bristol, and overseen by  Professor Fiona Jordan and Dr Sean Roberts in the same department. If you have any questions, please contact Alarna Samarasinghe (as15936@bristol.ac.uk). \
 <br />\
 <p>The Faculty of Arts Research Ethics Committee at the University of Bristol has reviewed this study. \
 <p>If you have any concerns related to your participation in this study please direct them to the Faculty of Arts  Research Ethics Committee, via Liam McKervey, Research Governance and Ethics Officer (Tel: 0117 331 7472 email: Liam.McKervey@bristol.ac.uk)';

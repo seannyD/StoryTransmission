@@ -52,7 +52,9 @@ function initialiseStoryOrder(){
 
 	storyPageHeight = document.body.scrollHeight;
 	storyPageWidth = document.body.scrollWidth;
-	$(".storyCard").hover(function(e){
+	/*$(".storyCard").hover(
+	// Hover in
+	function(e){
 		document.getElementById("bigStoryCardImage").src=e.target.src;
 		var pos = getBigStoryCardHoverPos(e.pageX,e.pageY);
 		$("#bigStoryCardImage")
@@ -61,9 +63,27 @@ function initialiseStoryOrder(){
 			.fadeIn("fast");						
 		$("#bigStoryCardImage").show();
     },
+    // Hover out
 	function(){
 		$("#bigStoryCardImage").hide();
-    });	
+    });	*/
+	$(".storyCard").hover(
+	// Hover in
+	function(e){},
+    // Hover out
+	function(){
+		$("#bigStoryCardImage").hide();
+    });
+	$(".storyCard").click(
+	function(e){
+		document.getElementById("bigStoryCardImage").src=e.target.src;
+		var pos = getBigStoryCardHoverPos(e.pageX,e.pageY);
+		$("#bigStoryCardImage")
+			.css("top",pos[1] + "px")
+			.css("left",pos[0] + "px")
+			.fadeIn("fast");						
+		$("#bigStoryCardImage").show();
+    });
 	$(".storyCard").mousemove(function(e){
 		var pos = getBigStoryCardHoverPos(e.pageX,e.pageY);
 		$("#bigStoryCardImage")
@@ -76,8 +96,13 @@ function initialiseStoryOrder(){
 	$(".bigStoryCardImage").hover(function(e){
 		$("#bigStoryCardImage").hide();
 	});
+	$(".bigStoryCardImage").click(function(e){
+		$("#bigStoryCardImage").hide();
+	});
 
 	$("#blankStoryCard2").hide();
+
+	$("#storyOrderFinish").hide();
 
 
 }
@@ -231,6 +256,11 @@ function storyOrderTimerTick(){
 
 	if(timeLeft ==0){
 		stopStoryOrderTimer();
+		// After timer runs out, it should move on to 'selectMostImportantScene'
+		// But timer can run out either on `storyOrder` or `WriteStoryFromOrder`.
+		// So make sure that stageCounter is set to WriteStoryFromOrder,
+		// so that we move on to the correct part.
+		stageCounter = stages.indexOf("WriteStoryFromOrder");
 		setTimeout("nextStage()",500);
 	}
 }
@@ -270,21 +300,46 @@ function shuffleStoryOrder(){
 }
 
 function storyOrderChanged(e){
+	moveBlankCardToEnd();
 	storyCardOrder = getStoryCardOrder();
 	// Save each change
 	savedStoryOrders.push(storyCardOrder);
-	if(storyCardOrder.length>0){
-		$("#blankStoryCard").hide();
-	} else{
-		$("#blankStoryCard").show();
-	}
+	// Keep this card up so we can put images at end
+	//if(storyCardOrder.length>0){
+	//	$("#blankStoryCard").hide();
+	//} else{
+	//	$("#blankStoryCard").show();
+	//}
+	// Make sure blankStoryCard is at the end
+
+}
+
+function moveBlankCardToEnd(){
+	// Get the position of the blank index
+	var cards = document.getElementById("StoryCardMainOrder").children;
+	var blankCardSortableIndex = -1;
+	for(var i = 0; i < cards.length; i++){
+		var imageName = cards[i].src;
+		imageName = imageName.substr(imageName.lastIndexOf("/")+1);
+		if(imageName=="blank.png"){
+			blankCardSortableIndex = i;
+		}
+    }
+    if(blankCardSortableIndex>=0){
+    	var sio = storyImagesOrder.toArray();
+    	// move blank id to endto end
+    	sio.push(sio.splice(blankCardSortableIndex, 1)[0]);
+    	storyImagesOrder.sort(sio);
+    }
 }
 
 function storyCardsChanged(e){
 	if(document.getElementById("StoryCards").children.length>1){
 		$("#blankStoryCard2").hide();
+		$("#storyOrderFinish").hide();
 	} else{
 		$("#blankStoryCard2").show();
+		$("#storyOrderFinish").show();
 	}
 }
 

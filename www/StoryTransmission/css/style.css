@@ -137,6 +137,8 @@ body {
 
 #StoryOrderTimer {
 	display: none;
+	font-size: 16pt;
+	color: red;
 }
 
 .storyCard{

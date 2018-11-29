@@ -284,6 +284,26 @@ var storyOrderConsentText = '<h1>Social issues picture task</h1>\
 <p>The Faculty of Arts Research Ethics Committee at the University of Bristol has reviewed this study. \
 <p>If you have any concerns related to your participation in this study please direct them to the Faculty of Arts  Research Ethics Committee, via Liam McKervey, Research Governance and Ethics Officer (Tel: 0117 331 7472 email: Liam.McKervey@bristol.ac.uk)';
 
+var storyOrderPhase3ConsentText = '<h1>Social issues picture task</h1>\
+<p>You are invited to take part in study regarding how we construct narratives. \
+<p>ParticipantID = PARTICIPANT_ID_HERE\
+<p>This study is carried out in 3 parts, the last of which will take place today. \
+<br />\
+<p>In the first part you will be shown some line drawings and asked to create a narrative. You will then be asked some questions about the narrative you’ve created. This part of the study will be completed online and take approximately 20 minutes.\
+<p>You will then be asked to take part in a face-to-face study where you will create a narrative with another participant. This part of the study will be video recorded. We will then ask you to answer some questions on the online platform. This part of the study should take no longer than 40 minutes. \
+<p>In one week’s time you will be invited to participate in the final part of the study via email. This part of the study will be carried out online and you can complete at home from any desktop or laptop computer. In this part you will be shown some line drawings and asked to create a narrative. This should take approximately 20 minutes. After submitting this part of the study, your email address will be removed from our records.\
+<br />\
+<p>Apart from your email address in the intial parts of the study and your voice and image in the video recording, no identifying information will be recorded. Your email address will be deleted on completion of the study and you can opt to have your face pixelated in any dissemination of recordings. Your data will be stored on encrypted, password-protected hard drives. \
+<br />\
+<p>There are no physical risk in taking part in this study, other than those associated with everyday life. Some of the line drawings depict moderate violence and may cause mild distress.  \
+<br />\
+<p>You can withdraw from the study at any point without giving any reason. Should you wish to withdraw from the study, please contact Alarna Samarasinghe (details above). You will be provided with a 4-digit ID number that you can quote and all associated files will be deleted.\
+<br />\
+<p>The research is carried out by Alarna Samarasinghe, a Postgraduate Researcher in the Department of Anthropology & Archaeology at the University of Bristol, and overseen by  Professor Fiona Jordan and Dr Sean Roberts in the same department. If you have any questions, please contact Alarna Samarasinghe (as15936@bristol.ac.uk). \
+<br />\
+<p>The Faculty of Arts Research Ethics Committee at the University of Bristol has reviewed this study. \
+<p>If you have any concerns related to your participation in this study please direct them to the Faculty of Arts  Research Ethics Committee, via Liam McKervey, Research Governance and Ethics Officer (Tel: 0117 331 7472 email: Liam.McKervey@bristol.ac.uk)';
+
 var storyOrderNoConsentScreenInstructions = 
 "<p>Thank you for your interest in the Social Issues Picture Task.\
 <br />\
@@ -321,6 +341,12 @@ var storyOrderFinishInstruction =
 <p>Please make note of your ID below as you will need this to take part in the final stage.' +
 '<p><span stlye="color:red;font-size: 20pt">PARTICIPANT_ID_HERE</span>' +
 '<br /><p>Should you wish for your data to be removed at any stage, please contact Alarna Samarasinghe at as15936@bristol.ac.uk / alarna.samarasinghe@gmail.com and provide the ID number above.';
+
+var storyOrderPhase3FinishInstruction = 
+'<h1>Social issues picture task</h1>\
+<p>Thank you for taking part. If you would like to know the outcomes of this study please contact Alarna Samarasinghe (details below).\
+<p>ParticipantID = PARTICIPANT_ID_HERE\
+<p>Should you wish for your data to be removed at any stage, please contact Alarna Samarasinghe at as15936@bristol.ac.uk / alarna.samarasinghe@gmail.com and provide the ID number above.';
 
 
 var distractionTaskWatchInstructions = "<h1>Remember the symbols!</h1>"

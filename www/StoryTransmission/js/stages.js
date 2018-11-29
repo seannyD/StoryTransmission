@@ -50,7 +50,6 @@ var stages = [
       // TODO: check country ip address
 
 var stagesLabels = {"consent":"Consent >",
-                    "storyOrderConsent": "Consent >",
                     "speakerTest": "Sound setup >",
                     "techTest": "Sound setup >",
                     "micTest": "Sound setup >",
@@ -75,6 +74,8 @@ var stagesLabels = {"consent":"Consent >",
                     'qualifyingWorkerCode':"Worker Code",
                     'qualifyingConsent':"Consent >",
                     'browserTest':"Consent >",
+                    "storyOrderConsent": "Consent >",
+                    "storyOrderConsentStage3": "Consent >",
                     'storyOrderInstructions':"Instructions >",
                     'storyOrderInstructionVideo':"Instructions >",
                     'storyOrder':"Story Cards >",
@@ -199,6 +200,10 @@ function nextStage(){
         setInstruction(storyOrderConsentText.replace("PARTICIPANT_ID_HERE",participantID));
         launchStoryOrderConsentSurvey();
         break;
+      case "storyOrderConsentStage3":
+        setInstruction(storyOrderPhase3ConsentText.replace("PARTICIPANT_ID_HERE",participantID));
+        launchStoryOrderConsentSurvey();
+        break;
       case "storyOrderEnterParticipantID":
         storyOrderAskForParticipantID();
         break;
@@ -226,6 +231,10 @@ function nextStage(){
         break;
       case "storyOrderFinish":
         var sofi = storyOrderFinishInstruction.replace("PARTICIPANT_ID_HERE",participantID);
+        var urlvars = getUrlVars();
+        if(urlvars["storyOrderPhase3"]){
+          sofi = storyOrderPhase3FinishInstruction.replace("PARTICIPANT_ID_HERE",participantID);
+        }
         setInstruction(sofi);
         break;
       default:
@@ -317,7 +326,7 @@ $( document ).ready(function() {
     if(urlvars["storyOrderPhase3"]){
       stages = [
           "storyOrderEnterParticipantID",
-          "storyOrderConsent",
+          "storyOrderConsentStage3",
           "storyOrderInstructions",
           "storyOrderInstructionVideo",
           "storyOrder",

@@ -109,12 +109,14 @@ function initialiseStoryOrder(){
 
 function setStoryOrderParticipantID(){
 	var d = new Date();
-	var dayNum = d.getDate();
-	if(dayNum<10){
-		dayNum = "0" + dayNum;
-	}
+	var monthLetter = ["J","F","M","A","Y","U","L","G","S","O","N","D"][d.getMonth()];
+	var dayLetter = '123456789ABCDEFGHIJKLMNOPQRSTUV'.split('')[d.getDate()];
 	var ranNum = Math.floor(Math.random() * 90 + 10);
-	participantID = dayNum.toString() + ranNum.toString();
+	participantID = monthLetter + dayLetter + ranNum.toString();
+}
+
+function validateIDNumber(txt){
+	return(/^[JFMAYULGSOND][123456789ABCDEFGHIJKLMNOPQRSTUV][0-9][0-9]$/.test(txt) );
 }
 
 function showStoryOrderInstructions(){
@@ -150,6 +152,7 @@ function storyOrderAskForParticipantID(){
 	gobutton.innerHTML = 'Continue';
 	gobutton.onclick = function(){
 		var txt = $("#participantIDInput").val();
+		txt = txt.toUpperCase();
 		if(validateIDNumber(txt)){
 			participantID = txt;
 			setTimeout("nextStage()",500);
@@ -165,10 +168,6 @@ function storyOrderAskForParticipantID(){
 	document.getElementById("instructions").appendChild(gobutton);
 }
 
-function validateIDNumber(txt){
-	return(true);
-}
-
 function launchStoryOrderConsentSurvey(){
 	var myCss = {
         matrix: {root: "table table-striped"} ,
@@ -176,8 +175,14 @@ function launchStoryOrderConsentSurvey(){
         matrixdynamic: {root: "table table-striped"}  
    	};
 
+   	var surveyJSON = storyOrderConsentSurveyJSON;
+   	var urlvars = getUrlVars();
+   	if(urlvars["storyOrderPhase3"]){
+   		surveyJSON = storyOrderConsentPhase3SurveyJSON;
+   	}
+
    	showMe("surveyContainer");
-	var survey = new Survey.Model(storyOrderConsentSurveyJSON);
+	var survey = new Survey.Model(surveyJSON);
 	$("#surveyContainer").Survey({
 	    model: survey,
 	    onComplete: endStoryOrderConsentSurvey,
@@ -223,7 +228,13 @@ function endStoryOrderConsentSurvey(survey){
 		}
 	});
 
-	if(consentReceivedInfo=="Yes" && consentWithdraw=="Yes" && consentFacePixel=="Yes" && consentTakePartInStudy=="Yes"){
+	var urlvars = getUrlVars();
+
+	var consentGiven = consentReceivedInfo=="Yes" && consentWithdraw=="Yes" && consentFacePixel=="Yes" && consentTakePartInStudy=="Yes";
+	if(urlvars["storyOrderPhase3"]){
+	consentGiven = consentReceivedInfo=="Yes" && consentWithdraw=="Yes" && consentTakePartInStudy=="Yes";	
+	}
+	if(consentGiven){
 		setTimeout("nextStage()",500);
 	} else{
 		showNoConsentScreen();

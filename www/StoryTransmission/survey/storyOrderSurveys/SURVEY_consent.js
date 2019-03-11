@@ -55,9 +55,25 @@ var storyOrderConsentSurveyJSON = {
     },
     {
      type: "radiogroup",
+     name: "consentVideoDisseminated",
+     isRequired: true,
+     title: "I consent to having video recorded of me disseminated for research or publication purposes",
+     choices: [
+      {
+       value: "Yes",
+       text: "Yes"
+      },
+      {
+       value: "No",
+       text: "No"
+      }
+     ]
+    },
+    {
+     type: "radiogroup",
      name: "consentFacePixel",
      isRequired: true,
-     title: "I would like my face to be pixelated in any recordings of me that may be disseminated",
+     title: "I consent to having video recorded of me disseminated without pixelation of my face",
      choices: [
       {
        value: "Yes",

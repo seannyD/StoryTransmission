@@ -321,9 +321,15 @@ var storyOrderParticipantInstructions =
 <br />\
 <p>You will now be shown 16 images and asked to rearrange them to make a story. \
 <br />\
-<p>You can put the pictures in any order to create a story. Please click on the image and drag and drop the image into the storyline bar at the top. You can move the pictures in the story line bar to change the order or you can drag it outside of the story line to remove it. If you would like to see a larger version of the picture just click once on the image.\
+<p>You can put the pictures in any order to create a story. \
+ <br />\
+<p>Please click on the image and drag and drop the image into the storyline bar at the top. \
+<p>You can move the pictures in the story line bar to change the order or you can drag it outside of the story line to remove it. \
+<p>If you would like to see a larger version of the picture just click once on the image.\
  <br />\
 <p>Please use all 16 images to create your story.\
+<br />\
+<p>After you have ordered the pictures, you will then get the opportunity to write your story based on each of the pictures.\
 <br />\
 <p>You will get 15 minutes to complete this section.\
 <br />\
@@ -338,6 +344,8 @@ var storyOrderFinishInstruction =
 '<h1>Social issues picture task</h1>\
 <p>Thank you for taking part.\
 <br />\
+<p>Should any of the images in this study have caused you distress, please feel free to contact the Student Counselling Service at http://www.bristol.ac.uk/student-counselling/ \
+<br />\
 <p>You will be invited to take part in the final stage in a week. You will be sent a link via the email address you have provided.\
 <br />\
 <p>Please make note of your ID below as you will need this to take part in the final stage.' +
@@ -347,6 +355,8 @@ var storyOrderFinishInstruction =
 var storyOrderPhase3FinishInstruction = 
 '<h1>Social issues picture task</h1>\
 <p>Thank you for taking part. If you would like to know the outcomes of this study please contact Alarna Samarasinghe (details below).\
+<p>Should any of the images in this study have caused you distress, please feel free to contact the Student Counselling Service at http://www.bristol.ac.uk/student-counselling/ \
+<br />\
 <p>ParticipantID = PARTICIPANT_ID_HERE\
 <p>Should you wish for your data to be removed at any stage, please contact Alarna Samarasinghe at as15936@bristol.ac.uk / alarna.samarasinghe@gmail.com and provide the ID number above.';
 

@@ -349,7 +349,7 @@ var storyOrderFinishInstruction =
 <p>You will be invited to take part in the final stage in a week. You will be sent a link via the email address you have provided.\
 <br />\
 <p>Please make note of your ID below as you will need this to take part in the final stage.' +
-'<p><span stlye="color:red;font-size: 20pt">PARTICIPANT_ID_HERE</span>' +
+'<p><span style="color:red;font-size: 20pt;font-weight: bold;">PARTICIPANT_ID_HERE</span>' +
 '<br /><p>Should you wish for your data to be removed at any stage, please contact Alarna Samarasinghe at as15936@bristol.ac.uk / alarna.samarasinghe@gmail.com and provide the ID number above.';
 
 var storyOrderPhase3FinishInstruction = 
@@ -357,7 +357,7 @@ var storyOrderPhase3FinishInstruction =
 <p>Thank you for taking part. If you would like to know the outcomes of this study please contact Alarna Samarasinghe (details below).\
 <p>Should any of the images in this study have caused you distress, please feel free to contact the Student Counselling Service at http://www.bristol.ac.uk/student-counselling/ \
 <br />\
-<p>ParticipantID = PARTICIPANT_ID_HERE\
+<p>ParticipantID = <span style="color:red;font-size: 20pt;font-weight: bold;"> PARTICIPANT_ID_HERE </span>\
 <p>Should you wish for your data to be removed at any stage, please contact Alarna Samarasinghe at as15936@bristol.ac.uk / alarna.samarasinghe@gmail.com and provide the ID number above.';
 
 

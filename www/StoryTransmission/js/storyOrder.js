@@ -233,10 +233,10 @@ function endStoryOrderConsentSurvey(survey){
 
 	var urlvars = getUrlVars();
 
-	var consentGiven = consentReceivedInfo=="Yes" && consentWithdraw=="Yes" && consentFacePixel=="Yes" && consentTakePartInStudy=="Yes";
-	if(urlvars["storyOrderPhase3"]){
-		consentGiven = consentReceivedInfo=="Yes" && consentWithdraw=="Yes" && consentTakePartInStudy=="Yes";	
-	}
+	var consentGiven = consentReceivedInfo=="Yes" && consentWithdraw=="Yes" && consentTakePartInStudy=="Yes";
+	//if(urlvars["storyOrderPhase3"]){
+	//	consentGiven = consentReceivedInfo=="Yes" && consentWithdraw=="Yes" && consentTakePartInStudy=="Yes";	
+	//}
 	if(consentGiven){
 		setTimeout("nextStage()",500);
 	} else{

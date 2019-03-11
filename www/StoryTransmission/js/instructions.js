@@ -319,11 +319,13 @@ var storyOrderParticipantInstructions =
 '<h1>Social issues picture task</h1>\
 <p>Thank you for your interest in the Social Issues Picture Task. \
 <br />\
-<p>You will now be shown 16 images and asked to rearrange them to make a story. These images can go in any order. \
+<p>You will now be shown 16 images and asked to rearrange them to make a story. \
 <br />\
-<p>You will be shown a short instructional video explaining how to do this.\
+<p>You can put the pictures in any order to create a story. Please click on the image and drag and drop the image into the storyline bar at the top. You can move the pictures in the story line bar to change the order or you can drag it outside of the story line to remove it. If you would like to see a larger version of the picture just click once on the image.\
  <br />\
-<p>After watching the video you will have 15 minutes to complete this task and write your story.\
+<p>Please use all 16 images to create your story.\
+<br />\
+<p>You will get 15 minutes to complete this section.\
 <br />\
 <button onclick="nextStage()" class="btn btn-success">Continue</button>';
 

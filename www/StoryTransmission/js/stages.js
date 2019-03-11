@@ -332,7 +332,8 @@ $( document ).ready(function() {
           "storyOrder",
           "WriteStoryFromOrder",
           "selectMostImportantScene",
-          'storyOrderEndSurvey','checkUploaded','storyOrderFinish'
+          //'storyOrderEndSurvey', // no end survey necessary
+          'checkUploaded','storyOrderFinish'
       ];
     }
 

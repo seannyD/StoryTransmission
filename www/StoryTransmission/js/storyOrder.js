@@ -104,6 +104,8 @@ function initialiseStoryOrder(){
 
 	$("#storyOrderFinish").hide();
 
+	$("#HelpButton").hide();
+
 
 }
 
@@ -201,12 +203,13 @@ function endStoryOrderConsentSurvey(survey){
 	var consentReceivedInfo =  sd['consentReceivedInfo'];
 	var consentWithdraw = sd['consentWithdraw'];
 	var consentVideo = sd['consentVideo'];
+	var consentVideoDisseminated = sd['consentVideoDisseminated']; //new
 	var consentFacePixel = sd['consentFacePixel'];
 	var consentTakePartInStudy = sd['consentTakePartInStudy'];
 	
-	var outString = "ID,consentReceivedInfo,consentWithdraw,consentVideo,consentFacePixel,consentTakePartInStudy,timestamp\n";
+	var outString = "ID,consentReceivedInfo,consentWithdraw,consentVideo,consentVideoDisseminated,consentFacePixel,consentTakePartInStudy,timestamp\n";
 	outString += participantID + "," + 
-					[consentReceivedInfo,consentWithdraw,consentVideo,consentFacePixel,consentTakePartInStudy].join(",") +
+					[consentReceivedInfo,consentWithdraw,consentVideo,consentVideoDisseminated,consentFacePixel,consentTakePartInStudy].join(",") +
 					"," + getCurrentTime();
 
 	var fd = new FormData();
@@ -232,7 +235,7 @@ function endStoryOrderConsentSurvey(survey){
 
 	var consentGiven = consentReceivedInfo=="Yes" && consentWithdraw=="Yes" && consentFacePixel=="Yes" && consentTakePartInStudy=="Yes";
 	if(urlvars["storyOrderPhase3"]){
-	consentGiven = consentReceivedInfo=="Yes" && consentWithdraw=="Yes" && consentTakePartInStudy=="Yes";	
+		consentGiven = consentReceivedInfo=="Yes" && consentWithdraw=="Yes" && consentTakePartInStudy=="Yes";	
 	}
 	if(consentGiven){
 		setTimeout("nextStage()",500);

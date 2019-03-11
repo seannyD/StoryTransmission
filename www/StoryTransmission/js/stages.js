@@ -314,7 +314,7 @@ $( document ).ready(function() {
       stages = [
           "storyOrderConsent",
           "storyOrderInstructions",
-          "storyOrderInstructionVideo",
+          //"storyOrderInstructionVideo",
           "storyOrder",
           "WriteStoryFromOrder",
           "selectMostImportantScene",

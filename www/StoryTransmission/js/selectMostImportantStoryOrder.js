@@ -62,8 +62,13 @@ function participantSelectedImportantScene(sceneNumber){
 }
 
 function finishSelectMostImportantStoryOrder(){
-	$("#finishSelectMostImportantStoryOrderButton").hide();
-	uploadMostImportantSceneInfo();
+	var text = $("#mostImportantSceneReason").val();
+	if(text != ""){
+		$("#finishSelectMostImportantStoryOrderButton").hide();
+		uploadMostImportantSceneInfo();
+	} else{
+		alert("Please give a reason why this is your most important scene.");
+	}
 
 }
 

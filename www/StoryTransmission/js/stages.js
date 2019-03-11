@@ -328,7 +328,7 @@ $( document ).ready(function() {
           "storyOrderEnterParticipantID",
           "storyOrderConsentStage3",
           "storyOrderInstructions",
-          "storyOrderInstructionVideo",
+          //"storyOrderInstructionVideo",
           "storyOrder",
           "WriteStoryFromOrder",
           "selectMostImportantScene",

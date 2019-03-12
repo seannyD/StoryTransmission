@@ -81,10 +81,16 @@ function uploadMostImportantSceneInfo(){
 	// surround with double-double quotes to contain new lines etc.
 	reason = '"'+reason+'"';
 
+	var phase = "p1";
+	var urlvars = getUrlVars();
+	if(urlvars["storyOrderPhase3"]){
+		phase = "p3";
+	}
+
 	csvText += [participantID,
 				mostImportantSceneNumber + 1, // convert to 1-indexed
 				mostImportantSceneSRC,
-				reason,getCurrentTime()].join(",")+"\n";
+				reason,getCurrentTime(),phase].join(",")+"\n";
 
 	// Upload to server
 	var fd = new FormData();

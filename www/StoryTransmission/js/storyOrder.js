@@ -206,11 +206,20 @@ function endStoryOrderConsentSurvey(survey){
 	var consentVideoDisseminated = sd['consentVideoDisseminated']; //new
 	var consentFacePixel = sd['consentFacePixel'];
 	var consentTakePartInStudy = sd['consentTakePartInStudy'];
+
+
+	var phase = "p1";
+	var urlvars = getUrlVars();
+	if(urlvars["storyOrderPhase3"]){
+		phase = "p3";
+	}
 	
-	var outString = "ID,consentReceivedInfo,consentWithdraw,consentVideo,consentVideoDisseminated,consentFacePixel,consentTakePartInStudy,timestamp\n";
+	var outString = "ID,consentReceivedInfo,consentWithdraw,consentVideo,consentVideoDisseminated,consentFacePixel,consentTakePartInStudy,timestamp,phase\n";
 	outString += participantID + "," + 
-					[consentReceivedInfo,consentWithdraw,consentVideo,consentVideoDisseminated,consentFacePixel,consentTakePartInStudy].join(",") +
-					"," + getCurrentTime();
+					[consentReceivedInfo,consentWithdraw,
+					consentVideo,consentVideoDisseminated,
+					consentFacePixel,consentTakePartInStudy].join(",") +
+					"," + getCurrentTime() + "," + phase;
 
 	var fd = new FormData();
 	fd.append('data', outString);
@@ -396,10 +405,18 @@ function uploadStoryOrderData(){
 	if(savedStoryOrders.length==0){
 		return(null);
 	}
-	var csvText = "participantID,number,order\n";
+
+	var phase = "p1";
+	var urlvars = getUrlVars();
+	if(urlvars["storyOrderPhase3"]){
+		phase = "p3";
+	}
+
+	var csvText = "participantID,number,order,phase\n";
 	for(var i=0;i<savedStoryOrders.length;++i){
 		csvText += participantID+","+i +",";
-		csvText += savedStoryOrders[i].join("#");
+		csvText += savedStoryOrders[i].join("#") + ",";
+		csvText += phase;
 		csvText += "\n";
 	}
 
@@ -433,6 +450,12 @@ function finishStoryOrderEndSurveyJSON(survey){
 	var sd = survey.data;
 	sd["participantID"] = participantID;
 	sd["time"] = getCurrentTime();
+	var phase = "p1";
+	var urlvars = getUrlVars();
+	if(urlvars["storyOrderPhase3"]){
+		phase = "p3";
+	}
+	sd["phase"] = phase;
 	var outString = ConvertToCSV(sd);
 	var fd = new FormData();
 	//var filename = participantID  + '.csv';

@@ -123,7 +123,14 @@ function uploadTellStoryOrderData(){
 	
 	var tellStoryTextAreas = $('#storyOrderWritingSpace textarea');
 
-	var csvText = "participantID,sceneNumber,sceneID,storyText\n";
+
+	var phase = "p1";
+	var urlvars = getUrlVars();
+	if(urlvars["storyOrderPhase3"]){
+		phase = "p3";
+	}
+
+	var csvText = "participantID,sceneNumber,sceneID,storyText,phase\n";
 	for(var i=0;i<tellStoryTextAreas.length;++i){
 		
 		var storyText = tellStoryTextAreas[i].value;
@@ -137,7 +144,8 @@ function uploadTellStoryOrderData(){
 			participantID,
 			i+1, //scene number
 			storyCardOrder[i], // image name
-			storyText
+			storyText,
+			phase
 		];
 
 		csvText +=cells.join(",") + "\n";

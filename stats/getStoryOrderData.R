@@ -16,7 +16,7 @@
 
 
 try(setwd("~/Documents/Bristol/Transmission/stats/"))
-try(setwd("~/Desktop/Transmission/stats/"))
+try(setwd("~/Desktop/FPPT/Data/stats/"))
 
 storyBackupFolder = "../OnlineBackups/Story/"
 
@@ -29,10 +29,14 @@ ordersP1 = data.frame(stringsAsFactors = F)
 consentsP1 = data.frame(stringsAsFactors = F)
 ordersP3 = data.frame(stringsAsFactors = F)
 consentsP3 = data.frame(stringsAsFactors = F)
+surveyP1 = data.frame(stringsAsFactors = F)
+surveyP3 = data.frame(stringsAsFactors = F)
 
 imageNames = paste0("S",1:16,".jpg")
 
 consentsColumns = c("participantID","consentReceivedInfo","consentWithdraw","consentVideo","consentVideoDisseminated","consentFacePixel","consentTakePartInStudy","startTime")
+
+finalSurveyColumns = c("surveyImportantScene","surveyGender","surveyAge",'surveyNativeEnglish',"surveyEmail")
 
 storyOrderFiles = list.files(paste0(storyBackupFolder,"storyOrder/"),"*.csv")
 for(f in storyOrderFiles){
@@ -71,6 +75,16 @@ for(f in storyOrderFiles){
         consentsP3 = rbind(consentsP3,toAdd)
       }
     }
+    if("question1" %in% names(dx)){
+      names(dx) = c("surveyImportantScene","surveyGender","surveyAge",'surveyNativeEnglish',"surveyEmail","participantID",'time',"phase")
+      dx = dx[1,]
+      phase = dx$phase
+      if(phase=="p1"){
+        surveyP1 = rbind(surveyP1,dx[1,])
+      } else{
+        surveyP3 = rbind(surveyP3,dx[1,])
+      }
+    }
   }
   #}
 }
@@ -82,6 +96,12 @@ d1 = consentsP1[complete.cases(consentsP1),]
 
 consentsP3[,extraCCols] = ordersP3[match(consentsP3$participantID, ordersP3$participantID),extraCCols]
 d1P3 = consentsP3[complete.cases(consentsP3[,c("participantID","consentReceivedInfo","order")]),]
+
+d1[,finalSurveyColumns] = surveyP1[match(d1$participantID,surveyP1$participantID),finalSurveyColumns]
+# P3 doesn't have a final survey
+if(nrow(d1P3)>0){
+  d1P3[,finalSurveyColumns] = surveyP3[match(d1P3$participantID,surveyP3$participantID),finalSurveyColumns]
+}
 
 d2P1 = data.frame(stringsAsFactors = F)
 d2P3 = data.frame(stringsAsFactors = F)
@@ -109,7 +129,7 @@ for(f in tellStoryOrderFiles){
 }
 
 d1[,imageNames] = d2P1[match(d1$participantID,d2P1$participantID),imageNames]
-d1P3[,imageNames] = d2P3[match(d1$participantID,d2P3$participantID),imageNames]
+d1P3[,imageNames] = d2P3[match(d1P3$participantID,d2P3$participantID),imageNames]
 
 
 storyOrderMostImportantFiles = list.files(paste0(storyBackupFolder,"storyOrderMostImportant/"),"*.csv")

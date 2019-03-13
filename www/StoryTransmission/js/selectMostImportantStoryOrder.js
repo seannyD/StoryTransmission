@@ -73,7 +73,7 @@ function finishSelectMostImportantStoryOrder(){
 }
 
 function uploadMostImportantSceneInfo(){
-	var csvText = "participantID,mostImportantSceneNumber,mostImportantSceneSRC,mostImportantSceneReason,time\n";
+	var csvText = "participantID,mostImportantSceneNumber,mostImportantSceneSRC,mostImportantSceneReason,time,phase\n";
 
 	var reason = $("#mostImportantSceneReason").val();
 	// replace any double-double quotes

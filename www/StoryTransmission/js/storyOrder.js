@@ -49,7 +49,6 @@ function initialiseStoryOrder(){
 
 	storyCardOrder = getStoryCardOrder();
 
-
 	storyPageHeight = document.body.scrollHeight;
 	storyPageWidth = document.body.scrollWidth;
 	/*$(".storyCard").hover(
@@ -380,6 +379,34 @@ function getStoryCardOrder(){
     return(cardOrder);
 }
 
+function getStoryCardListOrder(){
+
+	var cards = document.getElementById("StoryCards").children;
+	var cardOrder = [];
+	for(var i = 0; i < cards.length; i++){
+		var imageName = cards[i].src;
+		imageName = imageName.substr(imageName.lastIndexOf("/")+1);
+		if(imageName!="blank.png"){
+			cardOrder.push(imageName);
+		}
+    }
+    return(cardOrder);
+}
+
+function getStoryCardListPositions(){
+	var cards = document.getElementById("StoryCards").children;
+	var positions = [];
+	for(var i = 0; i < cards.length; i++){
+		var imageName = cards[i].src;
+		imageName = imageName.substr(imageName.lastIndexOf("/")+1);
+		var pos = imageName + ":" + cards[i].x + "/" + cards[i].y;
+		if(imageName!="blank.png"){
+			positions.push(pos);
+		}
+    }
+    return(positions);
+}
+
 // TODO: Maybe not necessary?
 function storyCardSelected(e){
 	var chosenCardSRC = e.item.src;
@@ -390,6 +417,9 @@ function storyCardSelected(e){
 function startStoryOrder(){
 	shuffleStoryOrder();
 	$("#StoryOrder").show();
+	// save initial order
+	savedStoryOrders.push(getStoryCardListOrder());
+	savedStoryOrders.push(getStoryCardListPositions());
 	startStoryOrderTimer();
 }
 

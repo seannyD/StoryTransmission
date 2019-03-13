@@ -18,13 +18,13 @@ library(xtable)
 
 
 try(setwd("~/Documents/Bristol/Transmission/stats/"))
-try(setwd("~/Desktop/Transmission/stats/"))
+try(setwd("~/Desktop/FPPT/Data/stats/"))
 
 d = read.csv("../results/StoryOrder/rawData/storyOrderData_phase1.csv",stringsAsFactors = F,encoding = "UTF-8",fileEncoding = "UTF-8")
 
 dp3 = read.csv("../results/StoryOrder/rawData/storyOrderData_phase3.csv",stringsAsFactors = F,encoding = "UTF-8",fileEncoding = "UTF-8")
 
-parts = union(d$participantID,dp3$participantID)
+parts = d$participantID
 
 d = d[d$participantID %in% parts,]
 dp3 = dp3[dp3$participantID %in% parts,]
@@ -54,11 +54,17 @@ makeTable = function(dx,dxp3){
   
   imageFiles= dx[paste0("image",1:16)]
   descriptions = dx[unlist(imageFiles)]
-  imageFilesP3= dxp3[paste0("image",1:16)]
-  descriptionsP3 = dxp3[unlist(imageFiles)]
-  
   imageFilesX = paste0("\\includegraphics[width=0.2\\textwidth]{img/",imageFiles,"}")
-  imageFilesXP3 = paste0("\\includegraphics[width=0.2\\textwidth]{img/",imageFilesP3,"}")
+  
+  
+  imageFilesP3 = rep("",length(imageFiles))
+  descriptionsP3 = rep("",length(descriptions))
+  imageFilesXP3 = rep("",length(imageFilesX))
+  if(nrow(dxp3)>0){
+    imageFilesP3= dxp3[paste0("image",1:16)]
+    descriptionsP3 = dxp3[unlist(imageFiles)]
+    imageFilesXP3 = paste0("\\includegraphics[width=0.2\\textwidth]{img/",imageFilesP3,"}")
+  }
   
   x = paste("\\begin{longtable}{ll | ll}",
             "  \\hline\nImg & Description & Img & Desription\n",
@@ -99,11 +105,17 @@ cat(tex,file = "../results/StoryOrder/cleanData/storyOrder.tex")
 makeHTMLTable = function(dx,dxp3){
   imageFiles= dx[paste0("image",1:16)]
   descriptions = dx[unlist(imageFiles)]
-  imageFilesP3= dxp3[paste0("image",1:16)]
-  descriptionsP3 = dxp3[unlist(imageFiles)]
-  
   imageFilesX = paste0('<img width="100" src="img/',imageFiles,'">')
-  imageFilesXP3 = paste0('<img width="100" src="img/',imageFilesP3,'">')
+  
+  
+  imageFilesP3 = rep("",length(imageFiles))
+  descriptionsP3 = rep("",length(descriptions))
+  imageFilesXP3 = rep("",length(imageFilesX))
+  if(nrow(dxp3)>0){
+    imageFilesP3= dxp3[paste0("image",1:16)]
+    descriptionsP3 = dxp3[unlist(imageFiles)]
+    imageFilesXP3 = paste0('<img width="100" src="img/',imageFilesP3,'">')
+  }
   
   tx = data.frame(
     phase1 = imageFilesX,

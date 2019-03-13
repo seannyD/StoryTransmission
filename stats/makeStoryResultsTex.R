@@ -22,7 +22,15 @@ try(setwd("~/Desktop/FPPT/Data/stats/"))
 
 d = read.csv("../results/StoryOrder/rawData/storyOrderData_phase1.csv",stringsAsFactors = F,encoding = "UTF-8",fileEncoding = "UTF-8")
 
-dp3 = read.csv("../results/StoryOrder/rawData/storyOrderData_phase3.csv",stringsAsFactors = F,encoding = "UTF-8",fileEncoding = "UTF-8")
+p3file = "../results/StoryOrder/rawData/storyOrderData_phase3.csv"
+noP3Data = FALSE
+
+if(file.exists(p3file)){
+  dp3 = read.csv(p3file,stringsAsFactors = F,encoding = "UTF-8",fileEncoding = "UTF-8")
+} else{
+  dp3 = data.frame()
+  noP3Data = TRUE
+}
 
 parts = d$participantID
 
@@ -60,7 +68,7 @@ makeTable = function(dx,dxp3){
   imageFilesP3 = rep("",length(imageFiles))
   descriptionsP3 = rep("",length(descriptions))
   imageFilesXP3 = rep("",length(imageFilesX))
-  if(nrow(dxp3)>0){
+  if(nrow(dxp3)>0 && ncol(dxp3)>0){
     imageFilesP3= dxp3[paste0("image",1:16)]
     descriptionsP3 = dxp3[unlist(imageFilesP3)]
     imageFilesXP3 = paste0("\\includegraphics[width=0.2\\textwidth]{img/",imageFilesP3,"}")
@@ -111,7 +119,7 @@ makeHTMLTable = function(dx,dxp3){
   imageFilesP3 = rep("",length(imageFiles))
   descriptionsP3 = rep("",length(descriptions))
   imageFilesXP3 = rep("",length(imageFilesX))
-  if(nrow(dxp3)>0){
+  if(nrow(dxp3)>0 && ncol(dxp3)>0){
     imageFilesP3= dxp3[paste0("image",1:16)]
     descriptionsP3 = dxp3[unlist(imageFilesP3)]
     descriptionsP3 = t(descriptionsP3)
@@ -133,9 +141,12 @@ htmlTable = ""
 
 for(i in 1:nrow(d)){
   dx = d[i,]
-  dxp3 = dp3[match(dx$participantID,dp3$participantID),][1,]
-  if(is.na(dxp3$participantID)){
-    dxp3 = dxp3[F,]
+  dxp3 = data.frame()
+  if(!noP3Data){
+    dxp3 = dp3[match(dx$participantID,dp3$participantID),][1,]
+    if(is.na(dxp3$participantID)){
+      dxp3 = dxp3[F,]
+    }
   }
   
   tx = makeHTMLTable(dx,dxp3)

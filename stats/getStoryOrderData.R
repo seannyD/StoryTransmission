@@ -46,18 +46,27 @@ for(f in storyOrderFiles){
     phase = dx$phase[1]
     if("order" %in% names(dx)){
       order = tail(dx$order,1)
+      initialOrder = head(dx$order,1)
       if(!is.na(order)){
-      orderX = strsplit(order,"#")[[1]]
-      orderX = c(orderX,rep("-",length(imageNames)-length(orderX)))
-      names(orderX) = paste0("image",1:length(orderX))
-      rowToAdd = cbind(data.frame(participantID=dx$participantID[1],
-                                order=order,stringsAsFactors = F),
-                           as.data.frame(t(orderX)))
-      if(phase=="p1"){
-        ordersP1 = rbind(ordersP1,rowToAdd)
-      } else{
-        ordersP3 = rbind(ordersP3,rowToAdd)
-      }
+        orderX = strsplit(order,"#")[[1]]
+        orderX = c(orderX,rep("-",length(imageNames)-length(orderX)))
+        names(orderX) = paste0("image",1:length(orderX))
+        
+        #initialOrderX = strsplit(initialOrder,"#")[[1]]
+        #initialOrderX = c(orderX,rep("-",length(imageNames)-length(initialOrderX)))
+        #names(initialOrderX) = paste0("image",1:length(initialOrderX))
+        
+        
+        rowToAdd = cbind(data.frame(participantID=dx$participantID[1],
+                                  order=order,
+                                  initialOrder = initialOrder,
+                                  stringsAsFactors = F),
+                             as.data.frame(t(orderX)))
+        if(phase=="p1"){
+          ordersP1 = rbind(ordersP1,rowToAdd)
+        } else{
+          ordersP3 = rbind(ordersP3,rowToAdd)
+        }
       }
     }
     if("consentReceivedInfo" %in% names(dx)){
@@ -89,7 +98,7 @@ for(f in storyOrderFiles){
   #}
 }
 
-extraCCols = c("order",paste0("image",1:length(imageNames)))
+extraCCols = c("order","initialOrder",paste0("image",1:length(imageNames)))
 
 consentsP1[,extraCCols] = ordersP1[match(consentsP1$participantID, ordersP1$participantID),extraCCols]
 d1 = consentsP1[complete.cases(consentsP1),]

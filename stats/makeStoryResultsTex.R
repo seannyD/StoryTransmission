@@ -62,7 +62,7 @@ makeTable = function(dx,dxp3){
   imageFilesXP3 = rep("",length(imageFilesX))
   if(nrow(dxp3)>0){
     imageFilesP3= dxp3[paste0("image",1:16)]
-    descriptionsP3 = dxp3[unlist(imageFiles)]
+    descriptionsP3 = dxp3[unlist(imageFilesP3)]
     imageFilesXP3 = paste0("\\includegraphics[width=0.2\\textwidth]{img/",imageFilesP3,"}")
   }
   
@@ -113,7 +113,8 @@ makeHTMLTable = function(dx,dxp3){
   imageFilesXP3 = rep("",length(imageFilesX))
   if(nrow(dxp3)>0){
     imageFilesP3= dxp3[paste0("image",1:16)]
-    descriptionsP3 = dxp3[unlist(imageFiles)]
+    descriptionsP3 = dxp3[unlist(imageFilesP3)]
+    descriptionsP3 = t(descriptionsP3)
     imageFilesXP3 = paste0('<img width="100" src="img/',imageFilesP3,'">')
   }
   
@@ -121,7 +122,7 @@ makeHTMLTable = function(dx,dxp3){
     phase1 = imageFilesX,
     descriptions1 = t(descriptions),
     phase3 = imageFilesXP3,
-    descriptions3 = t(descriptionsP3),
+    descriptions3 = descriptionsP3,
     stringsAsFactors = F
   )
   return(print(xtable(tx),include.rownames=F,type="html",sanitize.text.function = function(x){x}))
@@ -131,13 +132,16 @@ makeHTMLTable = function(dx,dxp3){
 htmlTable = ""
 
 for(i in 1:nrow(d)){
-  dxp3 = dp3[dp3$participantID == d$participantID,][1,]
   dx = d[i,]
+  dxp3 = dp3[match(dx$participantID,dp3$participantID),][1,]
+  if(is.na(dxp3$participantID)){
+    dxp3 = dxp3[F,]
+  }
   
   tx = makeHTMLTable(dx,dxp3)
   
   div = paste(
-    paste0('<div style="border:thick solid #0000FF" id="', dx$participantID,'">'),
+    paste0('<div id="', dx$participantID,'">'),
     paste0('<h1>',dx$participantID,'</h1>'),
     paste("Phase1 most important Scene: ",dx$mostImportantSceneNumber),
     "<br /> Reason: ",
@@ -157,7 +161,7 @@ for(i in 1:nrow(d)){
 
 dropdown = paste(
   '<select id="partSelect" onchange="changePart()">',
-  paste0('<option value="',unique(d$participantID),'">',unique(d$participantID),'</option>'),
+  paste0('<option value="',unique(d$participantID),'">',unique(d$participantID),'</option>',collapse = "\n"),
   '</select>',collapse="\n")
   
 partList = paste("partList = [",paste(paste0("'",unique(d$participantID),"'"),collapse=","),"];")
@@ -167,11 +171,11 @@ js = paste(
   partList,
 '
 function showMe(id){
-  document.getElementById(id).display="inline";
+  document.getElementById(id).style.display="inline";
 }
 
 function hideMe(id){
-  document.getElementById(id).display="none";
+  document.getElementById(id).style.display="none";
 }
 
 function changePart(){
@@ -180,7 +184,7 @@ function changePart(){
     if(partList[i]==val){
       showMe(val)
     } else{
-      hideMe(val)
+      hideMe(partList[i])
     }
   }
 }

@@ -14,9 +14,10 @@ var imageHoverYOffset = -50;
 var storyPageHeight;
 var storyPageWidth; 
 
-var storyOrderTimerMaxTime = 15 * 60 * 1000; // 15 minutes
+var storyOrderTimerMaxTime = 1 * 60 * 1000; // 15 minutes
 var storyOrderTimerStartTime = 0;
 var storyOrderTimerID = 0;
+var moveOnAutomaticallyAfterTimer = true;
 
 
 function initialiseStoryOrder(){
@@ -278,12 +279,17 @@ function storyOrderTimerTick(){
 
 	if(timeLeft ==0){
 		stopStoryOrderTimer();
-		// After timer runs out, it should move on to 'selectMostImportantScene'
-		// But timer can run out either on `storyOrder` or `WriteStoryFromOrder`.
-		// So make sure that stageCounter is set to WriteStoryFromOrder,
-		// so that we move on to the correct part.
-		stageCounter = stages.indexOf("WriteStoryFromOrder");
-		setTimeout("nextStage()",500);
+		if(moveOnAutomaticallyAfterTimer){
+			// After timer runs out, it should move on to 'selectMostImportantScene'
+			// But timer can run out either on `storyOrder` or `WriteStoryFromOrder`.
+			if(stages[stageCounter]=="WriteStoryFromOrder"){
+				// This function eventually calls "nextStage()"
+				uploadTellStoryOrderData();
+			} else{
+				stageCounter = stages.indexOf("WriteStoryFromOrder");
+				setTimeout("nextStage()",500);
+			}
+		}
 	}
 }
 

@@ -108,9 +108,9 @@ d1P3 = consentsP3[complete.cases(consentsP3[,c("participantID","consentReceivedI
 
 d1[,finalSurveyColumns] = surveyP1[match(d1$participantID,surveyP1$participantID),finalSurveyColumns]
 # P3 doesn't have a final survey
-if(nrow(d1P3)>0){
-  d1P3[,finalSurveyColumns] = surveyP3[match(d1P3$participantID,surveyP3$participantID),finalSurveyColumns]
-}
+#if(nrow(d1P3)>0 && ncol(d1P3)>0){
+#  d1P3[,finalSurveyColumns] = surveyP3[match(d1P3$participantID,surveyP3$participantID),finalSurveyColumns]
+#}
 
 d2P1 = data.frame(stringsAsFactors = F)
 d2P3 = data.frame(stringsAsFactors = F)

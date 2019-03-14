@@ -21,14 +21,16 @@ function appendWritingSpaceTextArea(){
 	$("#storyOrderWritingSpace").append(makeWritingSpaceTextArea());
 
 	document.getElementById("writeArea"+(1+tellStoryCurrentStoryImage)).scrollIntoView();
+	document.getElementById("writeAreaText"+(1+tellStoryCurrentStoryImage)).focus();
 	numberOfWritingAreasCreated += 1;
 }
 
 function makeWritingSpaceTextArea(){
 	var writingSpaceTextAreaTemplateA = '<div id="writeArea';
 	var writingSpaceTextAreaTemplateB = '"><h4>Scene ';
-	var writingSpaceTextAreaTemplateC = '</h4><textarea placeholder="Tell the story for scene ';
-	var writingSpaceTextAreaTemplateD = ' here" class="writeTextArea"></textarea></div>';
+	var writingSpaceTextAreaTemplateC = '</h4><textarea id="writeAreaText';
+	var writingSpaceTextAreaTemplateD = '" placeholder="Tell the story for scene ';
+	var writingSpaceTextAreaTemplateE = ' here" class="writeTextArea"></textarea></div>';
 	var textAreaRaw = 
 			writingSpaceTextAreaTemplateA+
 			(tellStoryCurrentStoryImage+1)+
@@ -36,7 +38,9 @@ function makeWritingSpaceTextArea(){
 			(tellStoryCurrentStoryImage+1)+
 			writingSpaceTextAreaTemplateC +
 			(tellStoryCurrentStoryImage+1)+
-			writingSpaceTextAreaTemplateD;
+			writingSpaceTextAreaTemplateD+
+			(tellStoryCurrentStoryImage+1)+
+			writingSpaceTextAreaTemplateE;
 	var textArea = jQuery.parseHTML(textAreaRaw);
 	return(textArea);
 }
@@ -82,6 +86,7 @@ function clickedNextStoryImage(){
 		appendWritingSpaceTextArea();
 	} else{
 		document.getElementById("writeArea"+(1+tellStoryCurrentStoryImage)).scrollIntoView();
+		document.getElementById("writeAreaText"+(1+tellStoryCurrentStoryImage)).focus();
 	}
 	if((!addedFinishButton) && (tellStoryCurrentStoryImage == (storyCardOrder.length-1))){
 		addedFinishButton = true;

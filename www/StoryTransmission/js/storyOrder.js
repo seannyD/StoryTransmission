@@ -14,7 +14,7 @@ var imageHoverYOffset = -50;
 var storyPageHeight;
 var storyPageWidth; 
 
-var storyOrderTimerMaxTime = 1 * 60 * 1000; // 15 minutes
+var storyOrderTimerMaxTime = 15 * 60 * 1000; // 15 minutes
 var storyOrderTimerStartTime = 0;
 var storyOrderTimerID = 0;
 var moveOnAutomaticallyAfterTimer = true;

@@ -38,6 +38,11 @@ consentsColumns = c("participantID","consentReceivedInfo","consentWithdraw","con
 
 finalSurveyColumns = c("surveyImportantScene","surveyGender","surveyAge",'surveyNativeEnglish',"surveyEmail")
 
+convertSurveyFileColumns = 
+  c("surveyImportantScene","surveyGender","surveyAge",'surveyNativeEnglish',"surveyEmail","participantID",'time',"phase")
+names(convertSurveyFileColumns) = c("question1","question2","question3","question4",'question5','participantID',"time",'phase')
+
+
 storyOrderFiles = list.files(paste0(storyBackupFolder,"storyOrder/"),"*.csv")
 for(f in storyOrderFiles){
   dx = read.csv(paste0(storyBackupFolder,"storyOrder/",f),stringsAsFactors = F,encoding = "UTF-8",fileEncoding = "UTF-8")
@@ -57,7 +62,9 @@ for(f in storyOrderFiles){
         #names(initialOrderX) = paste0("image",1:length(initialOrderX))
         
         
-        rowToAdd = cbind(data.frame(participantID=dx$participantID[1],
+        rowToAdd = cbind(data.frame(
+                                  storyOrderDatafile=f,
+                                  participantID=dx$participantID[1],
                                   order=order,
                                   initialOrder = initialOrder,
                                   stringsAsFactors = F),
@@ -85,9 +92,10 @@ for(f in storyOrderFiles){
       }
     }
     if("question1" %in% names(dx)){
-      names(dx) = c("surveyImportantScene","surveyGender","surveyAge",'surveyNativeEnglish',"surveyEmail","participantID",'time',"phase")
+      names(dx) = convertSurveyFileColumns[names(dx)]
       dx = dx[1,]
       phase = dx$phase
+      dx$surveyDataFile = f
       if(phase=="p1"){
         surveyP1 = rbind(surveyP1,dx[1,])
       } else{
@@ -98,7 +106,7 @@ for(f in storyOrderFiles){
   #}
 }
 
-extraCCols = c("order","initialOrder",paste0("image",1:length(imageNames)))
+extraCCols = c("storyOrderDatafile","order","initialOrder",paste0("image",1:length(imageNames)))
 
 consentsP1[,extraCCols] = ordersP1[match(consentsP1$participantID, ordersP1$participantID),extraCCols]
 d1 = consentsP1[complete.cases(consentsP1),]
@@ -106,7 +114,7 @@ d1 = consentsP1[complete.cases(consentsP1),]
 consentsP3[,extraCCols] = ordersP3[match(consentsP3$participantID, ordersP3$participantID),extraCCols]
 d1P3 = consentsP3[complete.cases(consentsP3[,c("participantID","consentReceivedInfo","order")]),]
 
-d1[,finalSurveyColumns] = surveyP1[match(d1$participantID,surveyP1$participantID),finalSurveyColumns]
+d1[,c(finalSurveyColumns,"surveyDataFile")] = surveyP1[match(d1$participantID,surveyP1$participantID),c(finalSurveyColumns,"surveyDataFile")]
 # P3 doesn't have a final survey
 #if(nrow(d1P3)>0 && ncol(d1P3)>0){
 #  d1P3[,finalSurveyColumns] = surveyP3[match(d1P3$participantID,surveyP3$participantID),finalSurveyColumns]
@@ -127,6 +135,7 @@ for(f in tellStoryOrderFiles){
       descriptions = descriptions[imageNames]
       desx = cbind(participantID = dx$participantID[1], as.data.frame(t(descriptions),stringsAsFactors = F))
       desx$phase = phase
+      desx$tellStoryOrderDatafile = f
       names(desx) = c("participantID",imageNames,"phase")
       if(phase=="p1"){
         d2P1 = rbind(d2P1,desx)
@@ -142,7 +151,7 @@ d1P3[,imageNames] = d2P3[match(d1P3$participantID,d2P3$participantID),imageNames
 
 
 storyOrderMostImportantFiles = list.files(paste0(storyBackupFolder,"storyOrderMostImportant/"),"*.csv")
-storyOrderMostImportantColumns = c("mostImportantSceneNumber","mostImportantSceneSRC","mostImportantSceneReason")
+storyOrderMostImportantColumns = c("mostImportantSceneNumber","mostImportantSceneSRC","mostImportantSceneReason","storyOrderDataFile")
 
 
 d1[,storyOrderMostImportantColumns] = NA
@@ -153,6 +162,7 @@ for(f in storyOrderMostImportantFiles){
     if("phase" %in% names(dx)){
       phase = dx$phase[1]
       if((dx$participantID %in% d1$participantID)||(dx$participantID %in% d1P3$participantID)){
+        dx$storyOrderDataFile = f
         if(phase=="p1"){
         d1[match(dx$participantID,d1$participantID),storyOrderMostImportantColumns] = dx[1,storyOrderMostImportantColumns]
         } else{

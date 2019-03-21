@@ -22,6 +22,8 @@ try(setwd("~/Desktop/FPPT/Data/stats/"))
 
 d = read.csv("../results/StoryOrder/rawData/storyOrderData_phase1.csv",stringsAsFactors = F,encoding = "UTF-8",fileEncoding = "UTF-8")
 
+d = d[!duplicated(d$participantID),]
+
 p3file = "../results/StoryOrder/rawData/storyOrderData_phase3.csv"
 noP3Data = FALSE
 
@@ -170,12 +172,14 @@ for(i in 1:nrow(d)){
   
 }
 
+pid = sort(unique(d$participantID))
+
 dropdown = paste(
   '<select id="partSelect" onchange="changePart()">',
-  paste0('<option value="',unique(d$participantID),'">',unique(d$participantID),'</option>',collapse = "\n"),
+  paste0('<option value="',pid,'">',pid,'</option>',collapse = "\n"),
   '</select>',collapse="\n")
   
-partList = paste("partList = [",paste(paste0("'",unique(d$participantID),"'"),collapse=","),"];")
+partList = paste("partList = [",paste(paste0("'",sort(unique(d$participantID)),"'"),collapse=","),"];")
 
 js = paste(
   "<script>\n",
@@ -186,7 +190,7 @@ function showMe(id){
 }
 
 function hideMe(id){
-  document.getElementById(id).style.display="none";
+  document.getElementById(id).style.display = "none";
 }
 
 function changePart(){
@@ -202,7 +206,8 @@ function changePart(){
 
 document.addEventListener("DOMContentLoaded", function(event) { 
   for(var i=0;i<partList.length;++i){
-    hideMe(partList[i])
+    showMe(partList[i]);
+    hideMe(partList[i]);
   }
   changePart();
 });

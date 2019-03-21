@@ -174,5 +174,11 @@ for(f in storyOrderMostImportantFiles){
 }
 
 
+d1$surveyGender[d1$surveyGender=="item1"] = "Man"
+d1$surveyGender[d1$surveyGender=="item2"] = "Woman"
+
+d1$surveyNativeEnglish[d1$surveyNativeEnglish=="item1"] = "Yes"
+d1$surveyNativeEnglish[d1$surveyNativeEnglish=="item2"] = "No"
+
 write.csv(d1,"../results/StoryOrder/rawData/storyOrderData_phase1.csv",row.names = F,fileEncoding = "UTF-8")
 write.csv(d1P3,"../results/StoryOrder/rawData/storyOrderData_phase3.csv",row.names = F,fileEncoding = "UTF-8")

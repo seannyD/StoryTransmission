@@ -134,6 +134,9 @@ function uploadTellStoryOrderData(){
 	if(urlvars["storyOrderPhase3"]){
 		phase = "p3";
 	}
+	if(urlvars["storyOrderPhase2"]){
+		phase = "p2";
+	}
 
 	var csvText = "participantID,sceneNumber,sceneID,storyText,phase\n";
 	for(var i=0;i<tellStoryTextAreas.length;++i){

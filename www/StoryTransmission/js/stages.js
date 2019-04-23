@@ -304,7 +304,7 @@ $( document ).ready(function() {
 
   var urlvars = getUrlVars();
 
-  if(urlvars["storyOrder"] || urlvars["storyOrderPhase3"]){
+  if(urlvars["storyOrder"] || urlvars["storyOrderPhase3"] || urlvars["storyOrderPhase2"]){
     // This is a story order experiment (experiment 2)
     // For sortable story cards (safe to call if none in html)
     initialiseStoryOrder();
@@ -337,6 +337,18 @@ $( document ).ready(function() {
       ];
     }
 
+        if(urlvars["storyOrderPhase2"]){
+      stages = [
+          "storyOrderEnterParticipantID",
+          //"storyOrderConsentStage3",
+          //"storyOrderInstructions",
+          "storyOrder",
+          "WriteStoryFromOrder",
+          "selectMostImportantScene",
+          'checkUploaded','storyOrderFinish'
+      ];
+    }
+
     setStoryOrderParticipantID();
     experimentLocation = "UK";
 
@@ -345,6 +357,7 @@ $( document ).ready(function() {
     $.getScript("../survey/storyOrderSurveys/SURVEY_demography_USA.js");
     $.getScript("../survey/storyOrderSurveys/SURVEY_demography_UK.js");
     $.getScript("../survey/storyOrderSurveys/SURVEY_endSurvey.js");
+    // the last survey to be loaded should call surveysLoaded() to start the experiment
     $.getScript("../survey/storyOrderSurveys/SURVEY_consent.js",surveysLoaded());
   } else{
       // This is the original recorded voice story telling experiment

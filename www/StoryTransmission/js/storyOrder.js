@@ -213,6 +213,9 @@ function endStoryOrderConsentSurvey(survey){
 	if(urlvars["storyOrderPhase3"]){
 		phase = "p3";
 	}
+	if(urlvars["storyOrderPhase2"]){
+		phase = "p2";
+	}
 	
 	var outString = "ID,consentReceivedInfo,consentWithdraw,consentVideo,consentVideoDisseminated,consentFacePixel,consentTakePartInStudy,timestamp,phase\n";
 	outString += participantID + "," + 
@@ -447,6 +450,9 @@ function uploadStoryOrderData(){
 	if(urlvars["storyOrderPhase3"]){
 		phase = "p3";
 	}
+	if(urlvars["storyOrderPhase2"]){
+		phase = "p2";
+	}
 
 	var csvText = "participantID,number,order,phase\n";
 	for(var i=0;i<savedStoryOrders.length;++i){
@@ -490,6 +496,9 @@ function finishStoryOrderEndSurveyJSON(survey){
 	var urlvars = getUrlVars();
 	if(urlvars["storyOrderPhase3"]){
 		phase = "p3";
+	}
+	if(urlvars["storyOrderPhase2"]){
+		phase = "p2";
 	}
 	sd["phase"] = phase;
 	var outString = ConvertToCSV(sd);

@@ -61,9 +61,12 @@ makeLatex = function(dx,dxp3){
 }
 
 makeTable = function(dx,dxp3){
-  
-  imageFiles= dx[paste0("image",1:16)]
-  descriptions = dx[unlist(imageFiles)]
+  ix = paste0("image",1:16)
+  ix = ix[ix %in% names(dx)]
+  imageFiles= dx[,ix]
+  ifx = unlist(imageFiles)
+  ifx = ifx[ifx %in% names(dx)]
+  descriptions = dx[,ifx]
   imageFilesX = paste0("\\includegraphics[width=0.2\\textwidth]{img/",imageFiles,"}")
   
   
@@ -71,8 +74,12 @@ makeTable = function(dx,dxp3){
   descriptionsP3 = rep("",length(descriptions))
   imageFilesXP3 = rep("",length(imageFilesX))
   if(nrow(dxp3)>0 && ncol(dxp3)>0){
-    imageFilesP3= dxp3[paste0("image",1:16)]
-    descriptionsP3 = dxp3[unlist(imageFilesP3)]
+    ix = paste0("image",1:16)
+    ix = ix[ix %in% names(dxp3)]
+    imageFilesP3= dxp3[ix]
+    ifx = unlist(imageFilesP3)
+    ifx = ifx[ifx %in% names(dxp3)]
+    descriptionsP3 = dxp3[ifx]
     imageFilesXP3 = paste0("\\includegraphics[width=0.2\\textwidth]{img/",imageFilesP3,"}")
   }
   
@@ -92,21 +99,24 @@ makeTable = function(dx,dxp3){
   return(x)
 }
 
-tex = "\\documentclass[12pt,a4paper]{article}
-\\usepackage{graphicx}
-\\usepackage{longtable}
-\\usepackage[utf8]{inputenc}
-\\usepackage{geometry}
-\\begin{document}\n\n"
-for(i in 1:nrow(d)){
-  dxp3 = dp3[dp3$participantID == d$participantID,][1,]
-  try(tex <- paste(tex,"\n",makeLatex(d[i,],dxp3)))
+makeTex = FALSE
+
+if(makeTex){
+  tex = "\\documentclass[12pt,a4paper]{article}
+  \\usepackage{graphicx}
+  \\usepackage{longtable}
+  \\usepackage[utf8]{inputenc}
+  \\usepackage{geometry}
+  \\begin{document}\n\n"
+  for(i in 1:nrow(d)){
+    dxp3 = dp3[dp3$participantID == d$participantID[i],][1,]
+    try(tex <- paste(tex,"\n",makeLatex(d[i,],dxp3)))
+  }
+  
+  tex = paste(tex,"\n","\\end{document}")
+  
+  cat(tex,file = "../results/StoryOrder/cleanData/storyOrder.tex")
 }
-
-tex = paste(tex,"\n","\\end{document}")
-
-cat(tex,file = "../results/StoryOrder/cleanData/storyOrder.tex")
-
 #######
 
 # HTML

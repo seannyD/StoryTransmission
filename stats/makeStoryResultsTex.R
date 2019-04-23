@@ -27,11 +27,21 @@ d = d[!duplicated(d$participantID),]
 p3file = "../results/StoryOrder/rawData/storyOrderData_phase3.csv"
 noP3Data = FALSE
 
+p2file = "../results/StoryOrder/rawData/storyOrderData_phase2.csv"
+noP2Data = TRUE
+
 if(file.exists(p3file)){
   dp3 = read.csv(p3file,stringsAsFactors = F,encoding = "UTF-8",fileEncoding = "UTF-8")
 } else{
   dp3 = data.frame()
   noP3Data = TRUE
+}
+
+if(file.exists(p2file)){
+  dp2 = read.csv(p2file,stringsAsFactors = F,encoding = "UTF-8",fileEncoding = "UTF-8")
+} else{
+  dp2 = data.frame()
+  #noP2Data = TRUE
 }
 
 parts = d$participantID
@@ -122,7 +132,7 @@ if(makeTex){
 # HTML
 
 
-makeHTMLTable = function(dx,dxp3){
+makeHTMLTable = function(dx,dxp2,dxp3){
   imageFiles= dx[paste0("image",1:16)]
   descriptions = dx[unlist(imageFiles)]
   imageFilesX = paste0('<img width="100" src="img/',imageFiles,'">')
@@ -131,6 +141,14 @@ makeHTMLTable = function(dx,dxp3){
   imageFilesP3 = rep("",length(imageFiles))
   descriptionsP3 = rep("",length(descriptions))
   imageFilesXP3 = rep("",length(imageFilesX))
+  
+  if(nrow(dxp2)>0 && ncol(dxp2)>0){
+    imageFilesP2= dxp2[paste0("image",1:16)]
+    descriptionsP2 = dxp2[unlist(imageFilesP2)]
+    descriptionsP2 = t(descriptionsP2)
+    imageFilesXP2 = paste0('<img width="100" src="img/',imageFilesP2,'">')
+  }
+  
   if(nrow(dxp3)>0 && ncol(dxp3)>0){
     imageFilesP3= dxp3[paste0("image",1:16)]
     descriptionsP3 = dxp3[unlist(imageFilesP3)]
@@ -145,6 +163,17 @@ makeHTMLTable = function(dx,dxp3){
     descriptions3 = descriptionsP3,
     stringsAsFactors = F
   )
+  if(nrow(dxp2)>0 && ncol(dxp2)>0){
+    tx = data.frame(
+      phase1 = imageFilesX,
+      descriptions1 = t(descriptions),
+      phase2 = imageFilesXP2,
+      descriptions2 = t(descriptionsP2),
+      phase3 = imageFilesXP3,
+      descriptions3 = descriptionsP3,
+      stringsAsFactors = F
+    )    
+  }
   return(print(xtable(tx),include.rownames=F,type="html",sanitize.text.function = function(x){x}))
   
 }
@@ -154,6 +183,7 @@ htmlTable = ""
 for(i in 1:nrow(d)){
   dx = d[i,]
   dxp3 = data.frame()
+  dxp2 = data.frame()
   if(!noP3Data){
     dxp3 = dp3[match(dx$participantID,dp3$participantID),][1,]
     if(is.na(dxp3$participantID)){
@@ -161,7 +191,15 @@ for(i in 1:nrow(d)){
     }
   }
   
-  tx = makeHTMLTable(dx,dxp3)
+  if(!noP2Data){
+    dxp2 = dp2[match(dx$participantID,dp2$participantID),][1,]
+    if(is.na(dxp2$participantID)){
+      dxp2 = dxp2[F,]
+    }
+  }
+  
+  
+  tx = makeHTMLTable(dx,dxp2,dxp3)
   
   div = paste(
     paste0('<div id="', dx$participantID,'">'),

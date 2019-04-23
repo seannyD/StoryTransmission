@@ -30,6 +30,7 @@ consentsP1 = data.frame(stringsAsFactors = F)
 ordersP3 = data.frame(stringsAsFactors = F)
 consentsP3 = data.frame(stringsAsFactors = F)
 surveyP1 = data.frame(stringsAsFactors = F)
+surveyP2 = data.frame(stringsAsFactors = F)
 surveyP3 = data.frame(stringsAsFactors = F)
 
 # Phase 2 for transcription
@@ -108,6 +109,8 @@ for(f in storyOrderFiles){
       } else{
         if(phase=="p3"){
           surveyP3 = rbind(surveyP3,dx[1,])
+        } else{
+          surveyP2 = rbind(surveyP2,dx[1,])
         }
       }
     }
@@ -129,8 +132,7 @@ d1[,c(finalSurveyColumns,"surveyDataFile")] = surveyP1[match(d1$participantID,su
 #  d1P3[,finalSurveyColumns] = surveyP3[match(d1P3$participantID,surveyP3$participantID),finalSurveyColumns]
 #}
 
-d1P2 = ordersP2
-d1P2 = ordersP2[,extraCCols]
+d1P2 = ordersP2[,c("participantID",extraCCols)]
 #d1P2 = d1P2[complete.cases(d1P2),]
 
 d2P1 = data.frame(stringsAsFactors = F)
@@ -166,7 +168,7 @@ for(f in tellStoryOrderFiles){
 
 d1[,imageNames] = d2P1[match(d1$participantID,d2P1$participantID),imageNames]
 d1P3[,imageNames] = d2P3[match(d1P3$participantID,d2P3$participantID),imageNames]
-try(d1P2[,imageNames] <- d2P2[match(d1P2$participantID,d2P2$participantID),imageNames])
+d1P2[,imageNames] <- d2P2[match(d1P2$participantID,d2P2$participantID),imageNames]
 
 
 storyOrderMostImportantFiles = list.files(paste0(storyBackupFolder,"storyOrderMostImportant/"),"*.csv")
@@ -277,8 +279,8 @@ d1[d1$participantID=="MG31" & d1$startTime=="2019-3-15 11:8:50",]$participantID 
 
 # Test runs
 testRuns = c("AA84","MD67",'ME41','ME47','ME69',"ME80")
-d1 = d1[!d1$participantID %in% testRuns]
-d1P3 = d1P3[!d1P3$participantID %in% testRuns]
+d1 = d1[!d1$participantID %in% testRuns,]
+d1P3 = d1P3[!d1P3$participantID %in% testRuns,]
 
 write.csv(d1,"../results/StoryOrder/rawData/storyOrderData_phase1.csv",row.names = F,fileEncoding = "UTF-8")
 write.csv(d1P2,"../results/StoryOrder/rawData/storyOrderData_phase2.csv",row.names = F,fileEncoding = "UTF-8")

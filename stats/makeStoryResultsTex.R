@@ -14,6 +14,7 @@ library(xtable)
 #          L__ storyOrder/
 #          L__ storyOrderMostImportant/
 #          L__ tellStoryOrder/
+#          L__ logs/
 
 
 
@@ -142,13 +143,6 @@ makeHTMLTable = function(dx,dxp2,dxp3){
   descriptionsP3 = rep("",length(descriptions))
   imageFilesXP3 = rep("",length(imageFilesX))
   
-  if(nrow(dxp2)>0 && ncol(dxp2)>0){
-    imageFilesP2= dxp2[paste0("image",1:16)]
-    descriptionsP2 = dxp2[unlist(imageFilesP2)]
-    descriptionsP2 = t(descriptionsP2)
-    imageFilesXP2 = paste0('<img width="100" src="img/',imageFilesP2,'">')
-  }
-  
   if(nrow(dxp3)>0 && ncol(dxp3)>0){
     imageFilesP3= dxp3[paste0("image",1:16)]
     descriptionsP3 = dxp3[unlist(imageFilesP3)]
@@ -164,6 +158,10 @@ makeHTMLTable = function(dx,dxp2,dxp3){
     stringsAsFactors = F
   )
   if(nrow(dxp2)>0 && ncol(dxp2)>0){
+    imageFilesP2= dxp2[paste0("image",1:16)]
+    descriptionsP2 = dxp2[unlist(imageFilesP2)]
+    descriptionsP2 = t(descriptionsP2)
+    imageFilesXP2 = paste0('<img width="100" src="img/',imageFilesP2,'">')
     tx = data.frame(
       phase1 = imageFilesX,
       descriptions1 = t(descriptions),

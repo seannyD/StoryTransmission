@@ -12,6 +12,7 @@
 #          L__ storyOrder/
 #          L__ storyOrderMostImportant/
 #          L__ tellStoryOrder/
+#          L__ logs/
 
 
 

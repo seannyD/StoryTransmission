@@ -21,6 +21,19 @@ try(setwd("~/Desktop/FPPT/Data/stats/"))
 
 storyBackupFolder = "../OnlineBackups/Story/"
 
+
+fixes = list(
+  # The first MG31 (i.e. between 11am and 12pm on 15/03/2019) is now AA42.
+  "75122600 1552648399_2897.csv" = "AA42",
+  "92264200 1552648130_9912.csv" = "AA42", # 11am
+  "96418300 1552650754_3860.csv" = "AA42", # 11am
+  "98607100 1552649162_4646.csv" = "AA42", # storyOrderMostImportant
+  "24363700 1552649076_2815.csv" = "AA42", # Tell story order
+  "Time_52055300 1552650755_1795.csv" = "AA42" # Logs
+)
+
+
+
 newID = function(id){
   return(grepl("[A-Z][0-9A-Z][0-9][0-9]",id))
 }
@@ -51,6 +64,16 @@ names(convertSurveyFileColumns) = c("question1","question2","question3","questio
 storyOrderFiles = list.files(paste0(storyBackupFolder,"storyOrder/"),"*.csv")
 for(f in storyOrderFiles){
   dx = read.csv(paste0(storyBackupFolder,"storyOrder/",f),stringsAsFactors = F,encoding = "UTF-8",fileEncoding = "UTF-8")
+
+  if(f %in% names(fixes)){
+    if('participantID' %in% names(dx)){
+      dx$participantID = fixes[[f]]
+    }
+    if('ID' %in% names(dx)){
+      dx$ID = fixes[[f]]
+    }
+  }
+  
   #if(newID(dx$participantID[1])){
   if("phase" %in% names(dx)){
     phase = dx$phase[1]
@@ -143,6 +166,10 @@ tellStoryOrderFiles = list.files(paste0(storyBackupFolder,"tellStoryOrder/"),"*.
 for(f in tellStoryOrderFiles){
   dx = read.csv(paste0(storyBackupFolder,"tellStoryOrder/",f),stringsAsFactors = F,encoding = "UTF-8",fileEncoding = "UTF-8")
   
+  if(f %in% names(fixes)){
+    dx$participantID = fixes[[f]]
+  }
+  
   if("phase" %in% names(dx)){
     phase = dx$phase[1]
     
@@ -181,6 +208,11 @@ d1P3[,storyOrderMostImportantColumns] = NA
 try(d1P2[,storyOrderMostImportantColumns] <- NA)
 for(f in storyOrderMostImportantFiles){
   dx = read.csv(paste0(storyBackupFolder,"storyOrderMostImportant/",f),stringsAsFactors = F,encoding = "UTF-8",fileEncoding = "UTF-8")
+  # Fixes
+  if(f %in% names(fixes)){
+    dx$participantID = fixes[[f]]
+  }
+  
   if("mostImportantSceneNumber" %in% names(dx)){
     if("phase" %in% names(dx)){
       phase = dx$phase[1]
@@ -215,6 +247,11 @@ timeData = data.frame(stringsAsFactors = F)
 for(f in timeFiles){
   if(grepl("Time_",f)){
     dx = read.csv(paste0(storyBackupFolder,"logs/",f),stringsAsFactors = F,encoding = "UTF-8",fileEncoding = "UTF-8")
+    
+    if(f %in% names(fixes)){
+      dx$participantId = fixes[[f]]
+    }
+    
     dx$file = f
     dx$stage = "p1"
     if("storyOrderConsentStage3" %in% dx$Message){
@@ -262,24 +299,28 @@ d1P3$durationWriteStoryP3 = d1P3$writeStoryEndTimeP3 - d1P3$writeStoryStartTimeP
 #########
 
 # ML23 and ML51 are both AA27
+# ML23 completed the image descriptions
+# ML51 completed the survey and "most important scene"
+ml51Columns = c(names(d1)[grepl("survey",names(d1))],"mostImportantSceneNumber","mostImportantSceneSRC","mostImportantSceneReason")
+d1[d1$participantID=="ML23",ml51Columns] = d1[d1$participantID=="ML51",ml51Columns]
 d1[d1$participantID=="ML23",]$participantID = "AA27"
-#d1P3[d1P3$participantID=="ML23",]$participantID = "AA27"
-d1[d1$participantID=="ML51",]$participantID = "AA27"
-#d1P3[d1P3$participantID=="ML51",]$participantID = "AA27"
+d1 = d1[d1$participantID!="ML51",]
 
 # MG43 and MG96 are both AA84
+# MG43 completed the description and most important scence
+# MG96 completed the survey
+mg96Columns = c(names(d1)[grepl("survey",names(d1))])
+d1[d1$participantID=="MG43",ml51Columns] = d1[d1$participantID=="MG96",mg96Columns]
 d1[d1$participantID=="MG43",]$participantID = "AA84"
-#d1P3[d1P3$participantID=="MG43",]$participantID = "AA84"
-d1[d1$participantID=="MG96",]$participantID = "AA84"
-#d1P3[d1P3$participantID=="MG96",]$participantID = "AA84"
-
-# The first MG31 (i.e. between 11am and 12pm on 15/03/2019) is now AA42.
-d1[d1$participantID=="MG31" & d1$startTime=="2019-3-15 11:8:50",]$participantID = "AA42"
+d1 = d1[d1$participantID!="MG96",]
+d1[d1$participantID=="AA84",]$mostImportantSceneNumber = 16
+d1[d1$participantID=="AA84",]$mostImportantSceneSRC = "S11.jpg"
+d1[d1$participantID=="AA84",]$mostImportantSceneReason = "The most important scene I think would be when the man comes out of the prison he is off the wagon. His old drinking buddies ask he to join them but he rejects. Its impottant because that is the theory of this story; to tell people he dangerous of drinking."
 
 
 
 # Test runs
-testRuns = c("AA84","MD67",'ME41','ME47','ME69',"ME80")
+testRuns = c("MD67",'ME41','ME47','ME69',"ME80")
 d1 = d1[!d1$participantID %in% testRuns,]
 d1P3 = d1P3[!d1P3$participantID %in% testRuns,]
 

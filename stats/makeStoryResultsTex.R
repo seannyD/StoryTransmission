@@ -151,6 +151,7 @@ makeHTMLTable = function(dx,dxp2,dxp3){
   }
   
   tx = data.frame(
+    N = 1:length(imageFilesX),
     phase1 = imageFilesX,
     descriptions1 = t(descriptions),
     phase3 = imageFilesXP3,
@@ -163,6 +164,7 @@ makeHTMLTable = function(dx,dxp2,dxp3){
     descriptionsP2 = t(descriptionsP2)
     imageFilesXP2 = paste0('<img width="100" src="img/',imageFilesP2,'">')
     tx = data.frame(
+      N = 1:length(imageFilesX),
       phase1 = imageFilesX,
       descriptions1 = t(descriptions),
       phase2 = imageFilesXP2,
@@ -202,7 +204,7 @@ for(i in 1:nrow(d)){
   div = paste(
     paste0('<div id="', dx$participantID,'">'),
     paste0('<h1>',dx$participantID,'</h1>'),
-    paste("Phase1 most important Scene: ",dx$mostImportantSceneNumber),
+    paste("Phase1 most important Scene: ",dx$mostImportantSceneNumber," (",dx$mostImportantSceneSRC,")"),
     "<br /> Reason: ",
     dx$mostImportantSceneReason,
     "<br />",

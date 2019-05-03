@@ -320,7 +320,7 @@ d1[d1$participantID=="AA84",]$mostImportantSceneReason = "The most important sce
 
 
 # Test runs
-testRuns = c("MD67",'ME41','ME47','ME69',"ME80",'AA10')
+testRuns = c("MD67",'ME41','ME47','ME69',"ME80",'AA10','Y451')
 d1 = d1[!d1$participantID %in% testRuns,]
 d1P2 = d1P2[!d1P2$participantID %in% testRuns,]
 d1P3 = d1P3[!d1P3$participantID %in% testRuns,]

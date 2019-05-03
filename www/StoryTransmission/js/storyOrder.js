@@ -280,6 +280,10 @@ function storyOrderTimerTick(){
 	var timeLeftFormatted = storyOrderTimerFormat(timeLeft);
 	$("#StoryOrderTimer").html(timeLeftFormatted);
 
+	if(!moveOnAutomaticallyAfterTimer){
+		$("#StoryOrderTimer").html("NoLimit");		
+	}
+
 	if(timeLeft ==0){
 		stopStoryOrderTimer();
 		if(moveOnAutomaticallyAfterTimer){

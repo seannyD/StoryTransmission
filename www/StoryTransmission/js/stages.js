@@ -347,6 +347,7 @@ $( document ).ready(function() {
           "selectMostImportantScene",
           'checkUploaded','storyOrderFinish'
       ];
+      moveOnAutomaticallyAfterTimer = false;
     }
 
     setStoryOrderParticipantID();

@@ -29,7 +29,7 @@ p3file = "../results/StoryOrder/rawData/storyOrderData_phase3.csv"
 noP3Data = FALSE
 
 p2file = "../results/StoryOrder/rawData/storyOrderData_phase2.csv"
-noP2Data = TRUE
+noP2Data = FALSE
 
 if(file.exists(p3file)){
   dp3 = read.csv(p3file,stringsAsFactors = F,encoding = "UTF-8",fileEncoding = "UTF-8")
@@ -168,7 +168,7 @@ makeHTMLTable = function(dx,dxp2,dxp3){
       phase1 = imageFilesX,
       descriptions1 = t(descriptions),
       phase2 = imageFilesXP2,
-      descriptions2 = t(descriptionsP2),
+      descriptions2 = descriptionsP2,
       phase3 = imageFilesXP3,
       descriptions3 = descriptionsP3,
       stringsAsFactors = F

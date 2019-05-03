@@ -320,8 +320,9 @@ d1[d1$participantID=="AA84",]$mostImportantSceneReason = "The most important sce
 
 
 # Test runs
-testRuns = c("MD67",'ME41','ME47','ME69',"ME80")
+testRuns = c("MD67",'ME41','ME47','ME69',"ME80",'AA10')
 d1 = d1[!d1$participantID %in% testRuns,]
+d1P2 = d1P2[!d1P2$participantID %in% testRuns,]
 d1P3 = d1P3[!d1P3$participantID %in% testRuns,]
 
 write.csv(d1,"../results/StoryOrder/rawData/storyOrderData_phase1.csv",row.names = F,fileEncoding = "UTF-8")

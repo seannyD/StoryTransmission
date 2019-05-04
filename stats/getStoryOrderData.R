@@ -212,7 +212,7 @@ for(f in storyOrderMostImportantFiles){
   if(f %in% names(fixes)){
     dx$participantID = fixes[[f]]
   }
-  # Fix for phase 2
+  # Fix for phase 2 (pre edit of js)
   if(f %in% c("25166800 1556645672_4647.csv","20588500 1556900780_4337.csv","62974200 1556902609_8867.csv","17184700 1556898649_2527.csv")){
     dx$phase = "p2"
   }

@@ -53,22 +53,6 @@ randomDist = replicate(10000,simulateAllParts())
 expectedDist = apply(randomDist,1,mean)
 expectedDistIQR = apply(randomDist,1,quantile,probs=c(0.25,0.75))
 
-# d = data.frame(
-#   freq = c(trueDist,expectedDist),
-#   type = c("Observed","Observed","Expected under no transmission","Expected under no transmission"),
-#   ImportantScene = c("Same","Different","Same","Different"),
-#   ymax = c(NA,NA,expectedDist + expectedDistIQR[1,]),
-#   ymin = c(NA,NA,expectedDist - expectedDistIQR[2,])
-# )
-# 
-# ggplot(d,
-#  aes(x=ImportantScene,fill=type,y=freq)) +
-#   geom_errorbar(aes(ymax=ymax,ymin=ymin),position="dodge") +
-#   geom_bar(stat="identity",position='dodge') +
-#   theme(legend.position = 'top',
-#         legend.title = element_blank()) +
-#   xlab("Comparing most important scene in Phase 1 and Phase 3") +
-#   ylab("Frequency")
   
 g = ggplot(mapping = aes(x = randomDist[1,])) +
   geom_histogram(binwidth = 1) +

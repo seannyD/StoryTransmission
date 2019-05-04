@@ -86,6 +86,9 @@ function uploadMostImportantSceneInfo(){
 	if(urlvars["storyOrderPhase3"]){
 		phase = "p3";
 	}
+	if(urlvars["storyOrderPhase2"]){
+		phase = "p2";
+	}
 
 	csvText += [participantID,
 				mostImportantSceneNumber + 1, // convert to 1-indexed

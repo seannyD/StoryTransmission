@@ -207,7 +207,7 @@ for(i in 1:nrow(d)){
     paste("Phase1 most important Scene: ",dx$mostImportantSceneNumber," (",dx$mostImportantSceneSRC,")"),
     "<br /> Reason: ",
     dx$mostImportantSceneReason,
-    "<br />Phase2 most important Scene: ",
+    "<br />Phase2 most important Scene: ",dxp2$mostImportantSceneNumber," (",dxp2$mostImportantSceneSRC,")",
     "<br /> Reason: ",
     dx$surveyImportantScene,
     "<br />",

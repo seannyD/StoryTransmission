@@ -51,5 +51,5 @@ for(i in 1:nrow(p1)){
     p3x = getDX(p3[p3$participantID==p1$participantID[i],],"phase3")
     p1x = rbind(p1x,p3x)
   }
-  write.csv(p1x,file=paste0("../results/StoryOrder/rawData/Bias_",px[i,]$participantID,"_template.csv"))
+  write.csv(p1x,file=paste0("../results/StoryOrder/rawData/Bias_",as.character(p1x[i,]$participantID),"_template.csv"))
 }

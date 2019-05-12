@@ -43,13 +43,13 @@ getDX = function(px,phase){
 for(i in 1:nrow(p1)){
   
   p1x = getDX(p1[i,],"phase1")
-  if(p1x$participantID[i] %in% p2$participantID){
+  if(p1x$participantID[1] %in% p2$participantID){
     p2x = getDX(p2[p2$participantID==p1x$participantID[1],],"phase2")
     p1x = rbind(p1x,p2x)
   }
-  if(p1$participantID[i] %in% p3$participantID){
-    p3x = getDX(p3[p3$participantID==p1$participantID[i],],"phase3")
+  if(p1x$participantID[1] %in% p3$participantID){
+    p3x = getDX(p3[p3$participantID==p1x$participantID[1],],"phase3")
     p1x = rbind(p1x,p3x)
   }
-  write.csv(p1x,file=paste0("../results/StoryOrder/rawData/Bias_",as.character(p1x[i,]$participantID),"_template.csv"))
+  write.csv(p1x,file=paste0("../results/StoryOrder/rawData/Bias_",as.character(p1x$participantID[1]),"_template.csv"))
 }

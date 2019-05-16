@@ -301,7 +301,7 @@ for(i in 1:nrow(d)){
     dx$mostImportantSceneReason,
     "<br />Phase2 most important Scene: ",dxp2$mostImportantSceneNumber," (",dxp2$mostImportantSceneSRC,")",
     "<br /> Reason: ",
-    dx$surveyImportantScene,
+    dxp2$surveyImportantScene,
     "<br />",
     paste("Phase3 most important Scene: ",dxp3$mostImportantSceneNumber," (",dxp3$mostImportantSceneSRC,")"),
     "<br /> Reason: ",

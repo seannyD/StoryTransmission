@@ -11,11 +11,15 @@ function shuffle(a) {
 }
 
 function showMe(x){
-	document.getElementById(x).style.display = 'inLine';
+	if(document.getElementById(x)){
+		document.getElementById(x).style.display = 'inLine';
+	}
 }
 
 function hideMe(x){
-	document.getElementById(x).style.display = 'none';
+	if(document.getElementById(x)){
+		document.getElementById(x).style.display = 'none';
+	}
 }
 
 function ConvertToCSV(objArray) {

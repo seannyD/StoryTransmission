@@ -1,5 +1,21 @@
 # StoryTransmission
 
+This is a repository that contains the web page for running the experiment in:
+
+Richard E.W. Berl, Alarna N. Samarasinghe, Seán G. Roberts, Fiona M. Jordan, Michael C. Gavin (in prep) Prestige and content biases together shape the cultural transmission of narratives.
+
+The folders contain:
+
+-  www:  the folder to be made public on the server.
+-  private: the folder to be held on the server side.
+-  offline: Various stimuli prepared offline.
+-  stats: Scripts for gathering the data into a coherent format.
+
+
+The version of the repository at the point of submission is: 
+https://github.com/seannyD/StoryTransmission/tree/a8a1a995dd0ce000222435bf70741ec2df237b29
+
+
 This version includes:
 
 -  Instructions for sharing microphone (and instructions if access is refused)
